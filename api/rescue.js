@@ -50,23 +50,26 @@ function query(req) {
 function resolve(rawPath) {
   const list = index();
   if (!list.length) return null;
-  const req = normalise(rawPath);
+  const want = normalise(rawPath);
 
-  // 1. exact match ignoring case
+  // 1. exact match ignoring case.
+  // The no-op guard must compare against the ORIGINAL path, not the normalised one:
+  // comparing against `want` made every successful case-match look like a request that
+  // was already correct, so the rescuer returned null and the URL 404'd.
   for (const u of list) {
-    if (u.toLowerCase() === req) return u === req ? null : { to: u, how: 'case' };
+    if (u.toLowerCase() === want) return u === rawPath ? null : { to: u, how: 'case' };
   }
 
   // 2. same last slug somewhere else in the tree
-  const want = slugOf(req);
-  if (want) {
+  const want2 = slugOf(want);
+  if (want2) {
     for (const u of list) {
-      if (slugOf(u).toLowerCase() === want) return { to: u, how: 'slug' };
+      if (slugOf(u).toLowerCase() === want2) return { to: u, how: 'slug' };
     }
   }
 
   // 3. best token overlap, but only when decisive. A wrong guess is worse than an honest 404.
-  const wt = tokens(want);
+  const wt = tokens(want2);
   if (wt.length >= 2) {
     let best = null, bestScore = 0;
     for (const u of list) {
