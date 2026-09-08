@@ -1,0 +1,13 @@
+{
+  "name": "coastaldemolitions-com",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Lead intake for coastaldemolitions.com — Vercel Function port of the Cloudflare Worker.",
+  "scripts": {
+    "test": "node test.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

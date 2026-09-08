@@ -1,4 +1,4 @@
 User-agent: *
-Disallow:
+Disallow: /wp-json/
 
-Sitemap: https://coastaldemolitions.com/sitemap_index.xml
+Sitemap: https://coastaldemolitions.com/sitemap.xml

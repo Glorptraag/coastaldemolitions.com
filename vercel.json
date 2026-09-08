@@ -1,0 +1,515 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "trailingSlash": true,
+  "cleanUrls": false,
+  "redirects": [
+    {
+      "source": "/asbestos-removal/",
+      "destination": "/services/asbestos-removal/",
+      "permanent": true
+    },
+    {
+      "source": "/asbestos-removal",
+      "destination": "/services/asbestos-removal/",
+      "permanent": true
+    },
+    {
+      "source": "/asbestos-removal/commercial/",
+      "destination": "/services/demolition/commercial/",
+      "permanent": true
+    },
+    {
+      "source": "/asbestos-removal/commercial",
+      "destination": "/services/demolition/commercial/",
+      "permanent": true
+    },
+    {
+      "source": "/asbestos-removal/residential/",
+      "destination": "/services/asbestos-removal/residential/",
+      "permanent": true
+    },
+    {
+      "source": "/asbestos-removal/residential",
+      "destination": "/services/asbestos-removal/residential/",
+      "permanent": true
+    },
+    {
+      "source": "/asbestos-removal/roof-removal/",
+      "destination": "/services/asbestos-removal/roof-removal/",
+      "permanent": true
+    },
+    {
+      "source": "/asbestos-removal/roof-removal",
+      "destination": "/services/asbestos-removal/roof-removal/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/asbestos-bathroom-removal-guide/",
+      "destination": "/asbestos-bathroom-removal-guide/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/asbestos-bathroom-removal-guide",
+      "destination": "/asbestos-bathroom-removal-guide/",
+      "permanent": true
+    },
+    {
+      "source": "/commercial-demolitions-gold-coast/",
+      "destination": "/services/demolition/commercial/",
+      "permanent": true
+    },
+    {
+      "source": "/commercial-demolitions-gold-coast",
+      "destination": "/services/demolition/commercial/",
+      "permanent": true
+    },
+    {
+      "source": "/contact/",
+      "destination": "/contact-us/",
+      "permanent": true
+    },
+    {
+      "source": "/contact",
+      "destination": "/contact-us/",
+      "permanent": true
+    },
+    {
+      "source": "/contact.html",
+      "destination": "/contact-us/",
+      "permanent": true
+    },
+    {
+      "source": "/demolition/",
+      "destination": "/services/demolition/",
+      "permanent": true
+    },
+    {
+      "source": "/demolition",
+      "destination": "/services/demolition/",
+      "permanent": true
+    },
+    {
+      "source": "/demolition/commercial/",
+      "destination": "/services/demolition/commercial/",
+      "permanent": true
+    },
+    {
+      "source": "/demolition/commercial",
+      "destination": "/services/demolition/commercial/",
+      "permanent": true
+    },
+    {
+      "source": "/demolition/residential/",
+      "destination": "/services/demolition/residential/",
+      "permanent": true
+    },
+    {
+      "source": "/demolition/residential",
+      "destination": "/services/demolition/residential/",
+      "permanent": true
+    },
+    {
+      "source": "/earthworks/",
+      "destination": "/services/earthworks/",
+      "permanent": true
+    },
+    {
+      "source": "/earthworks",
+      "destination": "/services/earthworks/",
+      "permanent": true
+    },
+    {
+      "source": "/earthworks/excavation-services/",
+      "destination": "/services/earthworks/excavation-services/",
+      "permanent": true
+    },
+    {
+      "source": "/earthworks/excavation-services",
+      "destination": "/services/earthworks/excavation-services/",
+      "permanent": true
+    },
+    {
+      "source": "/earthworks/excavation-services/commercial/",
+      "destination": "/services/earthworks/excavation-services/commercial/",
+      "permanent": true
+    },
+    {
+      "source": "/earthworks/excavation-services/commercial",
+      "destination": "/services/earthworks/excavation-services/commercial/",
+      "permanent": true
+    },
+    {
+      "source": "/earthworks/excavation-services/residential/",
+      "destination": "/services/earthworks/excavation-services/residential/",
+      "permanent": true
+    },
+    {
+      "source": "/earthworks/excavation-services/residential",
+      "destination": "/services/earthworks/excavation-services/residential/",
+      "permanent": true
+    },
+    {
+      "source": "/gold-coast-demolitions/",
+      "destination": "/services/demolition/residential/",
+      "permanent": true
+    },
+    {
+      "source": "/gold-coast-demolitions",
+      "destination": "/services/demolition/residential/",
+      "permanent": true
+    },
+    {
+      "source": "/residential-demolitions/",
+      "destination": "/services/demolition/residential/",
+      "permanent": true
+    },
+    {
+      "source": "/residential-demolitions",
+      "destination": "/services/demolition/residential/",
+      "permanent": true
+    },
+    {
+      "source": "/services/demolition/commercial-demolitions/",
+      "destination": "/services/demolition/commercial/",
+      "permanent": true
+    },
+    {
+      "source": "/services/demolition/commercial-demolitions",
+      "destination": "/services/demolition/commercial/",
+      "permanent": true
+    },
+    {
+      "source": "/soil-remediation/",
+      "destination": "/services/soil-remediation/",
+      "permanent": true
+    },
+    {
+      "source": "/soil-remediation",
+      "destination": "/services/soil-remediation/",
+      "permanent": true
+    },
+    {
+      "source": "/strip-outs/",
+      "destination": "/services/strip-outs/",
+      "permanent": true
+    },
+    {
+      "source": "/strip-outs",
+      "destination": "/services/strip-outs/",
+      "permanent": true
+    },
+    {
+      "source": "/home/",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/home",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/author/haydenembarkagency-com-au/",
+      "destination": "/blog/",
+      "permanent": true
+    },
+    {
+      "source": "/author/haydenembarkagency-com-au",
+      "destination": "/blog/",
+      "permanent": true
+    },
+    {
+      "source": "/2024/",
+      "destination": "/blog/",
+      "permanent": true
+    },
+    {
+      "source": "/2024",
+      "destination": "/blog/",
+      "permanent": true
+    },
+    {
+      "source": "/2025/",
+      "destination": "/blog/",
+      "permanent": true
+    },
+    {
+      "source": "/2025",
+      "destination": "/blog/",
+      "permanent": true
+    },
+    {
+      "source": "/2024/04/",
+      "destination": "/blog/",
+      "permanent": true
+    },
+    {
+      "source": "/2024/04",
+      "destination": "/blog/",
+      "permanent": true
+    },
+    {
+      "source": "/2024/05/",
+      "destination": "/blog/",
+      "permanent": true
+    },
+    {
+      "source": "/2024/05",
+      "destination": "/blog/",
+      "permanent": true
+    },
+    {
+      "source": "/2024/06/",
+      "destination": "/blog/",
+      "permanent": true
+    },
+    {
+      "source": "/2024/06",
+      "destination": "/blog/",
+      "permanent": true
+    },
+    {
+      "source": "/2024/07/",
+      "destination": "/blog/",
+      "permanent": true
+    },
+    {
+      "source": "/2024/07",
+      "destination": "/blog/",
+      "permanent": true
+    },
+    {
+      "source": "/2024/08/",
+      "destination": "/blog/",
+      "permanent": true
+    },
+    {
+      "source": "/2024/08",
+      "destination": "/blog/",
+      "permanent": true
+    },
+    {
+      "source": "/2024/09/",
+      "destination": "/blog/",
+      "permanent": true
+    },
+    {
+      "source": "/2024/09",
+      "destination": "/blog/",
+      "permanent": true
+    },
+    {
+      "source": "/2024/10/",
+      "destination": "/blog/",
+      "permanent": true
+    },
+    {
+      "source": "/2024/10",
+      "destination": "/blog/",
+      "permanent": true
+    },
+    {
+      "source": "/2024/11/",
+      "destination": "/blog/",
+      "permanent": true
+    },
+    {
+      "source": "/2024/11",
+      "destination": "/blog/",
+      "permanent": true
+    },
+    {
+      "source": "/2024/12/",
+      "destination": "/blog/",
+      "permanent": true
+    },
+    {
+      "source": "/2024/12",
+      "destination": "/blog/",
+      "permanent": true
+    },
+    {
+      "source": "/2025/01/",
+      "destination": "/blog/",
+      "permanent": true
+    },
+    {
+      "source": "/2025/01",
+      "destination": "/blog/",
+      "permanent": true
+    },
+    {
+      "source": "/2025/02/",
+      "destination": "/blog/",
+      "permanent": true
+    },
+    {
+      "source": "/2025/02",
+      "destination": "/blog/",
+      "permanent": true
+    },
+    {
+      "source": "/2025/03/",
+      "destination": "/blog/",
+      "permanent": true
+    },
+    {
+      "source": "/2025/03",
+      "destination": "/blog/",
+      "permanent": true
+    },
+    {
+      "source": "/2025/04/",
+      "destination": "/blog/",
+      "permanent": true
+    },
+    {
+      "source": "/2025/04",
+      "destination": "/blog/",
+      "permanent": true
+    },
+    {
+      "source": "/2025/08/",
+      "destination": "/blog/",
+      "permanent": true
+    },
+    {
+      "source": "/2025/08",
+      "destination": "/blog/",
+      "permanent": true
+    },
+    {
+      "source": "/author/coastal-demos-staff",
+      "destination": "/blog/",
+      "permanent": true
+    },
+    {
+      "source": "/author/coastal-demos-staff/:path*",
+      "destination": "/blog/",
+      "permanent": true
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        },
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=31536000"
+        }
+      ]
+    },
+    {
+      "source": "/wp-json/(.*)",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json; charset=utf-8"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=300, stale-while-revalidate=86400"
+        }
+      ]
+    },
+    {
+      "source": "/:path*/",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, s-maxage=60, stale-while-revalidate=300"
+        }
+      ]
+    },
+    {
+      "source": "/(.*).html",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, s-maxage=60, stale-while-revalidate=300"
+        }
+      ]
+    },
+    {
+      "source": "/wp-content/uploads/:path(elementor/.*|udesign_styles/.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400, stale-while-revalidate=604800"
+        }
+      ]
+    },
+    {
+      "source": "/wp-content/(themes|plugins|fonts)/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400, stale-while-revalidate=604800"
+        }
+      ]
+    },
+    {
+      "source": "/wp-includes/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400, stale-while-revalidate=604800"
+        }
+      ]
+    },
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600, stale-while-revalidate=86400"
+        }
+      ]
+    },
+    {
+      "source": "/(sitemap.*\\.xml|.*-sitemap\\.xml|robots\\.txt|url-index\\.json)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=300, stale-while-revalidate=3600"
+        }
+      ]
+    },
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        }
+      ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/api/lead/",
+      "destination": "/api/lead"
+    },
+    {
+      "source": "/wp-json/:path*/",
+      "destination": "/wp-json/:path*"
+    }
+  ],
+  "functions": {
+    "api/lead.js": {
+      "maxDuration": 15
+    }
+  }
+}
