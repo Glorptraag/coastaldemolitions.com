@@ -1,4 +1,11 @@
 User-agent: *
 Disallow: /wp-json/
 
+# The four WordPress RSS documents were captured as index.html, so they are served
+# as text/html with no <title>, no canonical and no robots meta - four thin,
+# indexable duplicates carrying full post content. /author/leon/feed/ is a 200 here
+# that 404s on WordPress. Keep them out of the index.
+Disallow: /feed/
+Disallow: /*/feed/
+
 Sitemap: https://coastaldemolitions.com/sitemap.xml

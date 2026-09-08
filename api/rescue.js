@@ -60,11 +60,25 @@ function resolve(rawPath) {
     if (u.toLowerCase() === want) return u === rawPath ? null : { to: u, how: 'case' };
   }
 
-  // 2. same last slug somewhere else in the tree
+  // 2. same last slug somewhere else in the tree, but only when UNAMBIGUOUS.
+  //
+  // 33 of the 196 index entries share a leaf slug with at least one other entry -
+  // `commercial` alone matches six - and the original loop returned whichever sorted
+  // first. So /commercial/ was permanently 301'd onto the asbestos page purely
+  // because "a" precedes "e", when the live canonical is the earthworks one. A wrong
+  // 301 costs far more than a 404: it is edge-cached for a day, Google consolidates
+  // the signal onto the wrong page, and undoing it needs a deploy plus a recrawl.
+  //
+  // The single candidate must also be a SUFFIX of the request. That is what keeps
+  // the case this step exists for working - an old dated permalink carries extra
+  // LEADING segments, so /2024/05/12/post-slug/ ends with /post-slug/ - while
+  // rejecting the opposite shape, where the candidate introduces parent segments the
+  // request never had (/commercial/ does not end with /services/demolition/commercial/).
   const want2 = slugOf(want);
   if (want2) {
-    for (const u of list) {
-      if (slugOf(u).toLowerCase() === want2) return { to: u, how: 'slug' };
+    const matches = list.filter((u) => slugOf(u).toLowerCase() === want2);
+    if (matches.length === 1 && want.endsWith(matches[0].toLowerCase())) {
+      return { to: matches[0], how: 'slug' };
     }
   }
 

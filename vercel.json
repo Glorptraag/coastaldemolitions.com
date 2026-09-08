@@ -387,6 +387,91 @@
       "source": "/author/coastal-demos-staff/:path*",
       "destination": "/blog/",
       "permanent": true
+    },
+    {
+      "source": "/commercial/",
+      "destination": "/services/earthworks/excavation-services/commercial/",
+      "permanent": true
+    },
+    {
+      "source": "/residential/",
+      "destination": "/services/earthworks/excavation-services/residential/",
+      "permanent": true
+    },
+    {
+      "source": "/excavation-services/",
+      "destination": "/services/earthworks/excavation-services/",
+      "permanent": true
+    },
+    {
+      "source": "/concrete-cutting/",
+      "destination": "/services/concrete-cutting/",
+      "permanent": true
+    },
+    {
+      "source": "/concrete-grinding/",
+      "destination": "/services/concrete-grinding/",
+      "permanent": true
+    },
+    {
+      "source": "/roof-removal/",
+      "destination": "/services/asbestos-removal/roof-removal/",
+      "permanent": true
+    },
+    {
+      "source": "/page/2/",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/page/3/",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/page/4/",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/page/5/",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/page/6/",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/page/7/",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/page/8/",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/page-sitemap.xml",
+      "destination": "/sitemap.xml",
+      "permanent": true
+    },
+    {
+      "source": "/post-sitemap.xml",
+      "destination": "/sitemap.xml",
+      "permanent": true
+    },
+    {
+      "source": "/author-sitemap.xml",
+      "destination": "/sitemap.xml",
+      "permanent": true
+    },
+    {
+      "source": "/category-sitemap.xml",
+      "destination": "/sitemap.xml",
+      "permanent": true
     }
   ],
   "headers": [
