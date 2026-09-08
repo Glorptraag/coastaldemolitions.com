@@ -47,38 +47,49 @@ function query(req) {
   return q ? '?' + q : '';
 }
 
+// Each index entry is [path, destination]: `path` is the match key, `destination`
+// is where to send the visitor. They differ for the 37 entries that are
+// themselves redirect sources, which is what keeps a rescue to a single hop.
 function resolve(rawPath) {
   const list = index();
   if (!list.length) return null;
   const want = normalise(rawPath);
 
   // 1. exact match ignoring case.
-  // The no-op guard must compare against the ORIGINAL path, not the normalised one:
-  // comparing against `want` made every successful case-match look like a request that
-  // was already correct, so the rescuer returned null and the URL 404'd.
-  for (const u of list) {
-    if (u.toLowerCase() === want) return u === rawPath ? null : { to: u, how: 'case' };
+  // The no-op guard must compare against the ORIGINAL path, not the normalised
+  // one: comparing against `want` made every successful case-match look like a
+  // request that was already correct, so the rescuer returned null and 404'd.
+  for (const [from, to] of list) {
+    if (from.toLowerCase() === want) return from === rawPath ? null : { to, how: 'case' };
   }
 
   // 2. same last slug somewhere else in the tree, but only when UNAMBIGUOUS.
   //
-  // 33 of the 196 index entries share a leaf slug with at least one other entry -
-  // `commercial` alone matches six - and the original loop returned whichever sorted
-  // first. So /commercial/ was permanently 301'd onto the asbestos page purely
-  // because "a" precedes "e", when the live canonical is the earthworks one. A wrong
-  // 301 costs far more than a 404: it is edge-cached for a day, Google consolidates
-  // the signal onto the wrong page, and undoing it needs a deploy plus a recrawl.
+  // 33 of the 196 entries share a leaf slug with at least one other - `commercial`
+  // alone matches six - and the original loop returned whichever sorted first. So
+  // /commercial/ was permanently 301'd onto the asbestos page purely because "a"
+  // precedes "e", when the live canonical is the earthworks one. A wrong 301 costs
+  // far more than a 404: it is edge-cached for a day, Google consolidates onto the
+  // wrong page, and undoing it needs a deploy plus a recrawl.
   //
-  // The single candidate must also be a SUFFIX of the request. That is what keeps
-  // the case this step exists for working - an old dated permalink carries extra
-  // LEADING segments, so /2024/05/12/post-slug/ ends with /post-slug/ - while
-  // rejecting the opposite shape, where the candidate introduces parent segments the
-  // request never had (/commercial/ does not end with /services/demolition/commercial/).
+  // The single candidate must also be a SUFFIX of the request. That keeps the case
+  // this step exists for working - an old dated permalink carries extra LEADING
+  // segments, so /2024/05/12/post-slug/ ends with /post-slug/ - while rejecting the
+  // opposite shape, where the candidate invents parent segments the request never
+  // had (/commercial/ does not end with /services/demolition/commercial/).
+  //
+  // Ambiguity is judged on the DESTINATION, not the match key. A post can sit in
+  // the index under both /post-slug/ and /blog/post-slug/, and since the latter
+  // redirects to the former they are two keys for one page - unambiguous, even
+  // though two entries match. /commercial/ matches six keys resolving to three
+  // genuinely different service pages, which is the case that must be refused.
   const want2 = slugOf(want);
   if (want2) {
-    const matches = list.filter((u) => slugOf(u).toLowerCase() === want2);
-    if (matches.length === 1 && want.endsWith(matches[0].toLowerCase())) {
-      return { to: matches[0], how: 'slug' };
+    const matches = list.filter(([from]) => slugOf(from).toLowerCase() === want2);
+    const targets = new Set(matches.map(([, to]) => to));
+    const suffix = matches.some(([from]) => want.endsWith(from.toLowerCase()));
+    if (targets.size === 1 && suffix) {
+      return { to: matches[0][1], how: 'slug' };
     }
   }
 
@@ -86,13 +97,13 @@ function resolve(rawPath) {
   const wt = tokens(want2);
   if (wt.length >= 2) {
     let best = null, bestScore = 0;
-    for (const u of list) {
-      const ct = tokens(slugOf(u));
+    for (const [from, to] of list) {
+      const ct = tokens(slugOf(from));
       if (!ct.length) continue;
       let hit = 0;
       for (const w of wt) if (ct.indexOf(w) !== -1) hit++;
       const score = hit / Math.max(wt.length, ct.length);
-      if (score > bestScore) { bestScore = score; best = u; }
+      if (score > bestScore) { bestScore = score; best = to; }
     }
     if (best && bestScore >= 0.75) return { to: best, how: 'fuzzy' };
   }
