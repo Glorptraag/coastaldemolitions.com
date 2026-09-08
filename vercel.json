@@ -510,11 +510,18 @@
     {
       "source": "/wp-json/:path*/",
       "destination": "/wp-json/:path*"
+    },
+    {
+      "source": "/((?!api/|wp-content/|assets/|wp-includes/).*)",
+      "destination": "/api/rescue?p=$1"
     }
   ],
   "functions": {
     "api/lead.js": {
       "maxDuration": 15
+    },
+    "api/rescue.js": {
+      "includeFiles": "url-index.json"
     }
   }
 }
