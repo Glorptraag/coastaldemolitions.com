@@ -4,11 +4,6 @@
   "cleanUrls": false,
   "redirects": [
     {
-      "source": "/wp-content/uploads/:path(\\d{4}/.*)",
-      "destination": "https://media.coastaldemolitions.com/wp-content/uploads/:path",
-      "permanent": true
-    },
-    {
       "source": "/asbestos-removal/",
       "destination": "/services/asbestos-removal/",
       "permanent": true
@@ -395,6 +390,15 @@
     }
   ],
   "headers": [
+    {
+      "source": "/wp-content/uploads/:path(\\d{4}/.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
     {
       "source": "/(.*)",
       "headers": [
