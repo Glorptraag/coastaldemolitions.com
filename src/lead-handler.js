@@ -122,6 +122,26 @@ export default {
 };
 
 /**
+ * monday's phone column rejects anything that is not bare digits. It returned
+ * ColumnValueException for "0400 000 000" — which is exactly how an Australian
+ * writes a mobile — and because create_item is a single mutation, the rejected
+ * phone took the whole lead row down with it. The stubbed tests never caught
+ * this: the stub accepted any payload.
+ *
+ * Normalise to E.164 digits, and return null for anything that cannot be
+ * confidently normalised. Dropping one field is far better than losing the row.
+ */
+function mondayPhone(raw) {
+  if (!raw) return null;
+  let d = String(raw).replace(/[^0-9+]/g, '');
+  if (d.startsWith('+')) d = d.slice(1);
+  if (d.startsWith('0')) d = '61' + d.slice(1);                 // 0400... -> 61400...
+  else if (!d.startsWith('61') && d.length <= 9) d = '61' + d;  // bare 400...
+  if (d.length < 10 || d.length > 15) return null;
+  return { phone: d, countryShortName: 'AU' };
+}
+
+/**
  * Write the lead to the monday board before anyone is notified.
  *
  * The board is the queue somebody actually works from, so a row there is the
@@ -143,7 +163,7 @@ async function storeInMonday(env, values, attribution, sourcePage) {
   const set = (id, value) => { if (id && value) columns[id] = value; };
 
   set(env.MONDAY_COL_EMAIL, values.Email ? { email: values.Email, text: values.Email } : null);
-  set(env.MONDAY_COL_PHONE, values.Phone ? { phone: values.Phone, countryShortName: 'AU' } : null);
+  set(env.MONDAY_COL_PHONE, mondayPhone(values.Phone));
   set(env.MONDAY_COL_MESSAGE, values.Message);
   set(env.MONDAY_COL_SOURCE, attributionLine(attribution) || 'website (no click id)');
   if (env.MONDAY_COL_DATE) {

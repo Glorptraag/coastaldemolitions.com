@@ -194,7 +194,11 @@ await check('the lead is written to the monday board', async () => {
   eq(vars.name, 'Jane Roberts', 'item name');
   const cols = JSON.parse(vars.vals);
   eq(cols.email_mm6v66h0.email, 'jane@example.com', 'email column');
-  eq(cols.phone_mm6vxajq.phone, '0400 000 000', 'phone column');
+  // monday's phone column rejects spaces and local 0-prefixes with a
+  // ColumnValueException that fails the whole create_item, so the handler must
+  // send E.164 digits. Asserting the raw string here is what let that bug ship.
+  eq(cols.phone_mm6vxajq.phone, '61400000000', 'phone column normalised to E.164');
+  eq(cols.phone_mm6vxajq.countryShortName, 'AU', 'phone country');
   if (!cols.text_mm6v9srm.includes('gclid=Cj0KCQjw_TEST_CLICK_ID')) {
     throw new Error('gclid missing from the board row');
   }
@@ -235,3 +239,28 @@ await check('both paths down is the only case the visitor is turned away', async
 
 console.log(failures ? `\n${failures} failing` : '\nall passing');
 process.exit(failures ? 1 : 0);
+
+// --- phone normalisation, the shapes real Australians actually type ---------
+{
+  const src = await import('node:fs').then(m => m.readFileSync('./src/lead-handler.js', 'utf8'));
+  const fn = src.match(/function mondayPhone[\s\S]*?\n\}/)[0];
+  const mondayPhone = new Function(fn + '; return mondayPhone;')();
+  const cases = [
+    ['0400 000 000', '61400000000'],
+    ['0400000000',   '61400000000'],
+    ['+61 400 000 000', '61400000000'],
+    ['(07) 5555 1234', '61755551234'],
+    ['61400000000',  '61400000000'],
+  ];
+  for (const [input, want] of cases) {
+    const got = mondayPhone(input);
+    if (!got || got.phone !== want) {
+      throw new Error(`mondayPhone(${JSON.stringify(input)}) => ${JSON.stringify(got)}, want ${want}`);
+    }
+  }
+  // Junk must yield null, never a value monday will reject and lose the row over.
+  for (const junk of ['', null, undefined, 'abc', '12']) {
+    if (mondayPhone(junk) !== null) throw new Error(`mondayPhone(${JSON.stringify(junk)}) should be null`);
+  }
+  console.log('  pass  phone normalises to E.164, junk drops to null');
+}
