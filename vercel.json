@@ -521,7 +521,7 @@
       "maxDuration": 15
     },
     "api/rescue.js": {
-      "includeFiles": "url-index.json"
+      "includeFiles": "{url-index.json,404.html}"
     }
   }
 }

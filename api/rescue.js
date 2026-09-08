@@ -16,20 +16,9 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
+import URL_INDEX from '../src/url-index.js';
 
-let INDEX = null;
-function index() {
-  if (INDEX) return INDEX;
-  // includeFiles puts url-index.json at the deployment root.
-  for (const p of ['url-index.json', '../url-index.json', './url-index.json']) {
-    try {
-      INDEX = JSON.parse(fs.readFileSync(path.join(process.cwd(), p), 'utf8'));
-      return INDEX;
-    } catch (e) { /* try next */ }
-  }
-  INDEX = [];
-  return INDEX;
-}
+function index() { return URL_INDEX; }
 
 function slugOf(p) {
   const parts = p.replace(/\/+$/, '').split('/');
