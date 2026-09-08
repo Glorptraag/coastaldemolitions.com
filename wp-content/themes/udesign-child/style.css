@@ -176,3 +176,70 @@ Tags: woocommerce, corporate, responsive, one-column, two-columns, three-columns
 .menu-item-has-children>a:after {
 	right: 0 !important;
 }
+
+/* ══════════════════════════════════════════════════════════════════════
+   Small-screen and touch adaptation
+   Added 9 Sep 2026. Desktop rendering is deliberately untouched: every rule
+   here is inside a max-width or pointer query, and every selector is pitched
+   to lose to a page-authored value.
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* Elementor ships `.elementor-heading-title{line-height:1}` inline with each
+   heading widget, so any heading the page CSS does not give an explicit
+   line-height falls back to solid leading. On desktop those headings sit on
+   one line and it never shows; below 1024px they wrap and the lines touch - a 36px
+   H2 over three lines is 108px of stacked type with no gap at all.
+
+   .elementor-widget-container .elementor-heading-title is (0,2,0), so it beats
+   Elementor's (0,1,0) inline rule without !important, and still loses to the
+   (0,4,0) per-element rules - which means an authored line-height is left
+   exactly as the page intended. The container class rather than the widget
+   class because the same heading markup ships inside two widgets: Elementor's
+   own, and u-design's .title-wrapper one used for the service cards. */
+@media (max-width: 1024px) {
+	.elementor-widget-container .elementor-heading-title {
+		line-height: 1.15;
+	}
+
+	/* Page titles left at the theme's 70px default get the same tablet step
+	   the pages that declare one already use. */
+	.elementor-widget-container h1.elementor-heading-title {
+		font-size: 60px;
+	}
+}
+
+@media (max-width: 767px) {
+	/* Same reasoning for size. These are the headings running at the theme's
+	   default scale (h1 70px, h2 36px, h3 35px) with no responsive step of
+	   their own, which is what makes them read oversized on a phone. The h1
+	   value is the site's own phone size for a page title, taken from the
+	   pages that do declare one. Anything the page sizes explicitly
+	   out-specifies this and is left alone. */
+	.elementor-widget-container h1.elementor-heading-title {
+		font-size: 50px;
+	}
+
+	.elementor-widget-container h2.elementor-heading-title {
+		font-size: 28px;
+	}
+
+	.elementor-widget-container h3.elementor-heading-title {
+		font-size: 26px;
+	}
+}
+
+/* Buttons are laid out as font-size + padding on line-height:1, so several
+   land under the 44px minimum touch target - the hero "Get a Quote" at 38px
+   and "GET IN TOUCH" at 30px. Give them a floor, but only where the pointer
+   is actually coarse, so the mouse-driven design keeps its proportions. */
+@media (pointer: coarse) {
+	.elementor-button,
+	.wpforms-submit,
+	button,
+	input[type="submit"] {
+		min-height: 44px;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+	}
+}
