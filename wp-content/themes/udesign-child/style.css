@@ -243,3 +243,52 @@ Tags: woocommerce, corporate, responsive, one-column, two-columns, three-columns
 		justify-content: center;
 	}
 }
+
+
+/* ══════════════════════════════════════════════════════════════════════
+   Keyboard focus
+   theme.min.css carries a blanket `:focus{outline:0}` and
+   `button:focus{outline:none}` with nothing put back, and the field styles go
+   further - `.elementor-field-group .elementor-field-textual:focus` sets
+   `outline:0` at (0,3,0). The result is that no focusable element on the site,
+   the contact form included, shows a keyboard user where they are.
+
+   :focus-visible rather than :focus, so this never appears on a mouse click -
+   the pointer-driven design is unchanged. !important because the rules being
+   corrected out-specify anything reasonable and this is the one place where
+   losing the cascade fight means the site stays unusable by keyboard.
+   ══════════════════════════════════════════════════════════════════════ */
+body :focus-visible {
+	outline: 2px solid #182b38 !important;
+	outline-offset: 2px !important;
+	/* The navy ring vanishes against the navy footer and the dark buttons, so
+	   carry a light halo just outside it; the pair reads on either ground. */
+	box-shadow: 0 0 0 4px rgba(235, 233, 229, 0.9) !important;
+}
+
+/* ── Fixed bars on small screens ────────────────────────────────────────
+   #callnowbutton is fixed to the bottom of every page and body has no padding
+   to match, so it permanently covers the last 60px of the document - the end
+   of the footer, on every screen. The consent notice then sat on top of the
+   bar rather than above it, and spent 131px on one sentence. Together they
+   held 23% of a 844px phone viewport. */
+@media (max-width: 767px) {
+	/* theme.min.css loads after this file and sets the padding shorthand on
+	   `body`, which resets a padding-bottom set at equal specificity.
+	   `html body` is (0,0,2) and carries. */
+	html body {
+		padding-bottom: 60px;
+	}
+
+	.cookies-popup.show {
+		bottom: 68px;
+	}
+
+	.cookies-popup-inner {
+		padding: 10px 14px;
+	}
+
+	.cookies-info {
+		font-size: 14px;
+	}
+}
