@@ -292,3 +292,41 @@ body :focus-visible {
 		font-size: 14px;
 	}
 }
+
+/* ══════════════════════════════════════════════════════════════════════
+   Inline links in the navy "Get In Touch" band
+   Added 10 Sep 2026.
+
+   theme.min.css sets `a{text-decoration:none;color:var(--alpha-primary-color)}`
+   and dynamic_vars.min.css sets that primary colour to #182b38. Elementor
+   section 6900294 - the "Get In Touch" CTA, shared by the three
+   asbestos-removal service pages - is painted that same #182b38 and colours its
+   copy with the light kit token, but it never states a link colour. So every
+   inline link in that paragraph renders #182b38 on #182b38: contrast 1.00:1,
+   invisible. Thirteen links across /services/asbestos-removal/{residential,
+   commercial,roof-removal}/. The author's underlines are inline on a wrapping
+   <span>, so they survive - which is why the paragraph reads as a row of ruled
+   blanks with nothing written on them.
+
+   The section id carries the fix because that one selector covers all three
+   pages and cannot reach a link sitting on a pale section. The two other pages
+   that use this section, / and /services/asbestos-removal/, carry no links
+   inside it, so the rule is a no-op there.
+
+   Colour is not the affordance on its own (WCAG 1.4.1), so the underline is
+   declared here too and a link added later without the authored <span> is still
+   marked. Offset and thickness are left at the browser's own values so this
+   underline lands exactly on top of that <span>'s rather than beside it.
+   ══════════════════════════════════════════════════════════════════════ */
+.elementor-element-6900294 .elementor-widget-text-editor a,
+.elementor-element-6900294 .elementor-widget-text-editor a:visited {
+	color: var(--e-global-color-ebea11d, #E1E1E1);
+	text-decoration: underline;
+}
+
+/* The rule above out-specifies theme.min.css's `a:hover`, whose #28475c is
+   another near-invisible navy on this panel in any case. */
+.elementor-element-6900294 .elementor-widget-text-editor a:hover,
+.elementor-element-6900294 .elementor-widget-text-editor a:focus-visible {
+	color: #fff;
+}
