@@ -472,6 +472,166 @@
       "source": "/category-sitemap.xml",
       "destination": "/sitemap.xml",
       "permanent": true
+    },
+    {
+      "source": "/gold-coast-demolition-and-asbestos-removal/",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/gold-coast-demolition-and-asbestos-removal",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/carrara/",
+      "destination": "/services/demolition/residential/",
+      "permanent": true
+    },
+    {
+      "source": "/carrara",
+      "destination": "/services/demolition/residential/",
+      "permanent": true
+    },
+    {
+      "source": "/eagleby/",
+      "destination": "/services/demolition/residential/",
+      "permanent": true
+    },
+    {
+      "source": "/eagleby",
+      "destination": "/services/demolition/residential/",
+      "permanent": true
+    },
+    {
+      "source": "/pimpama/",
+      "destination": "/services/demolition/residential/",
+      "permanent": true
+    },
+    {
+      "source": "/pimpama",
+      "destination": "/services/demolition/residential/",
+      "permanent": true
+    },
+    {
+      "source": "/southport/",
+      "destination": "/services/demolition/residential/",
+      "permanent": true
+    },
+    {
+      "source": "/southport",
+      "destination": "/services/demolition/residential/",
+      "permanent": true
+    },
+    {
+      "source": "/tweed-heads/",
+      "destination": "/services/demolition/residential/",
+      "permanent": true
+    },
+    {
+      "source": "/tweed-heads",
+      "destination": "/services/demolition/residential/",
+      "permanent": true
+    },
+    {
+      "source": "/palm-beach-demolition/",
+      "destination": "/services/demolition/residential/",
+      "permanent": true
+    },
+    {
+      "source": "/palm-beach-demolition",
+      "destination": "/services/demolition/residential/",
+      "permanent": true
+    },
+    {
+      "source": "/mermaid-beach-hedges-avenue/",
+      "destination": "/74-hedges-avenue-6-hilda-street-mermaid-beach/",
+      "permanent": true
+    },
+    {
+      "source": "/mermaid-beach-hedges-avenue",
+      "destination": "/74-hedges-avenue-6-hilda-street-mermaid-beach/",
+      "permanent": true
+    },
+    {
+      "source": "/hillcrest-christian-college/",
+      "destination": "/projects/",
+      "permanent": true
+    },
+    {
+      "source": "/hillcrest-christian-college",
+      "destination": "/projects/",
+      "permanent": true
+    },
+    {
+      "source": "/faq/",
+      "destination": "/about-us/",
+      "permanent": true
+    },
+    {
+      "source": "/faq",
+      "destination": "/about-us/",
+      "permanent": true
+    },
+    {
+      "source": "/services/defit-strip-out/",
+      "destination": "/services/strip-outs/",
+      "permanent": true
+    },
+    {
+      "source": "/services/defit-strip-out",
+      "destination": "/services/strip-outs/",
+      "permanent": true
+    },
+    {
+      "source": "/services/storm-flood-damage/",
+      "destination": "/services/demolition/",
+      "permanent": true
+    },
+    {
+      "source": "/services/storm-flood-damage",
+      "destination": "/services/demolition/",
+      "permanent": true
+    },
+    {
+      "source": "/author/coastal-demos-staff/",
+      "destination": "/blog/",
+      "permanent": true
+    },
+    {
+      "source": "/author/coastal-demos-staff/page/8/",
+      "destination": "/blog/",
+      "permanent": true
+    },
+    {
+      "source": "/author/coastal-demos-staff/page/8",
+      "destination": "/blog/",
+      "permanent": true
+    },
+    {
+      "source": "/author/kalvincclaxon-agency/",
+      "destination": "/blog/",
+      "permanent": true
+    },
+    {
+      "source": "/author/kalvincclaxon-agency",
+      "destination": "/blog/",
+      "permanent": true
+    },
+    {
+      "source": "/author/coastal-demos-staff/:path*/",
+      "destination": "/blog/",
+      "permanent": true
+    },
+    {
+      "source": "/thank-you/",
+      "destination": "/contact-us-ty/",
+      "permanent": true
+    },
+    {
+      "source": "/thank-you",
+      "destination": "/contact-us-ty/",
+      "permanent": true
     }
   ],
   "headers": [
