@@ -1,0 +1,47 @@
+/* Coastal Demolitions — site restyle tokens.
+   Source of truth: quote-invoice/src/gen_L.py and design-system/Coastal-Brand-Guide-v2.html (10 Sep 2026) (option L "Photo band", Dan-approved 4 Sep 2026)
+   in the Coastal media repo. Same variables, same fonts, same names. Do not add hex outside
+   this file. */
+@font-face{font-family:Poppins;src:url(/restyle/fonts/Poppins-Regular.ttf) format("truetype");font-weight:400;font-display:swap}
+@font-face{font-family:Poppins;src:url(/restyle/fonts/Poppins-Medium.ttf) format("truetype");font-weight:500;font-display:swap}
+@font-face{font-family:Poppins;src:url(/restyle/fonts/Poppins-SemiBold.ttf) format("truetype");font-weight:600;font-display:swap}
+@font-face{font-family:Poppins;src:url(/restyle/fonts/Poppins-Bold.ttf) format("truetype");font-weight:700;font-display:swap}
+@font-face{font-family:"Open Sans";src:url(/restyle/fonts/OpenSans-Variable.ttf) format("truetype");font-weight:300 800;font-display:swap}
+@font-face{font-family:"IBM Plex Mono";src:url(/restyle/fonts/IBMPlexMono-Regular.ttf) format("truetype");font-weight:400;font-display:swap}
+@font-face{font-family:"IBM Plex Mono";src:url(/restyle/fonts/IBMPlexMono-Medium.ttf) format("truetype");font-weight:500;font-display:swap}
+
+:root{
+  /* palette — verbatim from gen_L.py */
+  --navy:#182B38; --navy600:#3F586E;
+  --bg:#658398; --bg300:#A3B6C4; --bg100:#E7EDF1;
+  --sage:#779481;
+  --cream:#EBE9E5; --cream050:#F6F5F2;
+  --terra:#C24A3A;
+  --ink:#182B38; --ink2:#44586A; --ink3:#5A6E7D;
+  --line:#DCD9D3;
+  --white:#FFFFFF;
+  /* from design-system/tokens.css (SHOREBREAK, patched 10 Sep 2026) — same palette, extra roles */
+  --amber:#C08A2D; --amber100:#F3E7D2;   /* warning / provisional */
+  --sage100:#E1E9E4; --sage300:#A8BFAF;
+  --focus:#4A7FA5;                        /* focus ring only */
+  --line-strong:#B9BDBB; --line-dark:#2E4356;
+  --navy800:#22303B;
+
+  /* type */
+  --display:Poppins,"Century Gothic",sans-serif;
+  --body:"Open Sans",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,monospace;
+
+  /* the option-L geometry, translated from print to screen */
+  --band-skew:7mm;          /* the diagonal cut on the navy band: polygon(0 0,100% 0,100% calc(100% - 7mm),0 100%) */
+  --band-skew-px:28px;
+  --corner-notch:16px;      /* licence-card notch: clip-path polygon(0 0,100% 0,100% 100%,16px 100%,0 calc(100% - 16px)) */
+  --radius:0px;             /* option L has no rounded corners */
+  --rule:1px solid var(--line);
+  --measure:68ch;
+  --container:1200px;
+  --gutter:clamp(20px,4vw,48px);
+
+  /* micro label: Poppins 600, tracked, uppercase, small */
+  --micro-size:12px; --micro-track:.12em;
+}

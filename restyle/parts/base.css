@@ -1,0 +1,458 @@
+/* restyle/parts/base.css — the global layer. Owner: chrome agent.
+   Everything here must hold on every page; page partials (home/services/articles/forms)
+   build on it. Tokens come from /restyle/tokens.css — no new hex in this file.
+
+   Cascade notes. The theme (u-design) paints from `--alpha-*` variables declared in
+   wp-content/uploads/udesign_styles/dynamic_vars.min.css and Elementor from `--e-global-*`
+   on `.elementor-kit-5` (post-5.css). Re-pointing those variables is the cheap, wide win.
+   Where Elementor's per-element CSS states a family/colour/radius outright at (0,4,0)
+   (`.elementor-<page> .elementor-element.elementor-element-<hash> …`) a plain selector
+   cannot reach it, so a bounded set of properties — font-family, border-radius, box-shadow
+   and the button "stamp" — carry !important. Page partials that need to differ override
+   with a per-hash selector plus !important of their own. */
+
+/* ── 1. Theme variables ─────────────────────────────────────────────────── */
+:root, html, body {
+  --alpha-body-font-family: var(--body);
+  --alpha-heading-font-family: var(--display);
+  --alpha-heading-font-weight: 600;
+  --alpha-heading-line-height: 1.15;
+  --alpha-heading-letter-spacing: -0.01em;
+  --alpha-body-font-weight: 400;
+  --alpha-body-font-size: 16px;
+  --alpha-body-line-height: 1.55;
+  --alpha-body-color: var(--ink);
+  --alpha-heading-color: var(--navy);
+  --alpha-dark-body-color: var(--ink2);
+  --alpha-grey-color: var(--ink3);
+  --alpha-grey-color-light: var(--bg300);
+
+  --alpha-primary-color: var(--navy);
+  --alpha-primary-color-hover: var(--navy600);
+  --alpha-primary-color-light: var(--navy600);
+  --alpha-primary-gradient-1: var(--navy);
+  --alpha-primary-gradient-2: var(--navy);
+  --alpha-dark-color: var(--navy);
+  --alpha-dark-color-hover: var(--navy600);
+  --alpha-dark-color-light: var(--navy600);
+  --alpha-secondary-color: var(--navy600);
+  --alpha-secondary-color-hover: var(--navy);
+  --alpha-secondary-color-light: var(--cream050);
+  --alpha-accent-color: var(--navy600);
+  --alpha-accent-color-hover: var(--navy);
+  --alpha-accent-color-light: var(--cream050);
+  --alpha-success-color: var(--sage);
+  --alpha-success-color-hover: var(--navy600);
+  --alpha-info-color: var(--navy600);
+  --alpha-info-color-hover: var(--navy);
+  --alpha-light-color: var(--cream);
+  --alpha-light-color-hover: var(--white);
+  --alpha-change-color-dark-1: var(--navy);
+  --alpha-change-color-dark-1-hover: var(--navy600);
+  --alpha-change-color-light-1: var(--white);
+  --alpha-change-color-light-2: var(--cream050);
+  --alpha-change-color-light-3: var(--bg300);
+  --alpha-change-border-color: var(--line);
+  --alpha-change-border-color-light: var(--line);
+  --alpha-traffic-white-color: var(--cream050);
+  --alpha-lazy-load-bg: var(--cream050);
+
+  --alpha-site-bg-color: var(--white);
+  --alpha-page-wrapper-bg-color: var(--white);
+  --alpha-ptb-bg-color: var(--cream050);
+  --alpha-ptb-title-color: var(--navy);
+  --alpha-ptb-breadcrumb-color: var(--ink2);
+  --alpha-ptb-title-text-transform: none;
+
+  --alpha-h1-font-size: clamp(36px, 5vw, 64px);
+  --alpha-h2-font-size: clamp(26px, 3vw, 36px);
+  --alpha-h3-font-size: clamp(20px, 2vw, 24px);
+  --alpha-h4-font-size: 18px;
+  --alpha-h5-font-size: 16px;
+  --alpha-h6-font-size: 14px;
+}
+
+body.elementor-kit-5 {
+  /* Elementor global colours — every one of these was navy or the legacy blue */
+  --e-global-color-primary: var(--navy);
+  --e-global-color-secondary: var(--navy600);
+  --e-global-color-text: var(--ink);
+  --e-global-color-accent: var(--navy600);
+  --e-global-color-dcce6d8: var(--navy);      /* was #6d94af, header ground */
+  --e-global-color-4ec5dda: var(--navy600);   /* was #6d94af */
+  --e-global-color-2984e25: var(--navy);
+  --e-global-color-f353652: var(--navy);
+  --e-global-color-b658a74: var(--navy);
+  --e-global-color-29817ae: var(--navy);
+  --e-global-color-ebea11d: var(--bg100);     /* was #E1E1E1, text on navy */
+  --e-global-color-f27f14e: var(--cream);
+  /* Elementor global typography */
+  --e-global-typography-primary-font-family: Poppins;
+  --e-global-typography-primary-font-weight: 600;
+  --e-global-typography-secondary-font-family: Poppins;
+  --e-global-typography-secondary-font-weight: 500;
+  --e-global-typography-text-font-family: "Open Sans";
+  --e-global-typography-text-font-weight: 400;
+  --e-global-typography-accent-font-family: Poppins;
+  --e-global-typography-accent-font-weight: 600;
+}
+
+/* ── 2. Ground and body type ────────────────────────────────────────────── */
+html { background: var(--white); }
+body, body.custom-background, .page-wrapper, .page-content, #page, .content-area, .main-content {
+  background-color: var(--white);
+  background-image: none;
+}
+body {
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+@media (min-width: 1025px) { body { font-size: 17px; } }
+
+/* Elementor states families per element at (0,4,0); a family remap has to carry. */
+body, p, li, dd, dt, td, th, blockquote, figcaption, label, legend, address,
+.elementor-widget-text-editor, .elementor-text-editor, .elementor-icon-list-text,
+.elementor-icon-box-description, .elementor-image-box-description,
+.elementor-testimonial-content, .elementor-tab-content, .elementor-post__excerpt,
+.udesign-widget-text, .post-content, .entry-content, .blog-article-content,
+input, textarea, select, .wpforms-field-label, .wpforms-field-description {
+  font-family: var(--body) !important;
+}
+
+/* ── 3. Headings ────────────────────────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6,
+.elementor-heading-title, .elementor-icon-box-title, .elementor-image-box-title,
+.elementor-accordion-title, .elementor-toggle-title, .elementor-tab-title,
+.elementor-post__title, .elementor-testimonial-name, .elementor-counter-number-wrapper,
+.title, .post-title, .entry-title, .widget-title, .widgettitle,
+.elementor-widget-heading .elementor-heading-title, .udesign-widget-heading .title {
+  font-family: var(--display) !important;
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--navy);
+  text-transform: none;
+}
+h1, .elementor-widget-heading h1.elementor-heading-title, .entry-title, .post-title.h1 {
+  font-size: clamp(36px, 5vw, 64px);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+h2, .elementor-widget-heading h2.elementor-heading-title, .blog-article-content h2 { font-size: clamp(26px, 3vw, 36px); }
+h3, .elementor-widget-heading h3.elementor-heading-title, .blog-article-content h3,
+.elementor-icon-box-title, .elementor-image-box-title, .service-card .card-content h3 { font-size: clamp(20px, 2vw, 24px); line-height: 1.2; }
+h4, .elementor-widget-heading h4.elementor-heading-title { font-size: 18px; line-height: 1.25; }
+h5, .elementor-widget-heading h5.elementor-heading-title { font-size: 16px; line-height: 1.3; }
+h6, .elementor-widget-heading h6.elementor-heading-title { font-size: 14px; line-height: 1.3; }
+
+/* muted / small */
+small, .small, .muted, .post-meta, .post-cats, .entry-meta, .elementor-post__meta-data,
+.elementor-testimonial-job, .widget-image-caption, .wp-caption-text, figcaption { color: var(--ink2); }
+small, .small, figcaption, .wp-caption-text, .widget-image-caption { font-size: 14px; }
+
+/* Micro label — the option-L eyebrow. Poppins 600 / 12px / .12em / uppercase / ink2. */
+.micro, .subtitle, .title-subtitle, .udesign-widget-heading .subtitle,
+.elementor-heading-title small, .elementor-heading-title .subtitle,
+.elementor-icon-box-title small, .post-cats, .post-cats a, .breadcrumb, .breadcrumb a,
+.elementor-post__badge, .elementor-post-info__terms-list-item, .cat-links, .cat-links a,
+.udesign-widget-heading .title-subtitle, .elementor-divider__text, .elementor-counter-title,
+.elementor-testimonial-job, .service-card .card-content span:not(.service-link) {
+  font-family: var(--display) !important;
+  font-size: var(--micro-size);
+  font-weight: 600;
+  letter-spacing: var(--micro-track);
+  text-transform: uppercase;
+  color: var(--ink2);
+  line-height: 1.5;
+}
+.elementor-heading-title small, .elementor-heading-title .subtitle { display: block; margin-bottom: .6em; letter-spacing: var(--micro-track); }
+
+/* Figures — phone numbers, prices, licence numbers — in Plex Mono, tabular. */
+.num, a[href^="tel:"], .elementor-icon-list-item a[href^="tel:"] .elementor-icon-list-text,
+.menu li > a[href^="tel:"], .price, .licence-no, .abn, time, .post-date, .elementor-post-date,
+.elementor-post-info__item--type-date, .elementor-counter-number-wrapper {
+  font-family: var(--mono) !important;
+  font-variant-numeric: tabular-nums lining-nums;
+  letter-spacing: 0;
+}
+a[href^="tel:"] .elementor-icon-list-icon, a[href^="tel:"] i, a[href^="tel:"] svg { font-family: "Font Awesome 5 Free" !important; }
+.elementor-icon-list-item a[href^="tel:"] { text-transform: none; }
+
+/* ── 4. Links ───────────────────────────────────────────────────────────── */
+a { color: var(--navy600); text-decoration: none; transition: color .2s, background-color .2s, border-color .2s; }
+a:hover, a:focus { color: var(--navy); text-decoration: underline; text-underline-offset: .16em; text-decoration-thickness: 1px; }
+.elementor-widget-text-editor a, .blog-article-content a, .entry-content a, .post-content a, .elementor-text-editor a, .wpforms-form a {
+  color: var(--navy600); text-decoration: underline; text-underline-offset: .16em; text-decoration-thickness: 1px;
+}
+.elementor-widget-text-editor a:hover, .blog-article-content a:hover, .entry-content a:hover, .post-content a:hover { color: var(--navy); }
+/* nav, cards, headings and buttons never underline on hover */
+.menu a:hover, .elementor-button:hover, .btn:hover, .service-link:hover, .elementor-heading-title a:hover,
+.elementor-icon-list-item a:hover, .elementor-social-icon:hover, .post-title a:hover, .elementor-post__thumbnail__link:hover,
+.service-card a:hover, .elementor-icon:hover, .breadcrumb a:hover { text-decoration: none; }
+.elementor-heading-title a { color: inherit; }
+.elementor-widget-heading .elementor-heading-title a:hover { color: var(--navy600); }
+
+/* Text on navy. Every section or column painted #182B38 (directly or via a kit token) across
+   wp-content/uploads/elementor/css/post-*.css — enumerated 11 Sep 2026. Text, links and icons
+   inside them go white / bg100; the 1.00:1 inline-link defect in the "Get In Touch" bands
+   (6900294, 11109 family) is covered here generically. Page partials may extend the list. */
+.elementor-element-0916965, .elementor-element-0946e68, .elementor-element-0c2b678, .elementor-element-15dce29,
+.elementor-element-1be8cda, .elementor-element-47e8c2a0, .elementor-element-6172686, .elementor-element-6900294,
+.elementor-element-7528060, .elementor-element-c597490, .elementor-element-d84ff46, .elementor-element-fdca329,
+.elementor-element-11109,
+.elementor-element-1c58e93 > .elementor-widget-wrap, .elementor-element-354b577 > .elementor-widget-wrap,
+.elementor-element-7c29949 > .elementor-widget-wrap, .elementor-element-fe7ae90 > .elementor-widget-wrap,
+.on-navy {
+  --alpha-body-color: var(--bg100);
+  --alpha-heading-color: var(--white);
+  --alpha-primary-color: var(--white);
+  --alpha-primary-color-hover: var(--bg300);
+  --e-global-color-text: var(--bg100);
+  --e-global-color-primary: var(--white);
+  color: var(--bg100);
+}
+.elementor-element-0916965 .elementor-widget-container, .elementor-element-0946e68 .elementor-widget-container,
+.elementor-element-0c2b678 .elementor-widget-container, .elementor-element-15dce29 .elementor-widget-container,
+.elementor-element-1be8cda .elementor-widget-container, .elementor-element-47e8c2a0 .elementor-widget-container,
+.elementor-element-6172686 .elementor-widget-container, .elementor-element-6900294 .elementor-widget-container,
+.elementor-element-7528060 .elementor-widget-container, .elementor-element-c597490 .elementor-widget-container,
+.elementor-element-d84ff46 .elementor-widget-container, .elementor-element-fdca329 .elementor-widget-container,
+.elementor-element-11109 .elementor-widget-container,
+.elementor-element-1c58e93 .elementor-widget-container, .elementor-element-354b577 .elementor-widget-container,
+.elementor-element-7c29949 .elementor-widget-container, .elementor-element-fe7ae90 .elementor-widget-container,
+.on-navy .elementor-widget-container { color: var(--bg100); }
+.elementor-element-0916965 :is(h1,h2,h3,h4,.elementor-heading-title,.elementor-icon-box-title),
+.elementor-element-0946e68 :is(h1,h2,h3,h4,.elementor-heading-title,.elementor-icon-box-title),
+.elementor-element-0c2b678 :is(h1,h2,h3,h4,.elementor-heading-title,.elementor-icon-box-title),
+.elementor-element-15dce29 :is(h1,h2,h3,h4,.elementor-heading-title,.elementor-icon-box-title),
+.elementor-element-1be8cda :is(h1,h2,h3,h4,.elementor-heading-title,.elementor-icon-box-title),
+.elementor-element-47e8c2a0 :is(h1,h2,h3,h4,.elementor-heading-title,.elementor-icon-box-title),
+.elementor-element-6172686 :is(h1,h2,h3,h4,.elementor-heading-title,.elementor-icon-box-title),
+.elementor-element-6900294 :is(h1,h2,h3,h4,.elementor-heading-title,.elementor-icon-box-title),
+.elementor-element-7528060 :is(h1,h2,h3,h4,.elementor-heading-title,.elementor-icon-box-title),
+.elementor-element-c597490 :is(h1,h2,h3,h4,.elementor-heading-title,.elementor-icon-box-title),
+.elementor-element-d84ff46 :is(h1,h2,h3,h4,.elementor-heading-title,.elementor-icon-box-title),
+.elementor-element-fdca329 :is(h1,h2,h3,h4,.elementor-heading-title,.elementor-icon-box-title),
+.elementor-element-11109 :is(h1,h2,h3,h4,.elementor-heading-title,.elementor-icon-box-title),
+.elementor-element-1c58e93 :is(h1,h2,h3,h4,.elementor-heading-title,.elementor-icon-box-title),
+.elementor-element-354b577 :is(h1,h2,h3,h4,.elementor-heading-title,.elementor-icon-box-title),
+.elementor-element-7c29949 :is(h1,h2,h3,h4,.elementor-heading-title,.elementor-icon-box-title),
+.elementor-element-fe7ae90 :is(h1,h2,h3,h4,.elementor-heading-title,.elementor-icon-box-title),
+.on-navy :is(h1,h2,h3,h4,.elementor-heading-title,.elementor-icon-box-title) { color: var(--white); }
+.elementor-element-0916965 .elementor-widget-text-editor a, .elementor-element-0946e68 .elementor-widget-text-editor a,
+.elementor-element-0c2b678 .elementor-widget-text-editor a, .elementor-element-15dce29 .elementor-widget-text-editor a,
+.elementor-element-1be8cda .elementor-widget-text-editor a, .elementor-element-47e8c2a0 .elementor-widget-text-editor a,
+.elementor-element-6172686 .elementor-widget-text-editor a, .elementor-element-6900294 .elementor-widget-text-editor a,
+.elementor-element-7528060 .elementor-widget-text-editor a, .elementor-element-c597490 .elementor-widget-text-editor a,
+.elementor-element-d84ff46 .elementor-widget-text-editor a, .elementor-element-fdca329 .elementor-widget-text-editor a,
+.elementor-element-11109 .elementor-widget-text-editor a,
+.elementor-element-1c58e93 .elementor-widget-text-editor a, .elementor-element-354b577 .elementor-widget-text-editor a,
+.elementor-element-7c29949 .elementor-widget-text-editor a, .elementor-element-fe7ae90 .elementor-widget-text-editor a,
+.on-navy .elementor-widget-text-editor a,
+.elementor-element-6900294 .elementor-widget-text-editor a:visited, .elementor-element-11109 .elementor-widget-text-editor a:visited,
+.elementor-element-0916965 .elementor-icon-list-text, .elementor-element-6900294 .elementor-icon-list-text,
+.elementor-element-11109 .elementor-icon-list-text, .elementor-element-fdca329 .elementor-icon-list-text,
+.elementor-element-47e8c2a0 .elementor-icon-list-text, .on-navy .elementor-icon-list-text,
+.elementor-element-6900294 .micro, .elementor-element-11109 .micro, .on-navy .micro, .on-navy .subtitle { color: var(--white); }
+.elementor-element-6900294 .elementor-widget-text-editor a, .elementor-element-11109 .elementor-widget-text-editor a,
+.on-navy .elementor-widget-text-editor a { text-decoration: underline; text-underline-offset: .16em; }
+.elementor-element-6900294 .elementor-widget-text-editor a:hover, .elementor-element-11109 .elementor-widget-text-editor a:hover,
+.on-navy .elementor-widget-text-editor a:hover { color: var(--bg300); }
+.elementor-element-6900294 .micro, .elementor-element-11109 .micro, .on-navy .micro, .on-navy .subtitle { color: var(--bg300); }
+
+/* ── 5. Buttons — the option-L stamp ────────────────────────────────────── */
+/* Default: solid navy, white, square, Poppins 600 13px uppercase .12em. Hover: navy600.
+   Secondary (outlined navy) = add nothing; page partials opt in with .is-secondary on the
+   button or, without markup, by re-declaring the four colour lines per hash.
+   Terracotta is reserved for ONE action per view: the header phone stamp (chrome.css).
+   A page partial that wants its hero CTA terra instead must quieten the header one on that page. */
+.elementor-button, .elementor-widget-button .elementor-button, a.elementor-button,
+.btn, a.btn, button.btn, .service-link, .service-card .service-link,
+.wpforms-submit, .wpforms-form button[type="submit"], .wpforms-form input[type="submit"],
+input[type="submit"], button[type="submit"], .wp-block-button__link, .read-more, .more-link,
+.elementor-post__read-more, .comment-form .submit, .elementor-pagination .page-numbers.next,
+.elementor-pagination .page-numbers.prev {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  font-family: var(--display) !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  line-height: 1 !important;
+  letter-spacing: .12em !important;
+  text-transform: uppercase !important;
+  text-decoration: none !important;
+  padding: 14px 26px !important;
+  min-height: 44px;
+  border-radius: 0 !important;
+  border: 1px solid var(--navy) !important;
+  background: var(--navy) !important;
+  background-image: none !important;
+  color: var(--white) !important;
+  fill: var(--white);
+  box-shadow: none !important;
+  text-shadow: none !important;
+  transition: background-color .2s, border-color .2s, color .2s;
+  cursor: pointer;
+}
+.elementor-button:hover, .elementor-button:focus, .btn:hover, .btn:focus, .service-link:hover, .service-link:focus,
+.wpforms-submit:hover, .wpforms-submit:focus, input[type="submit"]:hover, button[type="submit"]:hover,
+.wp-block-button__link:hover, .read-more:hover, .more-link:hover, .elementor-post__read-more:hover {
+  background: var(--navy600) !important;
+  border-color: var(--navy600) !important;
+  color: var(--white) !important;
+}
+.elementor-button .elementor-button-content-wrapper, .elementor-button .elementor-button-text { color: inherit; }
+.elementor-button .elementor-button-icon svg { width: 14px; height: 14px; fill: currentColor; }
+/* secondary — outlined navy (opt-in by class; page partials may alias a hash to this) */
+.is-secondary.elementor-button, .is-secondary .elementor-button, .is-secondary.btn, .btn-outline, .btn-secondary,
+.elementor-button.elementor-button-outline {
+  background: transparent !important; color: var(--navy) !important; border-color: var(--navy) !important;
+}
+.is-secondary.elementor-button:hover, .is-secondary .elementor-button:hover, .is-secondary.btn:hover, .btn-outline:hover,
+.btn-secondary:hover { background: var(--navy) !important; color: var(--white) !important; }
+/* buttons sitting on navy: white outline */
+.elementor-element-0916965 .elementor-button, .elementor-element-0946e68 .elementor-button, .elementor-element-0c2b678 .elementor-button,
+.elementor-element-15dce29 .elementor-button, .elementor-element-1be8cda .elementor-button, .elementor-element-47e8c2a0 .elementor-button,
+.elementor-element-6172686 .elementor-button, .elementor-element-6900294 .elementor-button, .elementor-element-7528060 .elementor-button,
+.elementor-element-c597490 .elementor-button, .elementor-element-d84ff46 .elementor-button, .elementor-element-fdca329 .elementor-button,
+.elementor-element-11109 .elementor-button, .on-navy .elementor-button, .on-navy .btn {
+  background: transparent !important; border-color: var(--white) !important; color: var(--white) !important;
+}
+.elementor-element-0916965 .elementor-button:hover, .elementor-element-0946e68 .elementor-button:hover, .elementor-element-0c2b678 .elementor-button:hover,
+.elementor-element-15dce29 .elementor-button:hover, .elementor-element-1be8cda .elementor-button:hover, .elementor-element-47e8c2a0 .elementor-button:hover,
+.elementor-element-6172686 .elementor-button:hover, .elementor-element-6900294 .elementor-button:hover, .elementor-element-7528060 .elementor-button:hover,
+.elementor-element-c597490 .elementor-button:hover, .elementor-element-d84ff46 .elementor-button:hover, .elementor-element-fdca329 .elementor-button:hover,
+.elementor-element-11109 .elementor-button:hover, .on-navy .elementor-button:hover, .on-navy .btn:hover {
+  background: var(--white) !important; color: var(--navy) !important; border-color: var(--white) !important;
+}
+/* the terra stamp — one per view. Applied by chrome.css to the header phone item;
+   a page partial may move it (`.is-primary`) if it quietens the header one on that page. */
+.is-primary.elementor-button, .is-primary .elementor-button, .is-primary.btn, .btn-terra {
+  background: var(--terra) !important; border-color: var(--terra) !important; color: var(--white) !important;
+}
+.is-primary.elementor-button:hover, .is-primary .elementor-button:hover, .is-primary.btn:hover, .btn-terra:hover {
+  background: var(--navy) !important; border-color: var(--navy) !important; color: var(--white) !important;
+}
+/* the theme's coarse-pointer floor already applies; the stamp is 44px on every pointer */
+
+/* ── 6. Square everything ───────────────────────────────────────────────── */
+:root, body { --alpha-border-radius: 0; --alpha-btn-border-radius: 0; --e-global-border-radius: 0; --radius: 0px; }
+.elementor-widget-container, .elementor-widget-wrap, .elementor-column-wrap, .elementor-section,
+.elementor-background-overlay, .elementor-element-populated, .elementor-column > .elementor-widget-wrap,
+img, figure, picture, video, iframe, .elementor-image img, .elementor-widget-image img, .elementor-widget-image a,
+.wp-block-image img, .attachment-post-thumbnail, .post-media, .post-media img,
+.elementor-icon, .elementor-icon-wrapper, .elementor-view-framed .elementor-icon, .elementor-view-stacked .elementor-icon,
+.elementor-social-icon, .elementor-icon-box-icon, .elementor-image-box-img img,
+.elementor-button, .btn, .service-link, .service-card, .service-card .card-thumbnail, .service-carousel-nav button,
+.elementor-testimonial-image img, .elementor-swiper-button, .swiper-pagination-bullet, .slick-dots li button,
+.elementor-accordion-item, .elementor-toggle-item, .elementor-tab-title, .elementor-tabs-wrapper,
+.elementor-alert, .elementor-counter, .elementor-progress-wrapper, .elementor-progress-bar,
+.elementor-post, .elementor-post__thumbnail, .elementor-post__thumbnail img, .elementor-post__card,
+.elementor-widget-google_maps iframe, .elementor-field-group .elementor-field, .elementor-field-textual,
+input, textarea, select, button, .wpforms-field input, .wpforms-field textarea, .wpforms-field select,
+.wpforms-form .wpforms-field-medium, .cookies-popup-inner, .cookies-popup .btn, .accept-cookie-btn,
+#callnowbutton, #scroll-top i, #scroll-top svg, .mfp-content, .pagination a, .page-numbers,
+.elementor-lightbox, .eael-creative-button, .eael-cta-wrapper, .eael-cta-button, .eael-info-box,
+.wp-block-button__link, .form-row [type=text], .form-row textarea, .alpha-rounded-skin .area_404 .btn {
+  border-radius: 0 !important;
+}
+.elementor-icon-box-icon .elementor-icon.elementor-shape-circle, .elementor-shape-circle .elementor-icon.elementor-social-icon,
+.elementor-shape-rounded .elementor-icon.elementor-social-icon { border-radius: 0 !important; }
+
+/* ── 7. Rules, tables, lists, quotes, hr ────────────────────────────────── */
+hr, .elementor-divider-separator, .elementor-widget-divider .elementor-divider-separator {
+  border: 0; border-top: 1px solid var(--line); height: 0; margin: 24px 0;
+}
+table { border-collapse: collapse; width: 100%; font-size: 15px; margin: 0 0 24px; }
+table th, table td { border: 1px solid var(--line); padding: 10px 14px; text-align: left; vertical-align: top; }
+table th, table thead td {
+  background: var(--cream050);
+  font-family: var(--display) !important; font-size: var(--micro-size); font-weight: 600;
+  letter-spacing: var(--micro-track); text-transform: uppercase; color: var(--navy);
+}
+table tr.grand th, table tr.grand td, table tfoot th, table tfoot td {
+  border-top: 1px solid var(--navy); font-family: var(--display) !important; font-weight: 600; background: transparent;
+}
+.elementor-widget-text-editor ul, .blog-article-content ul, .entry-content ul, .post-content ul,
+.elementor-widget-text-editor ol, .blog-article-content ol, .entry-content ol, .post-content ol { padding-left: 1.2em; margin: 0 0 1.2em; }
+.elementor-widget-text-editor li, .blog-article-content li, .entry-content li, .post-content li { margin-bottom: .4em; }
+.elementor-widget-text-editor ul li::marker, .blog-article-content ul li::marker, .entry-content ul li::marker { color: var(--navy600); }
+.elementor-widget-text-editor p, .blog-article-content p, .entry-content p, .post-content p { margin: 0 0 1.2em; }
+.elementor-widget-text-editor > .elementor-widget-container > :last-child { margin-bottom: 0; }
+blockquote, .wp-block-quote { border-left: 1px solid var(--navy); margin: 24px 0; padding: 4px 0 4px 20px; color: var(--ink2); font-style: normal; }
+blockquote p:last-child { margin-bottom: 0; }
+blockquote cite { display: block; margin-top: 8px; font-style: normal; color: var(--ink2); font-size: 14px; }
+.elementor-icon-list-icon i, .elementor-icon-list-icon svg { color: var(--navy600); fill: var(--navy600); }
+.elementor-icon-list-item, .elementor-icon-list-text { color: var(--ink); }
+
+/* option-L card notch — a utility page partials can apply to any card-like block */
+.card-notch, .service-card, .lic, .elementor-post__card {
+  border: 1px solid var(--line); background: var(--white);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, var(--corner-notch) 100%, 0 calc(100% - var(--corner-notch)));
+  box-shadow: none !important;
+}
+
+/* ── 8. Forms baseline (forms.css refines the contact page) ────────────── */
+input[type=text], input[type=email], input[type=tel], input[type=url], input[type=number], input[type=search],
+input[type=password], textarea, select, .elementor-field-textual, .wpforms-form input:not([type=submit]):not([type=checkbox]):not([type=radio]),
+.wpforms-form textarea, .wpforms-form select {
+  border: 1px solid var(--line) !important; background: var(--white) !important; color: var(--ink) !important;
+  font-family: var(--body) !important; font-size: 16px !important; line-height: 1.4; padding: 12px 14px;
+  box-shadow: none !important; outline: 0;
+}
+input:focus, textarea:focus, select:focus, .wpforms-form input:focus, .wpforms-form textarea:focus {
+  border-color: var(--navy) !important;
+}
+label, .wpforms-field-label, .elementor-field-label { font-family: var(--display) !important; font-weight: 500; font-size: 14px; color: var(--navy); }
+::placeholder { color: var(--ink3); opacity: 1; }
+
+/* ── 9. Quarantine the theme's decoration: shadows, gradients, legacy blue ── */
+.elementor-widget-container, .elementor-widget-wrap, .elementor-column-wrap, .elementor-section, .elementor-element-populated,
+.service-card, .service-carousel-nav button, img, .elementor-widget-image img, .elementor-icon-box, .elementor-post,
+.elementor-testimonial, .elementor-testimonial-image img, .elementor-swiper-button, .elementor-accordion-item,
+.cookies-popup-inner, .sticky-content.fixed, .eael-info-box, .eael-cta-wrapper, .alpha-tooltip, .dropdown-box, .menu li > ul {
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+.elementor-widget-container, .elementor-widget-wrap, .elementor-button, .btn, .service-link, .service-card,
+.service-carousel-nav button, #wp-admin-bar-alpha > a { background-image: none !important; }
+/* the child theme's hard-coded #27276f / #6d94af / #6197bc / #28475c, retired */
+.service-card { background: var(--white); border: 1px solid var(--line); }
+.service-card .card-thumbnail { background: var(--cream050); }
+.service-card .card-content span, .service-card .card-content span a { color: var(--ink2); }
+.service-card .card-content span a { color: var(--navy600); text-decoration: underline; }
+.service-carousel-nav button { border: 1px solid var(--navy); background: transparent; width: 48px; height: 48px; }
+.service-carousel-nav button svg { fill: var(--navy); stroke: var(--navy); width: 20px; }
+.service-carousel-nav button:hover { background: var(--navy); border-color: var(--navy); }
+.service-carousel-nav button:hover svg { fill: var(--white); stroke: var(--white); }
+.service-carousel-nav button.prev-arrow { transform: rotate(180deg); }
+.lost_password a { color: var(--navy600); }
+.lost_password a:hover { color: var(--navy); }
+#callnowbutton[style*="#6d94af"], #callnowbutton { background-color: var(--navy) !important; }
+.elementor-background-overlay { background-image: none; }
+
+/* the theme's swiper/slick chrome */
+.swiper-pagination-bullet, .slick-dots li button { background: var(--bg300); opacity: 1; width: 8px; height: 8px; }
+.swiper-pagination-bullet-active, .slick-dots li.slick-active button { background: var(--navy); }
+.elementor-swiper-button { color: var(--navy); background: var(--white); border: 1px solid var(--line); width: 44px; height: 44px; }
+.elementor-swiper-button:hover { background: var(--navy); color: var(--white); border-color: var(--navy); }
+
+/* ── 10. Layout helpers, focus, selection, motion ───────────────────────── */
+::selection { background: var(--navy); color: var(--white); }
+body :focus-visible { outline: 2px solid var(--navy) !important; outline-offset: 2px !important; box-shadow: 0 0 0 4px var(--cream) !important; }
+.on-navy :focus-visible, footer#footer :focus-visible, header#header :focus-visible { outline-color: var(--white) !important; box-shadow: 0 0 0 4px var(--navy600) !important; }
+.animated, .elementor-invisible { animation-duration: .4s !important; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+/* the theme's default section scaffolding on cream */
+.elementor-section.section-cream, .is-cream { background: var(--cream050); }
+
+/* ---- parent pass, 11 Sep: the theme gives every .elementor-container `margin:0 -15px` while its
+   columns pad 20px, so on phones the page is 15px wider than the viewport (scrollWidth 390 at 375,
+   on the unstyled site too). Pin it for every page; the page partials already do this for theirs. ---- */
+@media (max-width: 767px) {
+  main#main .elementor-section > .elementor-container { margin-left: 0 !important; margin-right: 0 !important; max-width: 100% !important; }
+}

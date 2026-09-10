@@ -1,0 +1,423 @@
+/* restyle/parts/home.css — homepage (Elementor page 8604), owner: home agent.
+   Option L "Photo band": the hero is the quote cover (photo, then a navy panel with a diagonal
+   top edge), the service cards are the licence cards (white, 1px --line, bottom-left notch),
+   everything else is ruled-table logic. Every rule is scoped to body.home / .elementor-8604 so
+   nothing here reaches the header, footer, or another page. Per-page rules in
+   wp-content/uploads/elementor/css/post-8604.css are (0,4,0); the `body.home .elementor-8604 …`
+   chains below are (0,5,1)+ and win without !important unless the theme itself forced a value. */
+
+body.home{
+  --hero-skew:clamp(28px,4vw,56px);       /* the cover panel's diagonal, 14mm on A4 → screen */
+  --sec-y:clamp(48px,7vw,96px);           /* section rhythm: 96 desktop, 48 phone */
+  --inset:max(var(--gutter),calc((100% - var(--container)) / 2));  /* centres a full-bleed child */
+}
+
+/* ── shared: containers, section rhythm, no radius anywhere on the page ─────────────────── */
+body.home .elementor-8604 .elementor-section.elementor-section-boxed > .elementor-container{max-width:var(--container)}
+body.home .elementor-8604 img,
+body.home .elementor-8604 video,
+body.home .elementor-8604 .elementor-widget-container,
+body.home .elementor-8604 .elementor-button{border-radius:0}
+body.home .elementor-8604 .elementor-background-overlay{border-radius:0}
+
+/* ═══════════════════════════════════════════════════════════════════════════════════════════
+   1. HERO — section 2095093 (background video, overlay, one column carrying H1 / Trustindex
+      badge / button). The markup has no separate panel element, so the column's widget-wrap
+      becomes the navy panel: pushed to the bottom of the section, full-bleed, diagonal top edge.
+   ═══════════════════════════════════════════════════════════════════════════════════════════ */
+body.home .elementor-8604 .elementor-element.elementor-element-2095093{
+  display:flex;flex-direction:column;justify-content:flex-end;
+  min-height:clamp(620px,92vh,960px);
+  margin-top:-80px;margin-bottom:0;padding:0;
+  background-color:var(--navy);            /* shows if the poster/video is slow to land */
+}
+/* the theme's flat blue wash (#6d94af @ .5) is replaced by a quiet navy gradient so the
+   photo reads as a photo and the diagonal edge has something to cut into */
+body.home .elementor-8604 .elementor-element.elementor-element-2095093 > .elementor-background-overlay{
+  background-color:transparent;
+  background-image:linear-gradient(to bottom,color-mix(in srgb,var(--navy) 22%,transparent) 0%,transparent 35%,color-mix(in srgb,var(--navy) 38%,transparent) 100%);
+  opacity:1;
+}
+body.home .elementor-8604 .elementor-element.elementor-element-2095093 > .elementor-container{
+  position:relative;z-index:2;
+  max-width:none;width:100%;margin:0;padding:0;
+  display:block;
+}
+body.home .elementor-8604 .elementor-element.elementor-element-2095093 .elementor-column.elementor-element-4af482b{width:100%}
+body.home .elementor-8604 .elementor-element.elementor-element-2095093 .elementor-element-4af482b > .elementor-widget-wrap.elementor-element-populated{
+  display:block;
+  background:var(--navy);
+  clip-path:polygon(0 var(--hero-skew),100% 0,100% 100%,0 100%);
+  padding:calc(var(--hero-skew) + 56px) var(--inset) 72px;
+  color:var(--white);
+}
+/* the theme centres the hero; the cover is set flush left */
+body.home .elementor-8604 .elementor-element.elementor-element-26649e0{text-align:left}
+body.home .elementor-8604 .elementor-element.elementor-element-26649e0 > .elementor-widget-container{margin:0 0 20px}
+body.home .elementor-8604 .elementor-element.elementor-element-26649e0 .elementor-heading-title{
+  font-family:var(--display);font-weight:600;
+  font-size:clamp(40px,6vw,72px);line-height:.95;letter-spacing:-.02em;
+  color:var(--white);max-width:18ch;
+}
+/* Trustindex "Excellent · 228 reviews · Google" badge stands in for the cover's job line */
+body.home .elementor-8604 .elementor-element.elementor-element-35e8187{text-align:left}
+body.home .elementor-8604 .elementor-element.elementor-element-35e8187 > .elementor-widget-container{margin:0 0 28px}
+body.home .elementor-8604 .elementor-element.elementor-element-35e8187 .elementor-shortcode{display:flex;justify-content:flex-start}
+body.home .elementor-8604 .elementor-element.elementor-element-35e8187 .ti-widget *{border-radius:0!important}
+body.home .elementor-8604 .elementor-element.elementor-element-35e8187 .ti-widget,
+body.home .elementor-8604 .elementor-element.elementor-element-35e8187 .ti-widget .ti-widget-container{text-align:left!important;margin:0!important}
+body.home .elementor-8604 .elementor-element.elementor-element-35e8187 .ti-widget .ti-header{display:inline-flex!important;margin:0!important;box-shadow:none!important}
+body.home .elementor-8604 .elementor-element.elementor-element-35e8187 .ti-widget .ti-widget-container,
+body.home .elementor-8604 .elementor-element.elementor-element-35e8187 .ti-widget .ti-widget-container *{font-family:var(--display)!important}
+/* the one terracotta action on the page */
+body.home .elementor-8604 .elementor-element.elementor-element-8cab99f{text-align:left}
+body.home .elementor-8604 .elementor-element.elementor-element-8cab99f > .elementor-widget-container{margin:0}
+body.home .elementor-8604 .elementor-element.elementor-element-8cab99f .elementor-button-wrapper{text-align:left}
+/* base.css paints every button navy with !important (its stated contract: per-hash + !important
+   to differ). This is the page's one terracotta action. */
+body.home .elementor-8604 .elementor-element.elementor-element-8cab99f .elementor-button{
+  font-family:var(--display)!important;font-weight:600!important;font-size:14px!important;letter-spacing:.12em!important;text-transform:uppercase!important;
+  color:var(--white)!important;fill:var(--white);background:var(--terra)!important;
+  border:1px solid var(--terra)!important;border-radius:0!important;padding:16px 32px!important;line-height:1!important;
+}
+body.home .elementor-8604 .elementor-element.elementor-element-8cab99f .elementor-button:hover,
+body.home .elementor-8604 .elementor-element.elementor-element-8cab99f .elementor-button:focus{
+  background:var(--white)!important;color:var(--terra)!important;fill:var(--terra);border-color:var(--white)!important;
+}
+@media (max-width:767px){
+  body.home .elementor-8604 .elementor-element.elementor-element-2095093{min-height:0}
+  /* on a phone the photo is a short band, the panel is the rest, full width */
+  body.home .elementor-8604 .elementor-element.elementor-element-2095093 > .elementor-container{margin-top:min(52vh,360px)}
+  body.home .elementor-8604 .elementor-element.elementor-element-2095093 .elementor-element-4af482b > .elementor-widget-wrap.elementor-element-populated{padding:calc(var(--hero-skew) + 32px) var(--gutter) 48px}
+  body.home .elementor-8604 .elementor-element.elementor-element-26649e0 .elementor-heading-title{font-size:36px;line-height:1;max-width:none}
+  body.home .elementor-8604 .elementor-element.elementor-element-26649e0 > .elementor-widget-container{margin:0 0 20px}
+  body.home .elementor-8604 .elementor-element.elementor-element-35e8187 > .elementor-widget-container{margin:0 0 24px}
+  body.home .elementor-8604 .elementor-element.elementor-element-8cab99f > .elementor-widget-container{margin:0}
+  body.home .elementor-8604 .elementor-element.elementor-element-8cab99f .elementor-button{width:100%;text-align:center;padding:16px 20px}
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════════════════
+   2. INTRO — desktop ddac4b3 (video | heading + paragraph); phone/tablet 7e31645 (heading +
+      video) and 627594a (paragraph). Which one shows is a copy decision for Drew and is left
+      exactly as Elementor's hidden-* classes have it.
+   ═══════════════════════════════════════════════════════════════════════════════════════════ */
+body.home .elementor-8604 .elementor-element.elementor-element-ddac4b3,
+body.home .elementor-8604 .elementor-element.elementor-element-7e31645,
+body.home .elementor-8604 .elementor-element.elementor-element-627594a{background-color:var(--cream)}
+body.home .elementor-8604 .elementor-element.elementor-element-ddac4b3{margin:0;padding:var(--sec-y) 0}
+body.home .elementor-8604 .elementor-element.elementor-element-7e31645{margin:0;padding:var(--sec-y) 0 0}
+body.home .elementor-8604 .elementor-element.elementor-element-627594a{margin:0;padding:0 0 var(--sec-y)}
+body.home .elementor-8604 .elementor-element.elementor-element-ddac4b3 > .elementor-container{max-width:var(--container);padding:0 var(--gutter)}
+body.home .elementor-8604 .elementor-element.elementor-element-2421ca5 > .elementor-element-populated{margin:0;padding:0 48px 0 0;--e-column-margin-right:0;--e-column-margin-left:0}
+body.home .elementor-8604 .elementor-element.elementor-element-920ee55 > .elementor-element-populated{margin:0;--e-column-margin-right:0}
+body.home .elementor-8604 .elementor-element.elementor-element-40cb7a7{padding:0}
+
+/* the vertical video: square, ruled, no shadow (the page's inline .cd-vertical-video rules are
+   (0,2,0); these are (0,4,1)) */
+body.home .cd-vertical-video .elementor-wrapper{border-radius:0;box-shadow:none;border:1px solid var(--line);background:var(--navy)}
+body.home .cd-vertical-video .elementor-video,
+body.home .cd-vertical-video .e-hosted-video video,
+body.home .cd-vertical-video .elementor-custom-embed-image-overlay{border-radius:0}
+body.home .cd-vertical-video .elementor-custom-embed-play{color:var(--white)}
+
+/* headings + copy */
+body.home .elementor-8604 .elementor-element.elementor-element-9934989 .title,
+body.home .elementor-8604 .elementor-element.elementor-element-3ec6810 .title{
+  font-family:var(--display);font-weight:600;font-size:clamp(26px,2.8vw,38px);line-height:1.15;letter-spacing:-.01em;color:var(--navy);
+}
+body.home .elementor-8604 .elementor-element.elementor-element-9934989 > .elementor-widget-container{margin:0 0 24px}
+body.home .elementor-8604 .elementor-element.elementor-element-3ec6810 > .elementor-widget-container{margin:0 0 32px}
+body.home .elementor-8604 .elementor-element.elementor-element-3ec6810{width:100%;max-width:none;--container-widget-width:100%}
+/* these paragraphs are authored as <p class="title">; base.css maps .title to the display face with
+   !important, so the body face has to carry it too */
+body.home .elementor-8604 .elementor-element.elementor-element-b77aaa2 .title,
+body.home .elementor-8604 .elementor-element.elementor-element-a0eb2f7 .title{
+  font-family:var(--body)!important;font-weight:400;font-size:17px;line-height:1.55;letter-spacing:0;color:var(--ink);
+  padding:0;max-width:var(--measure);
+}
+/* the heading was carrying a 60px top pad as a stand-in for a rule; a 1px --navy rule does the
+   job (the quote's grand-total rule) */
+body.home .elementor-8604 .elementor-element.elementor-element-b77aaa2 > .elementor-widget-container,
+body.home .elementor-8604 .elementor-element.elementor-element-a0eb2f7 > .elementor-widget-container{margin:0;padding-top:24px;border-top:1px solid var(--navy)}
+body.home .elementor-8604 .elementor-element.elementor-element-0bf9f87 > .elementor-widget-container,
+body.home .elementor-8604 .elementor-element.elementor-element-abd6725 > .elementor-widget-container{margin:0}
+@media (max-width:767px){
+  body.home .elementor-8604 .elementor-element.elementor-element-6069fb5 > .elementor-element-populated,
+  body.home .elementor-8604 .elementor-element.elementor-element-e8f155e > .elementor-element-populated{padding:0 var(--gutter)}
+  body.home .elementor-8604 .elementor-element.elementor-element-abd6725 > .elementor-widget-container{margin:0 0 8px}
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════════════════
+   3. SERVICES — 8253a65 (title) + 4ef2042 (slick carousel of .service-card). Licence cards.
+   ═══════════════════════════════════════════════════════════════════════════════════════════ */
+body.home .elementor-8604 .elementor-element.elementor-element-8253a65,
+body.home .elementor-8604 .elementor-element.elementor-element-4ef2042{background-color:var(--cream050)}
+body.home .elementor-8604 .elementor-element.elementor-element-8253a65{margin:0;padding:var(--sec-y) 0 0;border-top:1px solid var(--line)}
+body.home .elementor-8604 .elementor-element.elementor-element-4ef2042{margin:0;padding:0 0 var(--sec-y)}
+body.home .elementor-8604 .elementor-element.elementor-element-8253a65 > .elementor-container,
+body.home .elementor-8604 .elementor-element.elementor-element-4ef2042 > .elementor-container{max-width:var(--container);padding:0 var(--gutter)}
+body.home .elementor-8604 .elementor-element.elementor-element-f037ff4 > .elementor-element-populated{margin:0 0 32px;padding:0}
+body.home .elementor-8604 .elementor-element.elementor-element-95beb54 > .elementor-element-populated{margin:0;padding:0}
+body.home .elementor-8604 .elementor-element.elementor-element-7804442 .title{
+  font-family:var(--display);font-weight:600;font-size:clamp(28px,3vw,40px);line-height:1.15;letter-spacing:-.01em;color:var(--navy);
+}
+
+body.home .service-carousel-container{padding:0}
+body.home .service-carousel .slick-slide{margin:0 12px}
+body.home .service-carousel .slick-list{margin:0 -12px}
+body.home .service-card{
+  padding:0;gap:0;
+  background:var(--white);border:1px solid var(--line);border-radius:0;
+  clip-path:polygon(0 0,100% 0,100% 100%,var(--corner-notch) 100%,0 calc(100% - var(--corner-notch)));
+}
+body.home .service-card .card-thumbnail{margin:0;padding-top:66%;background:var(--cream050);border-bottom:1px solid var(--line)}
+body.home .service-card .card-thumbnail img{border-radius:0}
+body.home .service-card .card-content{padding:22px 24px 28px;gap:24px;flex:1}
+body.home .service-card .card-content > div{gap:10px}
+/* the "Servicing Brisbane and Gold Coast" line becomes the licence card's state line, on top */
+body.home .service-card .card-content span{
+  order:-1;
+  font-family:var(--display);font-size:var(--micro-size);font-weight:600;letter-spacing:var(--micro-track);text-transform:uppercase;
+  color:var(--navy600);margin-bottom:2px;
+}
+body.home .service-card .card-content span a{color:var(--navy600);font-size:inherit;text-decoration:underline;text-underline-offset:.15em}
+body.home .service-card .card-content span a:hover{color:var(--navy)}
+body.home .service-card .card-content h3{
+  font-family:var(--display);font-weight:600;font-size:22px;line-height:1.2;letter-spacing:-.01em;color:var(--navy);
+}
+body.home .service-card .card-content p{font-family:var(--body);font-size:15px;line-height:1.5;color:var(--ink2)}
+/* the link as a navy stamp */
+/* the link as a navy stamp — base.css already paints .service-link as the navy stamp (Poppins 600,
+   13px, tracked, square); only the layout inside the card is set here */
+body.home .service-card .service-link,
+body.home .service-card .service-link.elementor-button{display:inline-flex;align-items:center;gap:10px;margin-right:auto}
+body.home .service-card .service-link svg{width:14px;height:14px;fill:currentColor}
+/* arrows: square navy */
+body.home .service-carousel-nav{margin:32px 0 0;gap:0}
+body.home .service-carousel-nav button{
+  width:48px;height:48px;border-radius:0;border:1px solid var(--navy);background:var(--white);
+  display:inline-flex;align-items:center;justify-content:center;
+}
+body.home .service-carousel-nav button + button{margin-left:-1px}
+body.home .service-carousel-nav button svg{width:18px;fill:var(--navy);stroke:none}
+body.home .service-carousel-nav button:hover{background:var(--navy);border-color:var(--navy)}
+body.home .service-carousel-nav button:hover svg{fill:var(--white)}
+body.home .service-carousel .slick-dots li button:before{border-radius:0;color:var(--navy)}
+@media (max-width:767px){
+  body.home .elementor-8604 .elementor-element.elementor-element-8253a65,
+  body.home .elementor-8604 .elementor-element.elementor-element-4ef2042{margin:0}
+  body.home .elementor-8604 .elementor-element.elementor-element-f037ff4 > .elementor-element-populated{margin:0 0 24px}
+  body.home .service-card .card-content{padding:20px 20px 24px}
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════════════════
+   4. NAVY BANDS — 6900294 (desktop: heading + copy + photo) and 6172686 (phone/tablet twin).
+      Also the known navy-on-navy link defect: every link in a #182b38 band is white here.
+   ═══════════════════════════════════════════════════════════════════════════════════════════ */
+body.home .elementor-8604 .elementor-element.elementor-element-6900294,
+body.home .elementor-8604 .elementor-element.elementor-element-6172686{background-color:var(--navy);color:var(--bg100)}
+body.home .elementor-8604 .elementor-element.elementor-element-6900294{margin:0;padding:var(--sec-y) 0}
+body.home .elementor-8604 .elementor-element.elementor-element-6172686{margin:0;padding:var(--sec-y) 0}
+body.home .elementor-8604 .elementor-element.elementor-element-9a7b600 > .elementor-container{max-width:var(--container);padding:0 var(--gutter)}
+body.home .elementor-8604 .elementor-element.elementor-element-f635277 > .elementor-element-populated{margin:0;padding:0 64px 0 0;--e-column-margin-right:0}
+body.home .elementor-8604 .elementor-element.elementor-element-c0128b5 .elementor-heading-title,
+body.home .elementor-8604 .elementor-element.elementor-element-d92982e .elementor-heading-title{
+  font-family:var(--display);font-weight:600;font-size:clamp(26px,2.8vw,38px);line-height:1.15;letter-spacing:-.01em;color:var(--white);
+}
+body.home .elementor-8604 .elementor-element.elementor-element-c0128b5 > .elementor-widget-container{margin:0 0 24px;padding:0 0 24px;border-bottom:1px solid var(--navy600)}
+body.home .elementor-8604 .elementor-element.elementor-element-d92982e > .elementor-widget-container{margin:32px 0 20px;padding:0 0 20px;border-bottom:1px solid var(--navy600)}
+body.home .elementor-8604 .elementor-element.elementor-element-bd9f7f1,
+body.home .elementor-8604 .elementor-element.elementor-element-c952a04{
+  font-family:var(--body);font-weight:400;font-size:17px;line-height:1.55;color:var(--bg100);
+}
+/* base.css colours p on --ink; on navy the copy is --bg100 (9.8:1) */
+body.home .elementor-8604 .elementor-element.elementor-element-bd9f7f1 p,
+body.home .elementor-8604 .elementor-element.elementor-element-c952a04 p{max-width:var(--measure);color:var(--bg100)}
+body.home .elementor-8604 .elementor-element.elementor-element-e7be58b img,
+body.home .elementor-8604 .elementor-element.elementor-element-39ae019 img{border-radius:0;display:block;width:100%;height:auto;object-fit:cover}
+body.home .elementor-8604 .elementor-element.elementor-element-e7be58b{text-align:left}
+/* navy-on-navy links (child-theme note, 10 Sep): white, underlined, in every navy band on this page */
+body.home .elementor-8604 .elementor-element.elementor-element-6900294 a,
+body.home .elementor-8604 .elementor-element.elementor-element-6172686 a,
+body.home .elementor-8604 .elementor-element.elementor-element-1be8cdaf .elementor-widget-text-editor a,
+body.home .elementor-8604 .elementor-element.elementor-element-1be8cdaf .elementor-widget-heading a{color:var(--white);text-decoration:underline;text-underline-offset:.15em}
+body.home .elementor-8604 .elementor-element.elementor-element-6900294 a:hover,
+body.home .elementor-8604 .elementor-element.elementor-element-6172686 a:hover{color:var(--bg300)}
+/* the desktop inner section 9a7b600 is hidden ≤1024, which left 6900294 as an empty navy band
+   (120px on tablet) whose stretched container also ran 15px past the phone viewport */
+body.home .elementor-8604 .elementor-element.elementor-element-6900294 > .elementor-container{margin:0 auto;width:100%;max-width:var(--container);padding:0 var(--gutter)}
+@media (max-width:1024px){
+  body.home .elementor-8604 .elementor-element.elementor-element-6900294{padding:0}
+  body.home .elementor-8604 .elementor-element.elementor-element-f635277 > .elementor-element-populated{padding:0 0 32px}
+  body.home .elementor-8604 .elementor-element.elementor-element-d92982e{text-align:left}
+  body.home .elementor-8604 .elementor-element.elementor-element-c952a04{text-align:left}
+}
+@media (max-width:1024px){
+  /* the phone/tablet twin's photo is a 390×420 crop rendered full-width; cap it so it stays a photo, not a wall */
+  body.home .elementor-8604 .elementor-element.elementor-element-39ae019 img{max-height:440px;object-fit:cover;object-position:center 30%}
+}
+@media (max-width:767px){
+  body.home .elementor-8604 .elementor-element.elementor-element-6172686{margin:0}
+  body.home .elementor-8604 .elementor-element.elementor-element-8a854e5 > .elementor-element-populated{padding:0 var(--gutter)}
+  body.home .elementor-8604 .elementor-element.elementor-element-d92982e .elementor-heading-title{font-size:26px}
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════════════════
+   5. PULL QUOTE — 159a95c was #E1E1E1 on #6d94af (3.4:1). Now navy Poppins on cream050 between
+      two rules: the ruled-table row.
+   ═══════════════════════════════════════════════════════════════════════════════════════════ */
+body.home .elementor-8604 .elementor-element.elementor-element-159a95c{background-color:var(--cream050);padding:var(--sec-y) 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+body.home .elementor-8604 .elementor-element.elementor-element-ee6d7d1 > .elementor-element-populated{margin:0;padding:0 var(--gutter)}
+body.home .elementor-8604 .elementor-element.elementor-element-ba6179d .elementor-heading-title{
+  font-family:var(--display);font-weight:500;font-size:clamp(20px,2.2vw,28px);line-height:1.3;letter-spacing:-.01em;color:var(--navy);
+  max-width:34ch;margin:0 auto;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════════════════
+   6. REVIEWS — 1be8cdaf, Trustindex shortcode on navy. Square cards, cream050, Poppins names,
+      --line rules. Star colour is Google's and stays. The widget's own CSS uses !important, so
+      these do too — every selector is under body.home.
+   ═══════════════════════════════════════════════════════════════════════════════════════════ */
+body.home .elementor-8604 .elementor-element.elementor-element-1be8cdaf{background-color:var(--navy);padding:var(--sec-y) 0}
+body.home .elementor-8604 .elementor-element.elementor-element-1be8cdaf > .elementor-background-overlay{opacity:0}
+body.home .elementor-8604 .elementor-element.elementor-element-1be8cdaf > .elementor-container{max-width:var(--container);padding:0 var(--gutter)}
+body.home .elementor-8604 .elementor-element.elementor-element-46b66c11 > .elementor-element-populated{padding:0}
+/* the slider layout (data-layout-id=14) renders as a bare .ti-widget — not .ti-goog — with its CSS
+   from the Trustindex CDN; everything below is per-section and carries !important to match */
+body.home .elementor-element-1be8cdaf .ti-widget *{border-radius:0!important;box-shadow:none!important}
+body.home .elementor-element-1be8cdaf .ti-widget .ti-widget-container,
+body.home .elementor-element-1be8cdaf .ti-widget .ti-widget-container *{font-family:var(--body)!important}
+/* header strip: one ruled row, cream050 */
+body.home .elementor-element-1be8cdaf .ti-widget .ti-widget-header .ti-header-content{
+  background:var(--cream050)!important;border:1px solid var(--line)!important;padding:14px 20px!important;
+}
+body.home .elementor-element-1be8cdaf .ti-widget .ti-widget-header{background:transparent!important;padding:0!important;margin:0 0 20px!important;border:0!important}
+body.home .elementor-element-1be8cdaf .ti-widget .ti-widget-header-tick{display:none!important}
+body.home .elementor-element-1be8cdaf .ti-widget .ti-header-rating-text,
+body.home .elementor-element-1be8cdaf .ti-widget .ti-header-rating-text *{color:var(--ink)!important}
+body.home .elementor-element-1be8cdaf .ti-widget .ti-rating-text{font-family:var(--display)!important;font-weight:600!important;color:var(--navy)!important}
+body.home .elementor-element-1be8cdaf .ti-widget .ti-header-rating,
+body.home .elementor-element-1be8cdaf .ti-widget .ti-header-rating-reviews{font-family:var(--mono)!important;font-variant-numeric:tabular-nums lining-nums;color:var(--ink2)!important}
+body.home .elementor-element-1be8cdaf .ti-widget .ti-header-write-btn{
+  background:var(--navy)!important;border:1px solid var(--navy)!important;color:var(--white)!important;
+  font-family:var(--display)!important;font-weight:600!important;font-size:12px!important;letter-spacing:.12em!important;text-transform:uppercase!important;
+  padding:12px 18px!important;line-height:1!important;
+}
+body.home .elementor-element-1be8cdaf .ti-widget .ti-header-write-btn:hover{background:var(--navy600)!important;border-color:var(--navy600)!important}
+/* cards */
+body.home .elementor-element-1be8cdaf .ti-widget .ti-review-item .ti-inner{
+  background:var(--cream050)!important;border:1px solid var(--line)!important;padding:24px!important;
+}
+/* the CDN sheet rounds the card at (0,5,0)+!important; out-specify it */
+body.home .elementor-element-1be8cdaf .ti-widget[data-layout-id] .ti-widget-container .ti-reviews-container-wrapper .ti-review-item,
+body.home .elementor-element-1be8cdaf .ti-widget[data-layout-id] .ti-widget-container .ti-reviews-container-wrapper .ti-review-item .ti-inner,
+body.home .elementor-element-1be8cdaf .ti-widget[data-layout-id] .ti-widget-container .ti-widget-header .ti-header-content{border-radius:0!important}
+body.home .elementor-element-1be8cdaf .ti-widget .ti-review-item .ti-name{font-family:var(--display)!important;font-weight:600!important;color:var(--navy)!important;font-size:15px!important}
+body.home .elementor-element-1be8cdaf .ti-widget .ti-review-item .ti-date{font-family:var(--mono)!important;font-variant-numeric:tabular-nums lining-nums;color:var(--ink3)!important;font-size:12px!important}
+body.home .elementor-element-1be8cdaf .ti-widget .ti-review-item .ti-review-content,
+body.home .elementor-element-1be8cdaf .ti-widget .ti-review-item .ti-review-text{color:var(--ink)!important;font-size:15px!important;line-height:1.5!important}
+body.home .elementor-element-1be8cdaf .ti-widget .ti-review-item .ti-profile-img img{border-radius:0!important}
+body.home .elementor-element-1be8cdaf .ti-widget .ti-read-more span,
+body.home .elementor-element-1be8cdaf .ti-widget .ti-read-more{color:var(--navy)!important;opacity:1!important;font-family:var(--display)!important;font-weight:600!important;font-size:12px!important;letter-spacing:.08em;text-transform:uppercase}
+/* slider arrows: square, white on navy */
+body.home .elementor-element-1be8cdaf .ti-widget .ti-controls .ti-next,
+body.home .elementor-element-1be8cdaf .ti-widget .ti-controls .ti-prev{
+  background:var(--navy)!important;border:1px solid var(--white)!important;color:var(--white)!important;
+}
+body.home .elementor-element-1be8cdaf .ti-widget .ti-controls .ti-next:hover,
+body.home .elementor-element-1be8cdaf .ti-widget .ti-controls .ti-prev:hover{background:var(--white)!important;color:var(--navy)!important}
+body.home .elementor-element-1be8cdaf .ti-widget .ti-controls .ti-next *,
+body.home .elementor-element-1be8cdaf .ti-widget .ti-controls .ti-prev *{color:inherit!important;fill:currentColor!important}
+/* pager dots + footer on navy */
+body.home .elementor-element-1be8cdaf .ti-widget .ti-controls-line{background:var(--navy600)!important}
+body.home .elementor-element-1be8cdaf .ti-widget .ti-controls-line .ti-dot{background:var(--bg300)!important}
+body.home .elementor-element-1be8cdaf .ti-widget .ti-controls-line .ti-dot.ti-active{background:var(--white)!important}
+body.home .elementor-element-1be8cdaf .ti-widget .ti-footer,
+body.home .elementor-element-1be8cdaf .ti-widget .ti-footer *{color:var(--bg100)!important}
+body.home .elementor-element-1be8cdaf .ti-widget .ti-footer .ti-footer-filter-text{color:var(--bg300)!important}
+@media (max-width:767px){
+  body.home .elementor-8604 .elementor-element.elementor-element-1be8cdaf{padding:var(--sec-y) 0}
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════════════════
+   7. SPONSORS — ed76df9 (heading) + 8691cfa (five logo columns). The heading is a micro label;
+      the logos sit in a ruled row: 1px --line between columns, rule above and below.
+   ═══════════════════════════════════════════════════════════════════════════════════════════ */
+body.home .elementor-8604 .elementor-element.elementor-element-ed76df9{padding:var(--sec-y) 0 0;background-color:var(--white)}
+body.home .elementor-8604 .elementor-element.elementor-element-8691cfa{padding:0 0 var(--sec-y);background-color:var(--white)}
+body.home .elementor-8604 .elementor-element.elementor-element-ed76df9 > .elementor-container,
+body.home .elementor-8604 .elementor-element.elementor-element-8691cfa > .elementor-container{max-width:var(--container);padding:0 var(--gutter)}
+body.home .elementor-8604 .elementor-element.elementor-element-69c4833 > .elementor-widget-container{margin:0 0 20px}
+body.home .elementor-8604 .elementor-element.elementor-element-69c4833 .elementor-heading-title{
+  font-family:var(--display);font-size:var(--micro-size);font-weight:600;letter-spacing:var(--micro-track);text-transform:uppercase;color:var(--ink2);
+}
+body.home .elementor-8604 .elementor-element.elementor-element-8691cfa > .elementor-container{border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+body.home .elementor-8604 .elementor-element.elementor-element-8691cfa .elementor-column > .elementor-widget-wrap{padding:28px 24px;align-content:center;align-items:center;min-height:120px}
+body.home .elementor-8604 .elementor-element.elementor-element-8691cfa .elementor-column + .elementor-column > .elementor-widget-wrap{border-left:1px solid var(--line)}
+body.home .elementor-8604 .elementor-element.elementor-element-8691cfa .elementor-widget-image{text-align:center;width:100%}
+body.home .elementor-8604 .elementor-element.elementor-element-8691cfa img{max-height:72px;width:auto;max-width:100%;object-fit:contain}
+@media (max-width:767px){
+  body.home .elementor-8604 .elementor-element.elementor-element-8691cfa .elementor-column{width:50%}
+  body.home .elementor-8604 .elementor-element.elementor-element-8691cfa .elementor-column > .elementor-widget-wrap{padding:20px 12px;border-bottom:1px solid var(--line);min-height:96px}
+  body.home .elementor-8604 .elementor-element.elementor-element-8691cfa .elementor-column + .elementor-column > .elementor-widget-wrap{border-left:0}
+  body.home .elementor-8604 .elementor-element.elementor-element-8691cfa .elementor-column:nth-child(2n) > .elementor-widget-wrap{border-left:1px solid var(--line)}
+  body.home .elementor-8604 .elementor-element.elementor-element-8691cfa .elementor-column:nth-last-child(-n+1) > .elementor-widget-wrap{border-bottom:0}
+  body.home .elementor-8604 .elementor-element.elementor-element-8691cfa > .elementor-container{border-bottom:0}
+  body.home .elementor-8604 .elementor-element.elementor-element-8691cfa img{max-height:56px;width:auto!important}
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════════════════
+   8. TESTIMONIAL VIDEO — abeaf22. Square, ruled.
+   ═══════════════════════════════════════════════════════════════════════════════════════════ */
+body.home .elementor-8604 .elementor-element.elementor-element-abeaf22{padding:0 0 var(--sec-y);background-color:var(--white)}
+body.home .elementor-8604 .elementor-element.elementor-element-abeaf22 > .elementor-container{max-width:var(--container);padding:0 var(--gutter)}
+body.home .elementor-8604 .elementor-element.elementor-element-d517f59 .elementor-wrapper{border:1px solid var(--line);border-radius:0;background:var(--navy)}
+
+/* ═══════════════════════════════════════════════════════════════════════════════════════════
+   9. TWO FEATURE ROWS — 3856d58 (photo | heading + copy) and f87074b (heading + copy | photo).
+      Cream, ruled between, headings Poppins 600, copy Open Sans on --ink.
+   ═══════════════════════════════════════════════════════════════════════════════════════════ */
+body.home .elementor-8604 .elementor-element.elementor-element-3856d58,
+body.home .elementor-8604 .elementor-element.elementor-element-f87074b{background-color:var(--cream)}
+body.home .elementor-8604 .elementor-element.elementor-element-3856d58{margin:0;padding:var(--sec-y) 0;border-top:1px solid var(--line)}
+body.home .elementor-8604 .elementor-element.elementor-element-f87074b{margin:0;padding:var(--sec-y) 0;border-top:1px solid var(--line)}
+body.home .elementor-8604 .elementor-element.elementor-element-3856d58 > .elementor-container,
+body.home .elementor-8604 .elementor-element.elementor-element-f87074b > .elementor-container{max-width:var(--container);padding:0 var(--gutter)}
+body.home .elementor-8604 .elementor-element.elementor-element-e39342a,
+body.home .elementor-8604 .elementor-element.elementor-element-3228d20{padding:0}
+body.home .elementor-8604 .elementor-element.elementor-element-e39342a > .elementor-container,
+body.home .elementor-8604 .elementor-element.elementor-element-3228d20 > .elementor-container{max-width:none}
+body.home .elementor-8604 .elementor-element.elementor-element-02b977e > .elementor-element-populated{padding:0 0 0 64px}
+body.home .elementor-8604 .elementor-element.elementor-element-4f910a1 > .elementor-element-populated{padding:0 64px 0 0}
+body.home .elementor-8604 .elementor-element.elementor-element-3b9141f > .elementor-element-populated{padding:0}
+body.home .elementor-8604 .elementor-element.elementor-element-964f89c .title,
+body.home .elementor-8604 .elementor-element.elementor-element-efd400c .title{
+  font-family:var(--display);font-weight:600;font-size:clamp(24px,2.6vw,34px);line-height:1.15;letter-spacing:-.01em;color:var(--navy);
+}
+body.home .elementor-8604 .elementor-element.elementor-element-964f89c > .elementor-widget-container,
+body.home .elementor-8604 .elementor-element.elementor-element-efd400c > .elementor-widget-container{margin:0 0 20px;padding:0 0 20px;border-bottom:1px solid var(--navy)}
+body.home .elementor-8604 .elementor-element.elementor-element-68e386d .title,
+body.home .elementor-8604 .elementor-element.elementor-element-60aeaa6 .title{
+  font-family:var(--body)!important;font-weight:400;font-size:17px;line-height:1.55;letter-spacing:0;color:var(--ink);max-width:var(--measure);
+}
+body.home .elementor-8604 .elementor-element.elementor-element-e894078 img{height:460px;width:100%;object-fit:cover;object-position:center top;border-radius:0;display:block}
+body.home .elementor-8604 .elementor-element.elementor-element-8994267 img{height:auto;width:100%;aspect-ratio:3/2;object-fit:cover;border-radius:0;display:block}
+body.home .elementor-8604 .elementor-element.elementor-element-e894078,
+body.home .elementor-8604 .elementor-element.elementor-element-8994267{text-align:left}
+@media (max-width:1024px){
+  body.home .elementor-8604 .elementor-element.elementor-element-02b977e > .elementor-element-populated{padding:0 0 0 32px}
+  body.home .elementor-8604 .elementor-element.elementor-element-4f910a1 > .elementor-element-populated{padding:0 32px 0 0}
+}
+@media (max-width:767px){
+  body.home .elementor-8604 .elementor-element.elementor-element-3856d58,
+  body.home .elementor-8604 .elementor-element.elementor-element-f87074b{margin:0;padding:var(--sec-y) 0}
+  body.home .elementor-8604 .elementor-element.elementor-element-2ac8417 > .elementor-element-populated,
+  body.home .elementor-8604 .elementor-element.elementor-element-02b977e > .elementor-element-populated,
+  body.home .elementor-8604 .elementor-element.elementor-element-4f910a1 > .elementor-element-populated,
+  body.home .elementor-8604 .elementor-element.elementor-element-3b9141f > .elementor-element-populated,
+  body.home .elementor-8604 .elementor-element.elementor-element-918dabb > .elementor-element-populated,
+  body.home .elementor-8604 .elementor-element.elementor-element-bcb9869 > .elementor-element-populated{padding:0 var(--gutter)}
+  body.home .elementor-8604 .elementor-element.elementor-element-02b977e > .elementor-element-populated{padding-top:28px}
+  body.home .elementor-8604 .elementor-element.elementor-element-4f910a1 > .elementor-element-populated{padding-top:28px}
+  body.home .elementor-8604 .elementor-element.elementor-element-e894078 img{height:320px}
+}

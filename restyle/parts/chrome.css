@@ -1,0 +1,379 @@
+/* restyle/parts/chrome.css — header, nav, mobile flyout, footer, call-now, cookie bar.
+   Owner: chrome agent. Builds on base.css. Tokens only; no new hex.
+
+   The header is Elementor post 56, the footer post 68; both are the same on every page.
+   Per-element rules live in wp-content/uploads/elementor/css/post-56.css / post-68.css at
+   (0,4,0) — `.elementor-56 .elementor-element.elementor-element-<hash> …` — so the selectors
+   below repeat that chain and win by load order. !important appears only where the theme
+   sets the value inline (the logo's padding-top hack, #callnowbutton's background) or the
+   base stamp already carries it. */
+
+/* ══ Header: the option-L band ═════════════════════════════════════════════ */
+header#header, header#header .alpha-block, header#header .elementor-56 { background: transparent; }
+header#header { position: relative; z-index: 1050; }
+
+/* desktop section d2ba379 — navy band, diagonal bottom edge on a pseudo layer so the
+   dropdowns (absolutely positioned inside) are not clipped */
+.elementor-56 .elementor-element.elementor-element-d2ba379:not(.elementor-motion-effects-element-type-background),
+.elementor-56 .elementor-element.elementor-element-bd0b44f:not(.elementor-motion-effects-element-type-background) {
+  background-color: transparent;
+  position: relative;
+  padding: 0 0 var(--band-skew-px);
+}
+.elementor-56 .elementor-element.elementor-element-d2ba379::before,
+.elementor-56 .elementor-element.elementor-element-bd0b44f::before {
+  content: ""; position: absolute; inset: 0; z-index: 0;
+  background: var(--navy);
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--band-skew-px)), 0 100%);
+  pointer-events: none;
+}
+.elementor-56 .elementor-element.elementor-element-d2ba379 > .elementor-container,
+.elementor-56 .elementor-element.elementor-element-bd0b44f > .elementor-container { position: relative; z-index: 1; box-sizing: border-box; width: 100%; }
+header#header, header#header .elementor-56 { max-width: 100vw; overflow-x: clip; }
+/* the two desktop columns were painted #6D94AF outright */
+.elementor-56 .elementor-element.elementor-element-460dc0e:not(.elementor-motion-effects-element-type-background) > .elementor-widget-wrap,
+.elementor-56 .elementor-element.elementor-element-e1c2330:not(.elementor-motion-effects-element-type-background) > .elementor-widget-wrap {
+  background-color: transparent;
+}
+/* full-width container with the page gutter */
+.elementor-56 .elementor-element.elementor-element-d2ba379 > .elementor-container {
+  max-width: none; padding: 0 var(--gutter);
+}
+.elementor-56 .elementor-element.elementor-element-460dc0e.elementor-column > .elementor-widget-wrap { justify-content: flex-start; }
+.elementor-56 .elementor-element.elementor-element-e1c2330.elementor-column > .elementor-widget-wrap { justify-content: flex-end; }
+
+/* wordmark — white on the band. The img carries width/height attrs for the old 482x209
+   lockup and (in the mobile section) an inline padding-top hack. */
+header#header .elementor-widget-image img {
+  content: url(/restyle/img/logo-wordmark-white.png);
+  width: 186px !important; max-width: 186px !important; height: auto !important;
+  padding: 0 !important; margin: 0; object-fit: contain; display: block;
+}
+.elementor-56 .elementor-element.elementor-element-50abf5c img { height: auto; }
+.elementor-56 .elementor-element.elementor-element-50abf5c { text-align: left; }
+.elementor-56 .elementor-element.elementor-element-50abf5c > .elementor-widget-container { padding: 22px 0 0; }
+header#header .elementor-widget-image a { display: inline-block; line-height: 0; }
+
+/* ── desktop nav ── */
+.elementor-56 .elementor-element.elementor-element-5d90b28 .menu > li > a {
+  padding: 36px 12px 34px;
+  font-family: var(--display) !important; font-weight: 500; font-size: 14px; letter-spacing: .01em;
+  color: var(--white);
+}
+.elementor-56 .elementor-element.elementor-element-5d90b28 .menu > li > a:after { color: var(--bg300); font-size: .6em; margin-left: .5rem; vertical-align: 1px; }
+.elementor-element-5d90b28 .menu > li:hover > a,
+.elementor-element-5d90b28 .menu > .current-menu-item > a,
+.elementor-element-5d90b28 .menu > li.current-menu-ancestor > a,
+header#header nav .menu > li.show > a, header#header nav .menu > li:hover > a { color: var(--bg300); }
+/* current page: a 2px bg300 underline sitting on the band, no colour change */
+.elementor-element-5d90b28 .menu > .current-menu-item:not(.menu-item-home) > a::before,
+.elementor-element-5d90b28 .menu > li.current-menu-ancestor:not(.menu-item-home) > a::before {
+  content: ""; position: absolute; left: 12px; right: 12px; bottom: 26px; height: 2px; background: var(--bg300);
+}
+/* the phone item: an outlined stamp (terra is reserved for the page CTA) */
+.elementor-56 .elementor-element.elementor-element-5d90b28 .menu > li.menu-item-9002 > a {
+  margin-left: 14px; padding: 12px 18px;
+  font-family: var(--mono) !important; font-weight: 500; font-size: 14px; letter-spacing: 0;
+  font-variant-numeric: tabular-nums lining-nums; text-transform: none;
+  /* quiet outlined stamp: the terracotta action belongs to each page's CTA (hero / form), one per view */
+  color: var(--white); background: transparent; border: 1px solid var(--bg300); border-radius: 0;
+  transition: background-color .2s, border-color .2s;
+}
+.elementor-56 .elementor-element.elementor-element-5d90b28 .menu > li.menu-item-9002 > a::after { content: none; }
+.elementor-56 .elementor-element.elementor-element-5d90b28 .menu > li.menu-item-9002:hover > a,
+.elementor-56 .elementor-element.elementor-element-5d90b28 .menu > li.menu-item-9002 > a:focus-visible {
+  background: var(--white); border-color: var(--white); color: var(--navy);
+}
+
+/* dropdowns: navy panels, 1px navy600 rule, white links, bg300 hover, square */
+header#header .menu li > ul {
+  background: var(--navy); border: 1px solid var(--navy600); border-radius: 0; box-shadow: none;
+  min-width: 24rem; padding: 8px 0; margin: 0;
+}
+header#header .menu > li > ul { left: 0; }
+header#header .menu > li.show > ul, header#header .menu > li:hover > ul { top: calc(100% - 20px); }
+header#header .menu li > ul li { padding: 0; }
+header#header .menu ul .menu-item > a,
+.elementor-56 .elementor-element.elementor-element-5d90b28 li li > a {
+  display: block; width: 100%; padding: 9px 18px;
+  font-family: var(--display) !important; font-weight: 500; font-size: 13px; letter-spacing: .01em; line-height: 1.4;
+  color: var(--white); white-space: normal;
+}
+header#header .menu ul .menu-item-has-children > a { padding-right: 34px; }
+header#header .menu ul .menu-item-has-children > a::after { right: 14px; color: var(--bg300); font-size: .6em; }
+header#header .menu ul .menu-item:hover > a:not(.nolink),
+header#header .menu ul .menu-item.show > a,
+.elementor-56 .elementor-element.elementor-element-5d90b28 li li:hover > a:not(.nolink) { color: var(--bg300); background: transparent; }
+header#header .menu ul .menu-item.current-menu-item > a { color: var(--bg300); }
+header#header .menu ul li > ul { top: -9px; left: calc(100% + 1px); }
+header#header .menu li:hover > ul { transform: none; }
+/* the triangle pointer the theme draws under a hovered item */
+header#header .menu > li:after { content: none !important; }
+
+/* ── mobile / tablet header (section bd0b44f, sticky-content fix-top) ── */
+.elementor-56 .elementor-element.elementor-element-bd0b44f:not(.elementor-motion-effects-element-type-background) { padding: 0 0 var(--band-skew-px); }
+.elementor-56 .elementor-element.elementor-element-bd0b44f > .elementor-container { max-width: none; padding: 0 var(--gutter); align-items: center; }
+.elementor-56 .elementor-element.elementor-element-518ec15 > .elementor-widget-container { margin: 0; padding: 18px 0 8px; }
+.elementor-56 .elementor-element.elementor-element-518ec15 { text-align: left; }
+.elementor-56 .elementor-element.elementor-element-518ec15 img { width: 160px !important; max-width: 160px !important; height: auto !important; }
+.elementor-56 .elementor-element.elementor-element-2177885.elementor-column > .elementor-widget-wrap,
+.elementor-56 .elementor-element.elementor-element-0c1f96a.elementor-column > .elementor-widget-wrap { justify-content: flex-end; align-items: center; }
+.elementor-56 .elementor-element.elementor-element-c711c8b .elementor-icon-wrapper { text-align: right; }
+.elementor-56 .elementor-element.elementor-element-c711c8b.elementor-view-default .elementor-icon {
+  display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px;
+  color: var(--white); border: 1px solid var(--navy600); font-size: 18px;
+}
+.elementor-56 .elementor-element.elementor-element-c711c8b .elementor-icon:hover { background: var(--navy600); color: var(--white); }
+.elementor-56 .elementor-element.elementor-element-ce68077 .menu > li > a { padding: 0; }
+.elementor-56 .elementor-element.elementor-element-ce68077 > .elementor-widget-container { display: flex; justify-content: flex-end; }
+header#header .flyout-menu-container.toggle-menu { width: auto; }
+header#header .flyout-menu-container > a.dropdown-menu-toggle {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px; padding: 0; margin-left: 10px;
+  color: var(--white); border: 1px solid var(--navy600); background: transparent;
+}
+header#header .flyout-menu-container > a.dropdown-menu-toggle:hover { background: var(--navy600); }
+header#header .flyout-menu-container > a.dropdown-menu-toggle i { font-size: 20px; line-height: 1; margin: 0; color: var(--white); }
+/* a fallback hamburger drawn in CSS, in case the "alpha" icon font is late or missing */
+header#header .flyout-menu-container > a.dropdown-menu-toggle i.a-icon-hamburger {
+  position: relative; width: 20px; height: 14px; display: block; font-size: 0;
+  border-top: 2px solid var(--white); border-bottom: 2px solid var(--white);
+}
+header#header .flyout-menu-container > a.dropdown-menu-toggle i.a-icon-hamburger::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 4px; height: 2px; background: var(--white);
+}
+/* the sticky state: keep navy, keep the diagonal, no shadow */
+header#header .sticky-content.fixed { background: transparent; box-shadow: none !important; }
+header#header .sticky-content.fixed::before { content: ""; }
+
+/* ── the flyout: full-screen navy panel, white Poppins links, square ── */
+@media (max-width: 1199px) {
+  header#header .flyout-menu-container nav.flyout-box,
+  .elementor-element-ce68077 .flyout-box {
+    background-color: var(--navy); color: var(--white);
+    align-items: flex-start; overflow-y: auto; -webkit-overflow-scrolling: touch;
+    padding: 96px var(--gutter) 48px;
+  }
+  header#header .flyout-menu .menu-item a {
+    justify-content: flex-start; text-align: left;
+    font-family: var(--display) !important; color: var(--white); padding: 8px 0;
+    white-space: normal;
+  }
+  header#header .flyout-menu > li > a { font-size: 24px; font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; padding: 10px 0; }
+  header#header .flyout-menu > li { border-bottom: 1px solid var(--navy600); padding: 4px 0; }
+  header#header .flyout-menu > li:last-child { border-bottom: 0; }
+  /* same (1,2,3) specificity as the desktop dropdown rules above, later in the file */
+  header#header .flyout-menu ul .menu-item > a,
+  .elementor-56 .elementor-element.elementor-element-ce68077 li li > a { font-size: 15px; font-weight: 500; color: var(--bg100); padding: 6px 0 6px 16px; width: auto; }
+  header#header .flyout-menu ul ul .menu-item > a { font-size: 14px; color: var(--bg300); padding-left: 32px; }
+  header#header .flyout-menu ul .menu-item-has-children > a { padding-right: 0; }
+  header#header .flyout-menu ul .menu-item-has-children > a::after { content: none; }
+  header#header .menu.flyout-menu li > ul { display: block; position: static; padding: 0 0 8px; margin: 0; border: 0; min-width: 0; background: transparent; visibility: visible; opacity: 1; transform: none; }
+  header#header .flyout-menu .menu-item a:hover, header#header .flyout-menu .menu-item:hover > a,
+  .elementor-56 .elementor-element.elementor-element-ce68077 li li:hover > a:not(.nolink) { color: var(--bg300); background: transparent; }
+  header#header .flyout-menu .menu-item.current-menu-item > a { color: var(--bg300); }
+  /* the phone item becomes the panel's outlined stamp */
+  header#header .flyout-menu > li.menu-item-9002 { border-bottom: 0; padding-top: 16px; }
+  header#header .flyout-menu > li.menu-item-9002 > a {
+    display: inline-flex; padding: 14px 22px; font-family: var(--mono) !important; font-weight: 500; font-size: 16px;
+    letter-spacing: 0; background: transparent; border: 1px solid var(--bg300); color: var(--white);
+  }
+  header#header .flyout-menu > li.menu-item-9002 > a:hover { background: var(--white); color: var(--navy); border-color: var(--white); }
+  /* the theme's rotate-in animation: keep the fade, drop the tilt */
+  header#header .flyout-menu > li:nth-child(odd) > a, header#header .flyout-menu > li:nth-child(2n) > a { transform: translateY(-8px) rotate(0); }
+  header#header .show .flyout-menu > li > a { transform: none; }
+  /* close cross: white, top right, on a navy600 square */
+  header#header .flyout-menu-container .flyout-close {
+    right: var(--gutter); top: 22px; width: 44px; height: 44px; display: inline-flex; align-items: center; justify-content: center;
+    border: 1px solid var(--navy600); background: var(--navy);
+  }
+  header#header .flyout-close .close-icon { width: 18px; height: 18px; color: var(--white); }
+  .elementor-element-ce68077 .flyout-close .close-icon:before, .elementor-element-ce68077 .flyout-close .close-icon:after { background-color: transparent; border-color: var(--white); }
+}
+@media (max-width: 767px) {
+  .elementor-56 .elementor-element.elementor-element-bd0b44f { padding: 0 0 var(--band-skew-px); }
+  .elementor-56 .elementor-element.elementor-element-bd0b44f > .elementor-container { padding: 0 16px 0 var(--gutter); }
+  .elementor-56 .elementor-element.elementor-element-576b054 { width: 56%; }
+  .elementor-56 .elementor-element.elementor-element-2177885, .elementor-56 .elementor-element.elementor-element-0c1f96a { width: 22%; }
+  .elementor-56 .elementor-element.elementor-element-518ec15 img { width: 140px !important; max-width: 140px !important; }
+  .elementor-56 .elementor-element.elementor-element-518ec15 > .elementor-widget-container { padding: 14px 0 6px; }
+  .elementor-56 .elementor-element.elementor-element-ce68077 .menu > li > a { padding: 0; }
+}
+
+/* the u-design ajax mobile-menu shell, if the theme ever opens it */
+.mobile-menu-wrapper .mobile-menu-container { background: var(--navy); color: var(--white); }
+.mobile-menu-wrapper .mobile-menu-overlay { background: rgba(24, 43, 56, .6); }
+.mobile-menu-wrapper a { color: var(--white); font-family: var(--display); }
+.mobile-menu-wrapper .mobile-menu-close .close-icon { color: var(--white); }
+
+/* ══ Page-title bar / breadcrumbs (theme scaffolding, when a template uses it) ══ */
+.page-title-bar, .title-bar, .page-header.title-bar {
+  background: var(--cream050); border-bottom: 1px solid var(--line); padding: 28px 0;
+}
+.page-title-bar .title, .page-title-bar h1, .title-bar h1 { color: var(--navy); font-size: clamp(26px, 3vw, 36px); text-transform: none; margin: 0; }
+.breadcrumb { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.breadcrumb a, .breadcrumb .delimiter, .breadcrumb li, .breadcrumb span { color: var(--ink2); opacity: 1; }
+.breadcrumb a:hover { color: var(--navy); }
+.breadcrumb .delimiter::before, .breadcrumb li + li::before { content: "/"; color: var(--bg300); margin: 0 4px; }
+
+/* ══ Footer: the option-L bar ═════════════════════════════════════════════ */
+footer#footer, footer#footer .alpha-block, footer#footer .elementor-68 { background: var(--navy); color: var(--bg100); }
+footer#footer::before { content: ""; display: block; height: 1px; }
+.elementor-68 .elementor-element.elementor-element-47e8c2a0:not(.elementor-motion-effects-element-type-background) {
+  background-color: var(--navy); padding: 56px 0 44px;
+}
+.elementor-68 .elementor-element.elementor-element-47e8c2a0 > .elementor-container {
+  max-width: var(--container); padding: 0 var(--gutter); align-items: flex-start;
+}
+.elementor-68 .elementor-element.elementor-element-241226c8 > .elementor-element-populated { margin: 0; --e-column-margin-left: 0; --e-column-margin-right: 0; }
+footer#footer .elementor-column > .elementor-widget-wrap { align-content: flex-start; align-items: flex-start; }
+
+/* wordmark, white, ~180px */
+.elementor-68 .elementor-element.elementor-element-270cd4dd { text-align: left; }
+.elementor-68 .elementor-element.elementor-element-270cd4dd img,
+footer#footer .elementor-widget-image img {
+  content: url(/restyle/img/logo-wordmark-white.png);
+  width: 180px !important; max-width: 180px !important; height: auto !important;
+  padding: 0 !important; object-fit: contain; display: block;
+}
+footer#footer .elementor-widget-image a { display: inline-block; line-height: 0; }
+.elementor-68 .elementor-element.elementor-element-270cd4dd > .elementor-widget-container { margin: 0 0 20px; }
+
+/* link column */
+.elementor-68 .elementor-element.elementor-element-9cf3b9d {
+  color: var(--bg100); font-family: var(--body) !important; font-size: 14px; line-height: 1.6; letter-spacing: 0;
+}
+.elementor-68 .elementor-element.elementor-element-9cf3b9d ul { list-style: none; margin: 0; padding: 0; }
+.elementor-68 .elementor-element.elementor-element-9cf3b9d li { margin: 0 0 8px; padding: 0; }
+.elementor-68 .elementor-element.elementor-element-9cf3b9d li::marker { content: ""; }
+.elementor-68 .elementor-element.elementor-element-9cf3b9d a { color: var(--bg100); text-decoration: none; }
+.elementor-68 .elementor-element.elementor-element-9cf3b9d a:hover, .elementor-68 .elementor-element.elementor-element-9cf3b9d a:focus { color: var(--bg300); text-decoration: none; }
+footer#footer .elementor-widget-text-editor a { color: var(--bg100); text-decoration: none; }
+footer#footer .elementor-widget-text-editor a:hover { color: var(--bg300); }
+
+/* contact list: white Open Sans 14, mono phone, small white line icons */
+.elementor-68 .elementor-element.elementor-element-12ab8890 .elementor-icon-list-item > .elementor-icon-list-text,
+.elementor-68 .elementor-element.elementor-element-12ab8890 .elementor-icon-list-item > a {
+  font-family: var(--body) !important; font-size: 14px; font-weight: 400; line-height: 1.5; letter-spacing: 0; color: var(--white);
+}
+.elementor-68 .elementor-element.elementor-element-12ab8890 .elementor-icon-list-text { color: var(--white); }
+.elementor-68 .elementor-element.elementor-element-12ab8890 .elementor-icon-list-item a:hover .elementor-icon-list-text { color: var(--bg300); }
+.elementor-68 .elementor-element.elementor-element-12ab8890 .elementor-icon-list-item a[href^="tel:"] .elementor-icon-list-text {
+  font-family: var(--mono) !important; font-variant-numeric: tabular-nums lining-nums; font-size: 15px;
+}
+.elementor-68 .elementor-element.elementor-element-12ab8890 { --e-icon-list-icon-size: 14px; --e-icon-list-icon-align: flex-start; }
+.elementor-68 .elementor-element.elementor-element-12ab8890 .elementor-icon-list-icon { width: 20px; padding-top: 3px; }
+.elementor-68 .elementor-element.elementor-element-12ab8890 .elementor-icon-list-icon i { color: var(--white); font-size: 14px; }
+.elementor-68 .elementor-element.elementor-element-12ab8890 .elementor-icon-list-icon svg { fill: var(--white); }
+.elementor-68 .elementor-element.elementor-element-12ab8890 .elementor-icon-list-item { align-items: flex-start; }
+.elementor-68 .elementor-element.elementor-element-12ab8890 > .elementor-widget-container { margin: 0 0 20px; }
+
+/* GET IN TOUCH: outlined white (terra is the page CTA's) */
+.elementor-68 .elementor-element.elementor-element-36cf2350 .elementor-button {
+  background: transparent !important; border: 1px solid var(--white) !important; color: var(--white) !important;
+  fill: var(--white); padding: 14px 26px !important; border-radius: 0 !important;
+}
+.elementor-68 .elementor-element.elementor-element-36cf2350 .elementor-button:hover,
+.elementor-68 .elementor-element.elementor-element-36cf2350 .elementor-button:focus {
+  background: var(--white) !important; border-color: var(--white) !important; color: var(--navy) !important;
+}
+.elementor-68 .elementor-element.elementor-element-36cf2350 > .elementor-widget-container { margin: 0 0 8px; }
+
+/* social: square, 1px bg300 border, white glyph */
+.elementor-68 .elementor-element.elementor-element-71f3cbac { --icon-size: 16px; --icon-padding: .7em; --grid-column-gap: 10px; }
+.elementor-68 .elementor-element.elementor-element-71f3cbac .elementor-social-icon,
+.elementor-68 .elementor-element.elementor-element-71f3cbac .elementor-repeater-item-8553812.elementor-social-icon,
+.elementor-68 .elementor-element.elementor-element-71f3cbac .elementor-repeater-item-0296eb2.elementor-social-icon {
+  /* !important: the theme's inline widget <style> sets .elementor-social-icon{background:#fff!important} */
+  background-color: transparent !important; border: 1px solid var(--bg300); border-radius: 0; width: 40px; height: 40px;
+}
+.elementor-68 .elementor-element.elementor-element-71f3cbac .elementor-social-icon i,
+.elementor-68 .elementor-element.elementor-element-71f3cbac .elementor-repeater-item-8553812.elementor-social-icon i,
+.elementor-68 .elementor-element.elementor-element-71f3cbac .elementor-repeater-item-0296eb2.elementor-social-icon i { color: var(--white); }
+.elementor-68 .elementor-element.elementor-element-71f3cbac .elementor-social-icon svg { fill: var(--white); }
+.elementor-68 .elementor-element.elementor-element-71f3cbac .elementor-social-icon:hover { background-color: var(--white) !important; border-color: var(--white); opacity: 1; }
+.elementor-68 .elementor-element.elementor-element-71f3cbac .elementor-social-icon:hover i { color: var(--navy); }
+.elementor-68 .elementor-element.elementor-element-71f3cbac .elementor-social-icon:hover svg { fill: var(--navy); }
+.elementor-68 .elementor-element.elementor-element-71f3cbac > .elementor-widget-container { margin: 20px 0 0; }
+
+/* the bottom row: section 4fe9974 is empty in the markup (see NEEDS-MARKUP.md for the
+   ABN / entity line); style it as the 1px navy600 rule so the line drops straight in */
+.elementor-68 .elementor-element.elementor-element-4fe9974 {
+  border-top: 1px solid var(--navy600); background: var(--navy); padding: 16px 0 20px;
+}
+.elementor-68 .elementor-element.elementor-element-4fe9974 > .elementor-container { max-width: var(--container); padding: 0 var(--gutter); }
+.elementor-68 .elementor-element.elementor-element-4fe9974, .elementor-68 .elementor-element.elementor-element-4fe9974 a,
+footer#footer .copyright, footer#footer .ent-line, footer#footer .abn-line {
+  font-family: var(--body); font-size: 11px; line-height: 1.5; color: var(--bg300); letter-spacing: .01em;
+}
+footer#footer .ent-line .num, footer#footer .abn { font-family: var(--mono); }
+
+@media (max-width: 767px) {
+  .elementor-68 .elementor-element.elementor-element-47e8c2a0:not(.elementor-motion-effects-element-type-background) { padding: 40px 0 32px; }
+  .elementor-68 .elementor-element.elementor-element-47e8c2a0 > .elementor-container { padding: 0 var(--gutter); }
+  .elementor-68 .elementor-element.elementor-element-270cd4dd img, footer#footer .elementor-widget-image img { width: 160px !important; max-width: 160px !important; height: auto !important; }
+  .elementor-68 .elementor-element.elementor-element-9cf3b9d, .elementor-68 .elementor-element.elementor-element-270cd4dd { text-align: left; }
+  .elementor-68 .elementor-element.elementor-element-12ab8890 .elementor-icon-list-item { justify-content: flex-start; }
+  .elementor-68 .elementor-element.elementor-element-36cf2350 { text-align: left; }
+  .elementor-68 .elementor-element.elementor-element-36cf2350 > .elementor-widget-container { margin: 16px 0 0; }
+  .elementor-68 .elementor-element.elementor-element-71f3cbac .elementor-widget-container { text-align: left; }
+  .elementor-68 .elementor-element.elementor-element-71f3cbac .elementor-grid { justify-content: flex-start; }
+  footer#footer .elementor-column { margin-bottom: 20px; }
+}
+
+/* ══ Call Now Button (mobile-only fixed bar) ══════════════════════════════ */
+#callnowbutton, #callnowbutton.cnb-full {
+  background-color: var(--navy) !important; color: var(--white) !important;
+  border-top: 1px solid var(--navy600); border-radius: 0 !important; box-shadow: none !important; text-shadow: none !important;
+  font-family: var(--display) !important; font-weight: 600 !important; font-size: 13px !important;
+  letter-spacing: .12em; text-transform: uppercase; text-decoration: none !important; height: 56px;
+}
+#callnowbutton span, #callnowbutton .cnb-text { color: var(--white); font-family: inherit; }
+#callnowbutton img { width: 20px; height: 20px; margin-right: 10px; }
+#callnowbutton:hover, #callnowbutton:focus { background-color: var(--navy600) !important; }
+@media (max-width: 767px) { html body { padding-bottom: 56px; } .cookies-popup.show { bottom: 64px; } }
+
+/* ══ Cookie bar (u-design gdpr) ════════════════════════════════════════════ */
+.cookies-popup { right: 24px; bottom: 24px; }
+.cookies-popup-inner {
+  background: var(--navy); color: var(--bg100); border: 1px solid var(--navy600); border-radius: 0 !important; box-shadow: none !important;
+  padding: 12px 16px; gap: 14px; font-family: var(--body); font-size: 14px; line-height: 1.5;
+}
+.cookies-info { color: var(--bg100); }
+.cookies-info a { color: var(--white); font-style: normal; font-weight: 500; text-decoration: underline; text-underline-offset: .16em; }
+.cookies-info a:hover { color: var(--bg300); }
+.cookies-popup .btn, .cookies-popup .btn.btn-sm, .cookies-popup .accept-cookie-btn {
+  font-family: var(--display) !important; font-size: 12px !important; font-weight: 600 !important; letter-spacing: .12em !important; text-transform: uppercase !important;
+  padding: 11px 16px !important; min-height: 40px; border-radius: 0 !important;
+  background: transparent !important; border: 1px solid var(--white) !important; color: var(--white) !important; margin: 0;
+}
+.cookies-popup .btn:hover, .cookies-popup .accept-cookie-btn:hover { background: var(--white) !important; color: var(--navy) !important; }
+.cookies-popup .btn.btn-close, .cookies-popup .decline-cookie-btn {
+  border: 0 !important; background: transparent !important; padding: 6px !important; min-height: 0; width: 32px; height: 32px;
+  margin-left: 0; display: inline-flex; align-items: center; justify-content: center;
+}
+.cookies-popup .btn.btn-close:hover { background: var(--navy600) !important; }
+.cookies-popup .btn-close i { color: var(--bg300); font-size: 12px; }
+.cookies-popup .btn-close:hover i { color: var(--white); }
+@media (max-width: 767px) {
+  .cookies-popup { left: 12px; right: 12px; }
+  .cookies-popup-inner { padding: 14px 16px; }
+  .cookies-popup-inner .accept-cookie-btn { margin-top: 10px; }
+  .cookies-popup-inner .btn-close { position: absolute; top: 6px; right: 6px; left: auto; margin: 0; background: var(--navy) !important; }
+}
+
+/* ══ Scroll-to-top ════════════════════════════════════════════════════════ */
+#scroll-top i { background: var(--navy); border: 1px solid var(--navy600); color: var(--white); border-radius: 0 !important; }
+#scroll-top svg { display: none; }
+#scroll-top:hover { opacity: 1; }
+#scroll-top:hover i { background: var(--navy600); }
+@media (max-width: 767px) { #scroll-top.show { bottom: 72px; } }
+
+/* ---- parent pass, 11 Sep: at phone widths the footer's stretched section keeps the theme's
+   `.elementor-container{margin:0 -15px}` and overflows the viewport by 15px (scrollWidth 405 at 390).
+   Pin it. ---- */
+@media (max-width: 767px) {
+  footer#footer .elementor-section-stretched, footer#footer .elementor-top-section { left: 0 !important; width: 100% !important; margin-left: 0 !important; margin-right: 0 !important; }
+  footer#footer .elementor-container, footer#footer .elementor-row { margin-left: 0 !important; margin-right: 0 !important; max-width: 100%; }
+  footer#footer { overflow-x: hidden; }
+}

@@ -1,0 +1,10 @@
+/* Coastal Demolitions — option-L restyle. Loaded LAST in every <head> so it wins the cascade
+   over Elementor / u-design. Override only; the HTML is a frozen clone (see
+   docs/Site Rebuild in the Coastal media repo). One partial per page-type, one owner each. */
+@import url("/restyle/tokens.css");
+@import url("/restyle/parts/base.css");      /* global type, colour, links, buttons, forms — owner: chrome agent */
+@import url("/restyle/parts/chrome.css");    /* header, nav, mobile flyout, footer, call-now, cookie — owner: chrome agent */
+@import url("/restyle/parts/home.css");      /* homepage sections — owner: home agent */
+@import url("/restyle/parts/services.css");  /* service + location money pages, about — owner: services agent */
+@import url("/restyle/parts/articles.css");  /* guides (blog posts), blog index, archives, project pages — owner: articles agent */
+@import url("/restyle/parts/forms.css");     /* contact page, wpforms, thank-you, 404 — owner: forms agent */

@@ -1,0 +1,452 @@
+/* restyle/parts/forms.css — see site.css for ownership.
+   Owner: forms agent. Scope: wpforms (global), /contact-us/ (page-id-194),
+   /contact-us-ty/ (page-id-10048) and the standalone 404.html.
+   Vocabulary: the invoice's reference kv block, the entity block, the payment kv
+   table and the acceptance block (micro label over a rule) — quote-invoice/src/gen_L.py. */
+
+/* =====================================================================
+   1. wpforms — global. The markup is identical wherever the form appears.
+   Per-page Elementor CSS reaches (0,6,2) on inputs and (0,5,2) on the
+   submit; the selectors below are (0,6,4)+ so no !important is needed
+   except where the theme itself uses it.
+   ===================================================================== */
+body .elementor-widget-wpforms div.wpforms-container.wpforms-container-full{
+  padding:0;border:0;border-radius:0;box-shadow:none;background:transparent;
+  --wpforms-field-border-radius:0;--wpforms-button-border-radius:0;--wpforms-container-border-radius:0;
+  --wpforms-field-border-color:var(--line);--wpforms-field-text-color:var(--ink);
+  --wpforms-label-color:var(--ink2);--wpforms-label-error-color:var(--terra);
+  --wpforms-button-background-color:var(--terra);--wpforms-button-border-color:var(--terra);
+}
+/* the acceptance-block rule: 1px navy over the form, micro-label eyebrow */
+body .elementor-widget-wpforms div.wpforms-container form.wpforms-form.wpforms-validate{
+  border-top:1px solid var(--navy);padding-top:14px;
+}
+body .elementor-widget-wpforms div.wpforms-container form.wpforms-form.wpforms-validate::before{
+  content:"Enquiry";display:block;
+  font-family:var(--display);font-size:var(--micro-size);font-weight:600;
+  letter-spacing:var(--micro-track);text-transform:uppercase;color:var(--ink2);
+  margin:0 0 18px;
+}
+body .elementor-widget-wpforms div.wpforms-container form.wpforms-form .wpforms-field-container .wpforms-field{
+  padding:0;margin:0 0 20px;
+}
+/* labels: visible micro labels above every field (the theme clips four of them) */
+body .elementor-widget-wpforms div.wpforms-container form.wpforms-form .wpforms-field-container .wpforms-field .wpforms-field-label,
+body .elementor-widget-wpforms div.wpforms-container form.wpforms-form .wpforms-field-container .wpforms-field .wpforms-field-label.wpforms-label-hide{
+  position:static;clip:auto;width:auto;height:auto;margin:0 0 8px;overflow:visible;
+  display:block;font-family:var(--display) !important;font-size:var(--micro-size);font-weight:600;
+  letter-spacing:var(--micro-track);text-transform:uppercase;color:var(--ink2);line-height:1.4;
+}
+body .elementor-widget-wpforms div.wpforms-container form.wpforms-form .wpforms-required-label{
+  color:var(--terra);margin-left:2px;
+}
+/* fields */
+body .elementor-widget-wpforms div.wpforms-container form.wpforms-form.wpforms-validate .wpforms-field-container .wpforms-field input:not([type=checkbox]):not([type=radio]):not([type=hidden]),
+body .elementor-widget-wpforms div.wpforms-container form.wpforms-form.wpforms-validate .wpforms-field-container .wpforms-field select,
+body .elementor-widget-wpforms div.wpforms-container form.wpforms-form.wpforms-validate .wpforms-field-container .wpforms-field textarea{
+  display:block;width:100%;max-width:100%;box-sizing:border-box;
+  background:var(--white);color:var(--ink);
+  border:1px solid var(--line);border-radius:0;box-shadow:none;
+  padding:14px 16px;height:auto;min-height:0;
+  font-family:var(--body);font-size:16px;font-weight:400;line-height:1.4;
+  transition:border-color .15s;
+}
+body .elementor-widget-wpforms div.wpforms-container form.wpforms-form.wpforms-validate .wpforms-field-container .wpforms-field textarea{
+  height:180px;min-height:180px;resize:vertical;
+}
+body .elementor-widget-wpforms div.wpforms-container form.wpforms-form.wpforms-validate .wpforms-field-container .wpforms-field select{
+  appearance:none;-webkit-appearance:none;padding-right:44px;cursor:pointer;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2344586A' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center;background-size:16px 16px;
+}
+body .elementor-widget-wpforms div.wpforms-container form.wpforms-form.wpforms-validate .wpforms-field-container .wpforms-field input::placeholder,
+body .elementor-widget-wpforms div.wpforms-container form.wpforms-form.wpforms-validate .wpforms-field-container .wpforms-field textarea::placeholder{
+  color:var(--ink3);opacity:1;
+}
+body .elementor-widget-wpforms div.wpforms-container form.wpforms-form.wpforms-validate .wpforms-field-container .wpforms-field input:focus,
+body .elementor-widget-wpforms div.wpforms-container form.wpforms-form.wpforms-validate .wpforms-field-container .wpforms-field select:focus,
+body .elementor-widget-wpforms div.wpforms-container form.wpforms-form.wpforms-validate .wpforms-field-container .wpforms-field textarea:focus{
+  border-color:var(--navy);box-shadow:none;outline:2px solid var(--navy);outline-offset:0;
+}
+/* phone field reads as a figure */
+body .elementor-widget-wpforms div.wpforms-container form.wpforms-form.wpforms-validate .wpforms-field-container .wpforms-field input[name="Phone"],
+body .elementor-widget-wpforms div.wpforms-container form.wpforms-form.wpforms-validate .wpforms-field-container .wpforms-field input[type="tel"]{
+  font-family:var(--mono) !important;font-variant-numeric:tabular-nums lining-nums;
+}
+/* validation */
+body .elementor-widget-wpforms div.wpforms-container-full form.wpforms-form.wpforms-validate .wpforms-field-container .wpforms-field input.wpforms-error,
+body .elementor-widget-wpforms div.wpforms-container-full form.wpforms-form.wpforms-validate .wpforms-field-container .wpforms-field input.user-invalid,
+body .elementor-widget-wpforms div.wpforms-container-full form.wpforms-form.wpforms-validate .wpforms-field-container .wpforms-field select.wpforms-error,
+body .elementor-widget-wpforms div.wpforms-container-full form.wpforms-form.wpforms-validate .wpforms-field-container .wpforms-field textarea.wpforms-error{
+  border-color:var(--terra);
+}
+body .elementor-widget-wpforms div.wpforms-container-full form.wpforms-form .wpforms-field-container label.wpforms-error,
+body .elementor-widget-wpforms div.wpforms-container-full form.wpforms-form em.wpforms-error,
+body .elementor-widget-wpforms div.wpforms-container-full form.wpforms-form .wpforms-error-container,
+body .elementor-widget-wpforms div.wpforms-container-full form.wpforms-form .wpforms-error-noscript{
+  display:block;margin:6px 0 0;font-family:var(--body);font-size:13px;line-height:1.4;
+  font-weight:400;font-style:normal;color:var(--terra);text-transform:none;letter-spacing:0;
+}
+body .elementor-widget-wpforms div.wpforms-container-full form.wpforms-form .wpforms-error-container{
+  margin:0 0 18px;padding:12px 16px;border-left:2px solid var(--terra);background:var(--cream050);
+}
+body .elementor-widget-wpforms div.wpforms-container .wpforms-confirmation-container-full,
+body .elementor-widget-wpforms div.wpforms-container div[class*="wpforms-confirmation"]{
+  background:var(--cream050);border:0;border-left:1px solid var(--sage);border-radius:0;
+  padding:18px 20px;margin:0;font-family:var(--body);font-size:16px;line-height:1.55;color:var(--ink);
+}
+body .elementor-widget-wpforms div.wpforms-container .wpforms-hidden{display:none !important}
+/* submit: the one terracotta stamp on the page */
+body div.elementor-widget-container div.wpforms-container form.wpforms-form .wpforms-submit-container{
+  padding:4px 0 0;margin:0;text-align:left;
+}
+body .elementor-widget-wpforms div.wpforms-container form.wpforms-form .wpforms-submit-container button.wpforms-submit.btn,
+body .elementor-widget-wpforms div.wpforms-container form.wpforms-form .wpforms-submit-container button.wpforms-submit.btn:visited{
+  display:inline-block;width:auto;min-height:0;height:auto;
+  background:var(--terra) !important;border:1px solid var(--terra) !important;color:var(--white) !important;
+  border-radius:0;box-shadow:none;
+  font-family:var(--display);font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
+  line-height:1;padding:16px 28px;margin:0;cursor:pointer;
+  transition:filter .15s;
+}
+body .elementor-widget-wpforms div.wpforms-container form.wpforms-form .wpforms-submit-container button.wpforms-submit.btn:hover,
+body .elementor-widget-wpforms div.wpforms-container form.wpforms-form .wpforms-submit-container button.wpforms-submit.btn:focus,
+body .elementor-widget-wpforms div.wpforms-container form.wpforms-form .wpforms-submit-container button.wpforms-submit.btn:active{
+  background:var(--terra) !important;border-color:var(--terra) !important;color:var(--white) !important;box-shadow:none;filter:brightness(.9);
+}
+body .elementor-widget-wpforms div.wpforms-container form.wpforms-form .wpforms-submit-container button.wpforms-submit.btn:focus-visible{
+  outline:2px solid var(--navy);outline-offset:2px;
+}
+/* the theme's "alpha" arrow glyph after the label: a rounded-button flourish, not option L */
+body .elementor-widget-wpforms div.wpforms-container form.wpforms-form .wpforms-submit-container button.wpforms-submit.wpforms-submit-icon::after{
+  content:none;
+}
+body .elementor-widget-wpforms div.wpforms-container form.wpforms-form .wpforms-submit-container button.wpforms-submit.btn[disabled],
+body .elementor-widget-wpforms div.wpforms-container form.wpforms-form .wpforms-submit-container .wpforms-submit-spinner{
+  opacity:.7;
+}
+
+/* =====================================================================
+   2. Contact page (/contact-us/, page-id-194) and thank-you (/contact-us-ty/,
+   page-id-10048). Same template: inner section 10699b3 with two columns —
+   7948902 (heading, icon list, map) and 4fc3464 (form).
+   ===================================================================== */
+/* the two-column section: form left (the conversion), reference block right */
+body.page-id-194 .elementor-element.elementor-element-10699b3 > .elementor-container{
+  align-items:flex-start;gap:0;
+}
+body.page-id-194 .elementor-element.elementor-element-10699b3 > .elementor-container > .elementor-column.elementor-element-4fc3464{
+  order:-1;
+}
+body.page-id-194 .elementor-element.elementor-element-4fc3464 > .elementor-element-populated,
+body.page-id-10048 .elementor-element.elementor-element-4fc3464 > .elementor-element-populated{
+  padding:0 clamp(24px,4vw,64px) 0 0;margin:0;
+}
+body.page-id-194 .elementor-element.elementor-element-7f18ada > .elementor-widget-container,
+body.page-id-10048 .elementor-element.elementor-element-7f18ada > .elementor-widget-container{
+  margin:0;padding:0;
+}
+/* the details column: no theme wash, sits as the reference block */
+body.page-id-194 .elementor-element.elementor-element-7948902:not(.elementor-motion-effects-element-type-background) > .elementor-widget-wrap,
+body.page-id-10048 .elementor-element.elementor-element-7948902:not(.elementor-motion-effects-element-type-background) > .elementor-widget-wrap{
+  background-color:transparent;
+}
+body.page-id-194 .elementor-element.elementor-element-7948902 > .elementor-element-populated,
+body.page-id-10048 .elementor-element.elementor-element-7948902 > .elementor-element-populated{
+  padding:0;margin:0;
+}
+body.page-id-194 .elementor-element.elementor-element-289d44d,
+body.page-id-10048 .elementor-element.elementor-element-289d44d{
+  margin-top:0;margin-bottom:0;padding:clamp(40px,6vw,88px) 0 clamp(56px,8vw,112px);
+}
+/* section heading: Poppins 600, 1px navy top rule (the grand-total rule) with a micro eyebrow */
+body.page-id-194 .elementor-element.elementor-element-5856944 > .elementor-widget-container,
+body.page-id-10048 .elementor-element.elementor-element-5856944 > .elementor-widget-container{
+  margin:0 0 28px;padding-top:14px;border-top:1px solid var(--navy);
+}
+body.page-id-194 .elementor-element.elementor-element-5856944 .title-wrapper,
+body.page-id-10048 .elementor-element.elementor-element-5856944 .title-wrapper{
+  display:block;
+}
+body.page-id-194 .elementor-element.elementor-element-5856944 .title-wrapper::before,
+body.page-id-10048 .elementor-element.elementor-element-5856944 .title-wrapper::before{
+  content:"Coastal Demolitions";display:block;
+  font-family:var(--display);font-size:var(--micro-size);font-weight:600;
+  letter-spacing:var(--micro-track);text-transform:uppercase;color:var(--ink2);margin:0 0 14px;
+}
+body.page-id-194 .elementor-element-5856944 .title,
+body.page-id-10048 .elementor-element-5856944 .title,
+body.page-id-194 .elementor-element-5856944 .title-wrapper .title.elementor-heading-title,
+body.page-id-10048 .elementor-element-5856944 .title-wrapper .title.elementor-heading-title{
+  font-family:var(--display);font-weight:600;font-size:clamp(24px,2.4vw,32px);line-height:1.15;
+  letter-spacing:-0.01em;color:var(--navy);margin:0;
+}
+/* the icon list as the invoice reference kv table: label column | value column, 1px rules */
+body.page-id-194 .elementor-element-400884d > .elementor-widget-container,
+body.page-id-10048 .elementor-element-400884d > .elementor-widget-container{
+  margin:0 0 28px;
+}
+body.page-id-194 .elementor-element-400884d ul.elementor-icon-list-items,
+body.page-id-10048 .elementor-element-400884d ul.elementor-icon-list-items,
+body.page-id-194 .elementor-element-400884d ul.elementor-icon-list-items.elementor-inline-items,
+body.page-id-10048 .elementor-element-400884d ul.elementor-icon-list-items.elementor-inline-items{
+  display:block;margin:0;padding:0;list-style:none;border-top:1px solid var(--line);
+}
+body.page-id-194 .elementor-element-400884d ul.elementor-icon-list-items .elementor-icon-list-item,
+body.page-id-10048 .elementor-element-400884d ul.elementor-icon-list-items .elementor-icon-list-item,
+body.page-id-194 .elementor-element-400884d ul.elementor-icon-list-items.elementor-inline-items .elementor-icon-list-item,
+body.page-id-10048 .elementor-element-400884d ul.elementor-icon-list-items.elementor-inline-items .elementor-icon-list-item{
+  display:grid;grid-template-columns:minmax(88px,120px) 1fr;column-gap:16px;align-items:baseline;
+  margin:0;padding:12px 0;border-bottom:1px solid var(--line);
+}
+body.page-id-194 .elementor-element-400884d ul.elementor-icon-list-items .elementor-icon-list-item:not(:first-child),
+body.page-id-10048 .elementor-element-400884d ul.elementor-icon-list-items .elementor-icon-list-item:not(:first-child){
+  margin-top:0;
+}
+body.page-id-194 .elementor-element-400884d ul.elementor-icon-list-items .elementor-icon-list-item:not(:last-child),
+body.page-id-10048 .elementor-element-400884d ul.elementor-icon-list-items .elementor-icon-list-item:not(:last-child){
+  padding-bottom:12px;
+}
+body.page-id-194 .elementor-element-400884d ul.elementor-icon-list-items.elementor-inline-items .elementor-icon-list-item::after,
+body.page-id-10048 .elementor-element-400884d ul.elementor-icon-list-items.elementor-inline-items .elementor-icon-list-item::after{
+  content:none;
+}
+body.page-id-194 .elementor-element-400884d .elementor-icon-list-item > a,
+body.page-id-10048 .elementor-element-400884d .elementor-icon-list-item > a{
+  display:contents;text-decoration:none;color:inherit;
+}
+/* the FontAwesome glyph becomes a text label in the key column */
+body.page-id-194 .elementor-element-400884d .elementor-icon-list-icon,
+body.page-id-10048 .elementor-element-400884d .elementor-icon-list-icon{
+  display:block;position:static;top:auto;width:auto;
+  font-family:var(--body);font-size:14px;font-weight:400;line-height:1.5;color:var(--ink2);
+  white-space:nowrap;
+}
+body.page-id-194 .elementor-element-400884d .elementor-icon-list-icon i,
+body.page-id-10048 .elementor-element-400884d .elementor-icon-list-icon i{
+  display:none;
+}
+/* base.css forces "Font Awesome 5 Free" onto the icon span inside tel: links; the label is text */
+body.page-id-194 .elementor-element-400884d .elementor-icon-list-icon::before,
+body.page-id-10048 .elementor-element-400884d .elementor-icon-list-icon::before{
+  content:"Office";font-family:var(--body) !important;font-weight:400;font-size:14px;
+}
+body.page-id-194 .elementor-element-400884d .elementor-icon-list-item:has(a[href^="tel:"]) .elementor-icon-list-icon::before,
+body.page-id-10048 .elementor-element-400884d .elementor-icon-list-item:has(a[href^="tel:"]) .elementor-icon-list-icon::before{
+  content:"Phone";
+}
+body.page-id-194 .elementor-element-400884d .elementor-icon-list-item:has(a[href^="mailto:"]) .elementor-icon-list-icon::before,
+body.page-id-10048 .elementor-element-400884d .elementor-icon-list-item:has(a[href^="mailto:"]) .elementor-icon-list-icon::before,
+body.page-id-194 .elementor-element-400884d .elementor-icon-list-item:has(.fa-envelope) .elementor-icon-list-icon::before,
+body.page-id-10048 .elementor-element-400884d .elementor-icon-list-item:has(.fa-envelope) .elementor-icon-list-icon::before{
+  content:"Email";
+}
+body.page-id-194 .elementor-element-400884d .elementor-icon-list-item > .elementor-icon-list-text,
+body.page-id-10048 .elementor-element-400884d .elementor-icon-list-item > .elementor-icon-list-text,
+body.page-id-194 .elementor-element-400884d .elementor-icon-list-item > a > .elementor-icon-list-text,
+body.page-id-10048 .elementor-element-400884d .elementor-icon-list-item > a > .elementor-icon-list-text,
+body.page-id-194 .elementor-element-400884d .elementor-icon-list-icon + .elementor-icon-list-text,
+body.page-id-10048 .elementor-element-400884d .elementor-icon-list-icon + .elementor-icon-list-text{
+  padding:0;align-self:auto;
+  font-family:var(--body);font-weight:400;font-size:16px;line-height:1.5;color:var(--ink);
+  overflow-wrap:anywhere;
+}
+body.page-id-194 .elementor-element-400884d .elementor-icon-list-item:has(a[href^="tel:"]) .elementor-icon-list-text,
+body.page-id-10048 .elementor-element-400884d .elementor-icon-list-item:has(a[href^="tel:"]) .elementor-icon-list-text{
+  font-family:var(--mono) !important;font-variant-numeric:tabular-nums lining-nums;letter-spacing:.02em;
+}
+body.page-id-194 .elementor-element-400884d .elementor-icon-list-item a:hover .elementor-icon-list-text,
+body.page-id-10048 .elementor-element-400884d .elementor-icon-list-item a:hover .elementor-icon-list-text{
+  color:var(--navy600);text-decoration:underline;text-underline-offset:3px;
+}
+body.page-id-194 .elementor-element-400884d .elementor-icon-list-item a:focus-visible,
+body.page-id-10048 .elementor-element-400884d .elementor-icon-list-item a:focus-visible{
+  outline:2px solid var(--navy);outline-offset:2px;
+}
+/* the map: square corners, 1px rule, colours left alone */
+body.page-id-194 .elementor-widget-google_maps .elementor-widget-container,
+body.page-id-10048 .elementor-widget-google_maps .elementor-widget-container{
+  border:1px solid var(--line);border-radius:0;overflow:hidden;background:var(--cream050);
+}
+body.page-id-194 .elementor-widget-google_maps .elementor-custom-embed,
+body.page-id-10048 .elementor-widget-google_maps .elementor-custom-embed{
+  line-height:0;
+}
+body.page-id-194 .elementor-element.elementor-element-d92b662 iframe,
+body.page-id-10048 .elementor-element.elementor-element-d92b662 iframe{
+  display:block;width:100%;height:360px;border:0;border-radius:0;
+}
+
+/* tablet: keep two columns but let the gutter breathe less */
+@media (max-width:1024px){
+  body.page-id-194 .elementor-element.elementor-element-7f18ada > .elementor-widget-container,
+  body.page-id-10048 .elementor-element.elementor-element-7f18ada > .elementor-widget-container{
+    margin:0;
+  }
+}
+/* phone: stacked, form first, then the reference block */
+@media (max-width:767px){
+  body.page-id-194 .elementor-element.elementor-element-289d44d,
+  body.page-id-10048 .elementor-element.elementor-element-289d44d{
+    margin-top:0;padding:40px 0 56px;
+  }
+  body.page-id-194 .elementor-element.elementor-element-10699b3,
+  body.page-id-10048 .elementor-element.elementor-element-10699b3{
+    margin-top:0;
+  }
+  body.page-id-194 .elementor-element.elementor-element-2d70d75 > .elementor-element-populated,
+  body.page-id-10048 .elementor-element.elementor-element-2d70d75 > .elementor-element-populated{
+    padding:0 var(--gutter);
+  }
+  body.page-id-194 .elementor-element.elementor-element-4fc3464 > .elementor-element-populated,
+  body.page-id-10048 .elementor-element.elementor-element-4fc3464 > .elementor-element-populated{
+    padding:0 0 40px;
+  }
+  body.page-id-194 .elementor-element.elementor-element-5856944 > .elementor-widget-container,
+  body.page-id-10048 .elementor-element.elementor-element-5856944 > .elementor-widget-container{
+    margin:0 0 20px;
+  }
+  body.page-id-194 .elementor-element-400884d ul.elementor-icon-list-items .elementor-icon-list-item,
+  body.page-id-10048 .elementor-element-400884d ul.elementor-icon-list-items .elementor-icon-list-item{
+    grid-template-columns:80px 1fr;column-gap:12px;
+  }
+  body.page-id-194 .elementor-element.elementor-element-d92b662 iframe,
+  body.page-id-10048 .elementor-element.elementor-element-d92b662 iframe{
+    height:280px;
+  }
+}
+
+/* =====================================================================
+   3. Thank-you page only: the reference block becomes a centred document
+   card (white, 1px rule, corner notch), the form sits beneath it.
+   ===================================================================== */
+body.page-id-10048 .elementor-element.elementor-element-10699b3 > .elementor-container{
+  flex-direction:column;align-items:center;
+}
+body.page-id-10048 .elementor-element.elementor-element-10699b3 > .elementor-container > .elementor-column{
+  width:100%;max-width:760px;
+}
+body.page-id-10048 .elementor-element.elementor-element-7948902 > .elementor-element-populated{
+  padding:0;
+}
+body.page-id-10048 .elementor-element.elementor-element-7948902 > .elementor-widget-wrap.elementor-element-populated{
+  display:block;
+  background:var(--white);border:1px solid var(--line);
+  clip-path:polygon(0 0,100% 0,100% 100%,var(--corner-notch) 100%,0 calc(100% - var(--corner-notch)));
+  padding:clamp(24px,4vw,44px) clamp(24px,4vw,44px) clamp(28px,4vw,48px);
+}
+body.page-id-10048 .elementor-element.elementor-element-5856944 > .elementor-widget-container{
+  border-top:0;padding-top:0;margin:0 0 24px;
+}
+body.page-id-10048 .elementor-element.elementor-element-5856944 .title-wrapper::before{
+  content:"Enquiry received";
+}
+body.page-id-10048 .elementor-element-5856944 .title-wrapper .title.elementor-heading-title{
+  font-size:clamp(26px,3vw,36px);
+}
+body.page-id-10048 .elementor-element.elementor-element-4fc3464 > .elementor-element-populated{
+  padding:48px 0 0;
+}
+body.page-id-10048 .elementor-element.elementor-element-4fc3464 .wpforms-form.wpforms-validate::before{
+  content:"Another enquiry";
+}
+@media (max-width:767px){
+  body.page-id-10048 .elementor-element.elementor-element-4fc3464 > .elementor-element-populated{
+    padding:36px 0 0;
+  }
+}
+
+/* =====================================================================
+   4. 404.html — standalone, no Elementor. Its own <style> paints a dark
+   centred page; site.css loads after it, so equal specificity wins here.
+   Band (navy, diagonal cut, wordmark) / document / navy bar with the phone.
+   ===================================================================== */
+html:has(body > main > h1 + #rescue){background:var(--white)}
+body:has(> main > h1 + #rescue){
+  display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;
+  min-height:100vh;margin:0;text-align:left;
+  background:var(--white);color:var(--ink);
+  font-family:var(--body);font-size:17px;line-height:1.55;
+}
+/* the band */
+body:has(> main > h1 + #rescue)::before{
+  content:"";display:block;flex:0 0 auto;height:calc(112px + var(--band-skew-px));
+  background:var(--navy) url(/restyle/img/logo-wordmark-white.png) no-repeat;
+  background-position:var(--gutter) 34px;background-size:auto 46px;
+  clip-path:polygon(0 0,100% 0,100% calc(100% - var(--band-skew-px)),0 100%);
+}
+body:has(> main > h1 + #rescue) > main{
+  flex:1 0 auto;display:flex;flex-direction:column;
+  max-width:none;width:100%;box-sizing:border-box;padding:0;margin:0;
+}
+body:has(> main > h1 + #rescue) > main > h1,
+body:has(> main > h1 + #rescue) > main > p:not(.tel){
+  width:100%;max-width:var(--container);box-sizing:border-box;
+  padding-left:var(--gutter);padding-right:var(--gutter);margin-left:auto;margin-right:auto;
+}
+body:has(> main > h1 + #rescue) > main > h1{
+  font-family:var(--mono) !important;font-weight:500;font-size:96px;line-height:1;
+  font-variant-numeric:tabular-nums lining-nums;letter-spacing:-0.02em;color:var(--navy);
+  margin-top:clamp(40px,7vw,88px);margin-bottom:20px;
+}
+body:has(> main > h1 + #rescue) > main > h1::before{
+  content:"Page not found";display:block;
+  font-family:var(--display);font-size:var(--micro-size);font-weight:600;
+  letter-spacing:var(--micro-track);text-transform:uppercase;color:var(--ink2);margin:0 0 18px;
+}
+body:has(> main > h1 + #rescue) > main > #dead,
+body:has(> main > h1 + #rescue) > main > #rescue{
+  font-family:var(--display);font-weight:600;font-size:clamp(24px,2.6vw,32px);line-height:1.15;
+  letter-spacing:-0.01em;color:var(--navy);margin-top:0;margin-bottom:14px;
+}
+body:has(> main > h1 + #rescue) > main > #dead + p{
+  margin-bottom:clamp(56px,10vw,120px);
+  display:flex;flex-wrap:wrap;align-items:center;gap:12px 14px;
+  color:var(--ink3);font-size:16px;margin-top:12px;margin-bottom:0;
+}
+body:has(> main > h1 + #rescue) > main a{
+  color:var(--navy);font-weight:600;text-decoration:underline;text-underline-offset:3px;
+}
+body:has(> main > h1 + #rescue) > main a:hover{color:var(--navy600)}
+body:has(> main > h1 + #rescue) > main a:focus-visible{outline:2px solid var(--navy);outline-offset:2px}
+/* the one button: navy, square, back to / */
+body:has(> main > h1 + #rescue) > main > #dead + p > a[href="/"]{
+  display:inline-block;flex:0 0 auto;
+  background:var(--navy);color:var(--white);border:1px solid var(--navy);text-decoration:none;
+  font-family:var(--display);font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
+  line-height:1;padding:16px 24px;margin-right:6px;
+}
+body:has(> main > h1 + #rescue) > main > #dead + p > a[href="/"]:hover{background:var(--navy600);border-color:var(--navy600);color:var(--white)}
+/* the bar: navy, phone in mono */
+body:has(> main > h1 + #rescue) > main > p.tel{
+  display:flex;align-items:center;gap:10px;
+  margin:clamp(56px,10vw,120px) 0 0;margin-top:auto;padding:22px var(--gutter);
+  width:100%;box-sizing:border-box;
+  background:var(--navy);color:var(--white);
+  font-family:var(--mono);font-size:15px;font-variant-numeric:tabular-nums lining-nums;line-height:1;
+}
+body:has(> main > h1 + #rescue) > main > p.tel::before{
+  content:"";flex:0 0 auto;width:15px;height:15px;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23FFFFFF' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 3h4l2 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A17 17 0 0 1 3 5a2 2 0 0 1 2-2z'/%3E%3C/svg%3E") no-repeat center/contain;
+}
+body:has(> main > h1 + #rescue) > main > p.tel::after{
+  content:"Coastal Demolitions";margin-left:auto;
+  font-family:var(--display);font-weight:500;font-size:12px;color:var(--bg300);letter-spacing:.02em;
+}
+body:has(> main > h1 + #rescue) > main > p.tel a{
+  color:var(--white);font-weight:400;text-decoration:none;font-family:inherit;
+}
+body:has(> main > h1 + #rescue) > main > p.tel a:hover{text-decoration:underline;text-underline-offset:3px}
+@media (max-width:767px){
+  body:has(> main > h1 + #rescue)::before{height:calc(88px + var(--band-skew-px));background-position:var(--gutter) 26px;background-size:auto 36px}
+  body:has(> main > h1 + #rescue) > main > h1{font-size:72px}
+  body:has(> main > h1 + #rescue) > main > p.tel{flex-wrap:wrap;padding:18px var(--gutter)}
+  body:has(> main > h1 + #rescue) > main > p.tel::after{margin-left:0;flex:0 0 100%;margin-top:8px;font-size:11px}
+}
+
+/* ---- rhythm below the contact form (parent pass, 11 Sep): the theme stacks main#main
+   padding-bottom 110px + section 289d44d padding-bottom 112px + the inner section's own,
+   ~250px of white before the footer. One 72px beat instead. ---- */
+body.page-id-194 main#main, body.page-id-10048 main#main { padding-bottom: 0 !important; }
+body.page-id-194 .elementor-element.elementor-element-289d44d,
+body.page-id-10048 .elementor-element.elementor-element-289d44d { padding-bottom: 72px !important; }
