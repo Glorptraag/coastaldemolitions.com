@@ -1,19 +1,21 @@
-/* restyle/parts/chrome.css — header, nav, mobile flyout, footer, call-now, cookie bar.
-   Owner: chrome agent. Builds on base.css. Tokens only; no new hex.
+/* restyle/parts/chrome.css — header band, desktop nav, mobile menu, footer bar, call-now bar,
+   cookie bar, scroll-to-top. Builds on base.css. Tokens only; no new hex.
 
-   The header is Elementor post 56, the footer post 68; both are the same on every page.
-   Per-element rules live in wp-content/uploads/elementor/css/post-56.css / post-68.css at
-   (0,4,0) — `.elementor-56 .elementor-element.elementor-element-<hash> …` — so the selectors
-   below repeat that chain and win by load order. !important appears only where the theme
-   sets the value inline (the logo's padding-top hack, #callnowbutton's background) or the
-   base stamp already carries it. */
+   The header is the same block on every page (its data-ids are stable: d2ba379 is the
+   desktop band, bd0b44f the phone/tablet band); so is the footer (47e8c2a0 is the footer
+   bar, 4fe9974 its empty bottom row). The page's own stylesheet addresses them at (0,4,0) —
+   `.elementor-56 .elementor-element.elementor-element-<id> …` — so the selectors below
+   repeat that chain and win by load order. !important appears only where a value is written
+   inline in the markup (the wordmark's padding-top, the call-now bar's background) or where
+   base.css already stamps it. */
 
-/* ══ Header: the option-L band ═════════════════════════════════════════════ */
+/* ══ Header band ═══════════════════════════════════════════════════════════ */
 header#header, header#header .alpha-block, header#header .elementor-56 { background: transparent; }
 header#header { position: relative; z-index: 1050; }
 
-/* desktop section d2ba379 — navy band, diagonal bottom edge on a pseudo layer so the
-   dropdowns (absolutely positioned inside) are not clipped */
+/* desktop band (data-id d2ba379) and phone band (bd0b44f): navy, diagonal bottom edge on a
+   pseudo layer so the dropdowns (absolutely positioned inside) are not clipped. Height:
+   ~110px on desktop (82px wordmark row + 28px cut), ~117px on a phone. */
 .elementor-56 .elementor-element.elementor-element-d2ba379:not(.elementor-motion-effects-element-type-background),
 .elementor-56 .elementor-element.elementor-element-bd0b44f:not(.elementor-motion-effects-element-type-background) {
   background-color: transparent;
@@ -30,7 +32,7 @@ header#header { position: relative; z-index: 1050; }
 .elementor-56 .elementor-element.elementor-element-d2ba379 > .elementor-container,
 .elementor-56 .elementor-element.elementor-element-bd0b44f > .elementor-container { position: relative; z-index: 1; box-sizing: border-box; width: 100%; }
 header#header, header#header .elementor-56 { max-width: 100vw; overflow-x: clip; }
-/* the two desktop columns were painted #6D94AF outright */
+/* the two desktop columns were painted the retired blue outright */
 .elementor-56 .elementor-element.elementor-element-460dc0e:not(.elementor-motion-effects-element-type-background) > .elementor-widget-wrap,
 .elementor-56 .elementor-element.elementor-element-e1c2330:not(.elementor-motion-effects-element-type-background) > .elementor-widget-wrap {
   background-color: transparent;
@@ -42,8 +44,8 @@ header#header, header#header .elementor-56 { max-width: 100vw; overflow-x: clip;
 .elementor-56 .elementor-element.elementor-element-460dc0e.elementor-column > .elementor-widget-wrap { justify-content: flex-start; }
 .elementor-56 .elementor-element.elementor-element-e1c2330.elementor-column > .elementor-widget-wrap { justify-content: flex-end; }
 
-/* wordmark — white on the band. The img carries width/height attrs for the old 482x209
-   lockup and (in the mobile section) an inline padding-top hack. */
+/* wordmark — white on the band. The img carries width/height attributes for the retired
+   482x209 lockup and (in the phone band) an inline padding-top. */
 header#header .elementor-widget-image img {
   content: url(/restyle/img/logo-wordmark-white.png);
   width: 186px !important; max-width: 186px !important; height: auto !important;
@@ -51,12 +53,12 @@ header#header .elementor-widget-image img {
 }
 .elementor-56 .elementor-element.elementor-element-50abf5c img { height: auto; }
 .elementor-56 .elementor-element.elementor-element-50abf5c { text-align: left; }
-.elementor-56 .elementor-element.elementor-element-50abf5c > .elementor-widget-container { padding: 22px 0 0; }
+.elementor-56 .elementor-element.elementor-element-50abf5c > .elementor-widget-container { padding: 16px 0 0; line-height: 0; }
 header#header .elementor-widget-image a { display: inline-block; line-height: 0; }
 
 /* ── desktop nav ── */
 .elementor-56 .elementor-element.elementor-element-5d90b28 .menu > li > a {
-  padding: 36px 12px 34px;
+  padding: 30px 12px 28px;
   font-family: var(--display) !important; font-weight: 500; font-size: 14px; letter-spacing: .01em;
   color: var(--white);
 }
@@ -68,14 +70,13 @@ header#header nav .menu > li.show > a, header#header nav .menu > li:hover > a { 
 /* current page: a 2px bg300 underline sitting on the band, no colour change */
 .elementor-element-5d90b28 .menu > .current-menu-item:not(.menu-item-home) > a::before,
 .elementor-element-5d90b28 .menu > li.current-menu-ancestor:not(.menu-item-home) > a::before {
-  content: ""; position: absolute; left: 12px; right: 12px; bottom: 26px; height: 2px; background: var(--bg300);
+  content: ""; position: absolute; left: 12px; right: 12px; bottom: 20px; height: 2px; background: var(--bg300);
 }
-/* the phone item: an outlined stamp (terra is reserved for the page CTA) */
+/* the phone number: an outlined stamp in mono (terracotta belongs to each page's one action) */
 .elementor-56 .elementor-element.elementor-element-5d90b28 .menu > li.menu-item-9002 > a {
-  margin-left: 14px; padding: 12px 18px;
+  margin-left: 14px; padding: 12px 18px; min-height: 44px; display: inline-flex; align-items: center;
   font-family: var(--mono) !important; font-weight: 500; font-size: 14px; letter-spacing: 0;
   font-variant-numeric: tabular-nums lining-nums; text-transform: none;
-  /* quiet outlined stamp: the terracotta action belongs to each page's CTA (hero / form), one per view */
   color: var(--white); background: transparent; border: 1px solid var(--bg300); border-radius: 0;
   transition: background-color .2s, border-color .2s;
 }
@@ -91,7 +92,7 @@ header#header .menu li > ul {
   min-width: 24rem; padding: 8px 0; margin: 0;
 }
 header#header .menu > li > ul { left: 0; }
-header#header .menu > li.show > ul, header#header .menu > li:hover > ul { top: calc(100% - 20px); }
+header#header .menu > li.show > ul, header#header .menu > li:hover > ul { top: calc(100% - 14px); }
 header#header .menu li > ul li { padding: 0; }
 header#header .menu ul .menu-item > a,
 .elementor-56 .elementor-element.elementor-element-5d90b28 li li > a {
@@ -107,10 +108,10 @@ header#header .menu ul .menu-item.show > a,
 header#header .menu ul .menu-item.current-menu-item > a { color: var(--bg300); }
 header#header .menu ul li > ul { top: -9px; left: calc(100% + 1px); }
 header#header .menu li:hover > ul { transform: none; }
-/* the triangle pointer the theme draws under a hovered item */
+/* the triangle pointer drawn under a hovered item */
 header#header .menu > li:after { content: none !important; }
 
-/* ── mobile / tablet header (section bd0b44f, sticky-content fix-top) ── */
+/* ── phone / tablet band (bd0b44f, sticky on scroll) ── */
 .elementor-56 .elementor-element.elementor-element-bd0b44f:not(.elementor-motion-effects-element-type-background) { padding: 0 0 var(--band-skew-px); }
 .elementor-56 .elementor-element.elementor-element-bd0b44f > .elementor-container { max-width: none; padding: 0 var(--gutter); align-items: center; }
 .elementor-56 .elementor-element.elementor-element-518ec15 > .elementor-widget-container { margin: 0; padding: 18px 0 8px; }
@@ -134,7 +135,7 @@ header#header .flyout-menu-container > a.dropdown-menu-toggle {
 }
 header#header .flyout-menu-container > a.dropdown-menu-toggle:hover { background: var(--navy600); }
 header#header .flyout-menu-container > a.dropdown-menu-toggle i { font-size: 20px; line-height: 1; margin: 0; color: var(--white); }
-/* a fallback hamburger drawn in CSS, in case the "alpha" icon font is late or missing */
+/* a fallback hamburger drawn in CSS, in case the icon font is late or missing */
 header#header .flyout-menu-container > a.dropdown-menu-toggle i.a-icon-hamburger {
   position: relative; width: 20px; height: 14px; display: block; font-size: 0;
   border-top: 2px solid var(--white); border-bottom: 2px solid var(--white);
@@ -146,7 +147,7 @@ header#header .flyout-menu-container > a.dropdown-menu-toggle i.a-icon-hamburger
 header#header .sticky-content.fixed { background: transparent; box-shadow: none !important; }
 header#header .sticky-content.fixed::before { content: ""; }
 
-/* ── the flyout: full-screen navy panel, white Poppins links, square ── */
+/* ── mobile menu: full-screen navy panel, white Poppins links, square ── */
 @media (max-width: 1199px) {
   header#header .flyout-menu-container nav.flyout-box,
   .elementor-element-ce68077 .flyout-box {
@@ -159,12 +160,12 @@ header#header .sticky-content.fixed::before { content: ""; }
     font-family: var(--display) !important; color: var(--white); padding: 8px 0;
     white-space: normal;
   }
-  header#header .flyout-menu > li > a { font-size: 24px; font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; padding: 10px 0; }
+  header#header .flyout-menu > li > a { font-size: 24px; font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; padding: 10px 0; min-height: 44px; }
   header#header .flyout-menu > li { border-bottom: 1px solid var(--navy600); padding: 4px 0; }
   header#header .flyout-menu > li:last-child { border-bottom: 0; }
   /* same (1,2,3) specificity as the desktop dropdown rules above, later in the file */
   header#header .flyout-menu ul .menu-item > a,
-  .elementor-56 .elementor-element.elementor-element-ce68077 li li > a { font-size: 15px; font-weight: 500; color: var(--bg100); padding: 6px 0 6px 16px; width: auto; }
+  .elementor-56 .elementor-element.elementor-element-ce68077 li li > a { font-size: 15px; font-weight: 500; color: var(--bg100); padding: 11px 0 11px 16px; width: auto; min-height: 44px; }
   header#header .flyout-menu ul ul .menu-item > a { font-size: 14px; color: var(--bg300); padding-left: 32px; }
   header#header .flyout-menu ul .menu-item-has-children > a { padding-right: 0; }
   header#header .flyout-menu ul .menu-item-has-children > a::after { content: none; }
@@ -172,14 +173,14 @@ header#header .sticky-content.fixed::before { content: ""; }
   header#header .flyout-menu .menu-item a:hover, header#header .flyout-menu .menu-item:hover > a,
   .elementor-56 .elementor-element.elementor-element-ce68077 li li:hover > a:not(.nolink) { color: var(--bg300); background: transparent; }
   header#header .flyout-menu .menu-item.current-menu-item > a { color: var(--bg300); }
-  /* the phone item becomes the panel's outlined stamp */
+  /* the phone number becomes the panel's outlined stamp */
   header#header .flyout-menu > li.menu-item-9002 { border-bottom: 0; padding-top: 16px; }
   header#header .flyout-menu > li.menu-item-9002 > a {
     display: inline-flex; padding: 14px 22px; font-family: var(--mono) !important; font-weight: 500; font-size: 16px;
     letter-spacing: 0; background: transparent; border: 1px solid var(--bg300); color: var(--white);
   }
   header#header .flyout-menu > li.menu-item-9002 > a:hover { background: var(--white); color: var(--navy); border-color: var(--white); }
-  /* the theme's rotate-in animation: keep the fade, drop the tilt */
+  /* the rotate-in animation: keep the fade, drop the tilt */
   header#header .flyout-menu > li:nth-child(odd) > a, header#header .flyout-menu > li:nth-child(2n) > a { transform: translateY(-8px) rotate(0); }
   header#header .show .flyout-menu > li > a { transform: none; }
   /* close cross: white, top right, on a navy600 square */
@@ -200,23 +201,23 @@ header#header .sticky-content.fixed::before { content: ""; }
   .elementor-56 .elementor-element.elementor-element-ce68077 .menu > li > a { padding: 0; }
 }
 
-/* the u-design ajax mobile-menu shell, if the theme ever opens it */
+/* the site's ajax mobile-menu shell, if it ever opens */
 .mobile-menu-wrapper .mobile-menu-container { background: var(--navy); color: var(--white); }
 .mobile-menu-wrapper .mobile-menu-overlay { background: rgba(24, 43, 56, .6); }
 .mobile-menu-wrapper a { color: var(--white); font-family: var(--display); }
 .mobile-menu-wrapper .mobile-menu-close .close-icon { color: var(--white); }
 
-/* ══ Page-title bar / breadcrumbs (theme scaffolding, when a template uses it) ══ */
+/* ══ Page-title bar / breadcrumbs (page-frame scaffolding, when a template uses it) ══ */
 .page-title-bar, .title-bar, .page-header.title-bar {
   background: var(--cream050); border-bottom: 1px solid var(--line); padding: 28px 0;
 }
-.page-title-bar .title, .page-title-bar h1, .title-bar h1 { color: var(--navy); font-size: clamp(26px, 3vw, 36px); text-transform: none; margin: 0; }
+.page-title-bar .title, .page-title-bar h1, .title-bar h1 { color: var(--navy); font-size: var(--h2); text-transform: none; margin: 0; }
 .breadcrumb { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
 .breadcrumb a, .breadcrumb .delimiter, .breadcrumb li, .breadcrumb span { color: var(--ink2); opacity: 1; }
 .breadcrumb a:hover { color: var(--navy); }
 .breadcrumb .delimiter::before, .breadcrumb li + li::before { content: "/"; color: var(--bg300); margin: 0 4px; }
 
-/* ══ Footer: the option-L bar ═════════════════════════════════════════════ */
+/* ══ Footer bar ════════════════════════════════════════════════════════════ */
 footer#footer, footer#footer .alpha-block, footer#footer .elementor-68 { background: var(--navy); color: var(--bg100); }
 footer#footer::before { content: ""; display: block; height: 1px; }
 .elementor-68 .elementor-element.elementor-element-47e8c2a0:not(.elementor-motion-effects-element-type-background) {
@@ -239,19 +240,20 @@ footer#footer .elementor-widget-image img {
 footer#footer .elementor-widget-image a { display: inline-block; line-height: 0; }
 .elementor-68 .elementor-element.elementor-element-270cd4dd > .elementor-widget-container { margin: 0 0 20px; }
 
-/* link column */
+/* link column (a plain list; no markers) */
 .elementor-68 .elementor-element.elementor-element-9cf3b9d {
   color: var(--bg100); font-family: var(--body) !important; font-size: 14px; line-height: 1.6; letter-spacing: 0;
 }
 .elementor-68 .elementor-element.elementor-element-9cf3b9d ul { list-style: none; margin: 0; padding: 0; }
 .elementor-68 .elementor-element.elementor-element-9cf3b9d li { margin: 0 0 8px; padding: 0; }
 .elementor-68 .elementor-element.elementor-element-9cf3b9d li::marker { content: ""; }
-.elementor-68 .elementor-element.elementor-element-9cf3b9d a { color: var(--bg100); text-decoration: none; }
+.elementor-68 .elementor-element.elementor-element-9cf3b9d li::before { content: none; }
+.elementor-68 .elementor-element.elementor-element-9cf3b9d a { color: var(--bg100); text-decoration: none; display: inline-block; }
 .elementor-68 .elementor-element.elementor-element-9cf3b9d a:hover, .elementor-68 .elementor-element.elementor-element-9cf3b9d a:focus { color: var(--bg300); text-decoration: none; }
 footer#footer .elementor-widget-text-editor a { color: var(--bg100); text-decoration: none; }
 footer#footer .elementor-widget-text-editor a:hover { color: var(--bg300); }
 
-/* contact list: white Open Sans 14, mono phone, small white line icons */
+/* contact list: white Open Sans 14, phone in mono, small white line icons */
 .elementor-68 .elementor-element.elementor-element-12ab8890 .elementor-icon-list-item > .elementor-icon-list-text,
 .elementor-68 .elementor-element.elementor-element-12ab8890 .elementor-icon-list-item > a {
   font-family: var(--body) !important; font-size: 14px; font-weight: 400; line-height: 1.5; letter-spacing: 0; color: var(--white);
@@ -268,7 +270,7 @@ footer#footer .elementor-widget-text-editor a:hover { color: var(--bg300); }
 .elementor-68 .elementor-element.elementor-element-12ab8890 .elementor-icon-list-item { align-items: flex-start; }
 .elementor-68 .elementor-element.elementor-element-12ab8890 > .elementor-widget-container { margin: 0 0 20px; }
 
-/* GET IN TOUCH: outlined white (terra is the page CTA's) */
+/* "Get in touch": outlined white (terracotta belongs to the page's one action) */
 .elementor-68 .elementor-element.elementor-element-36cf2350 .elementor-button {
   background: transparent !important; border: 1px solid var(--white) !important; color: var(--white) !important;
   fill: var(--white); padding: 14px 26px !important; border-radius: 0 !important;
@@ -279,13 +281,13 @@ footer#footer .elementor-widget-text-editor a:hover { color: var(--bg300); }
 }
 .elementor-68 .elementor-element.elementor-element-36cf2350 > .elementor-widget-container { margin: 0 0 8px; }
 
-/* social: square, 1px bg300 border, white glyph */
+/* social: square, 1px bg300 border, white glyph, 44px */
 .elementor-68 .elementor-element.elementor-element-71f3cbac { --icon-size: 16px; --icon-padding: .7em; --grid-column-gap: 10px; }
 .elementor-68 .elementor-element.elementor-element-71f3cbac .elementor-social-icon,
 .elementor-68 .elementor-element.elementor-element-71f3cbac .elementor-repeater-item-8553812.elementor-social-icon,
 .elementor-68 .elementor-element.elementor-element-71f3cbac .elementor-repeater-item-0296eb2.elementor-social-icon {
-  /* !important: the theme's inline widget <style> sets .elementor-social-icon{background:#fff!important} */
-  background-color: transparent !important; border: 1px solid var(--bg300); border-radius: 0; width: 40px; height: 40px;
+  /* !important: an inline <style> in the footer sets .elementor-social-icon{background:#fff!important} */
+  background-color: transparent !important; border: 1px solid var(--bg300); border-radius: 0; width: 44px; height: 44px;
 }
 .elementor-68 .elementor-element.elementor-element-71f3cbac .elementor-social-icon i,
 .elementor-68 .elementor-element.elementor-element-71f3cbac .elementor-repeater-item-8553812.elementor-social-icon i,
@@ -296,15 +298,15 @@ footer#footer .elementor-widget-text-editor a:hover { color: var(--bg300); }
 .elementor-68 .elementor-element.elementor-element-71f3cbac .elementor-social-icon:hover svg { fill: var(--navy); }
 .elementor-68 .elementor-element.elementor-element-71f3cbac > .elementor-widget-container { margin: 20px 0 0; }
 
-/* the bottom row: section 4fe9974 is empty in the markup (see NEEDS-MARKUP.md for the
-   ABN / entity line); style it as the 1px navy600 rule so the line drops straight in */
+/* the bottom row (4fe9974) is empty in the markup (see NEEDS-MARKUP.md for the ABN / entity
+   line); it is styled as the 1px navy600 rule so the line drops straight in */
 .elementor-68 .elementor-element.elementor-element-4fe9974 {
   border-top: 1px solid var(--navy600); background: var(--navy); padding: 16px 0 20px;
 }
 .elementor-68 .elementor-element.elementor-element-4fe9974 > .elementor-container { max-width: var(--container); padding: 0 var(--gutter); }
 .elementor-68 .elementor-element.elementor-element-4fe9974, .elementor-68 .elementor-element.elementor-element-4fe9974 a,
 footer#footer .copyright, footer#footer .ent-line, footer#footer .abn-line {
-  font-family: var(--body); font-size: 11px; line-height: 1.5; color: var(--bg300); letter-spacing: .01em;
+  font-family: var(--body); font-size: 12px; line-height: 1.5; color: var(--bg300); letter-spacing: .01em;
 }
 footer#footer .ent-line .num, footer#footer .abn { font-family: var(--mono); }
 
@@ -313,7 +315,13 @@ footer#footer .ent-line .num, footer#footer .abn { font-family: var(--mono); }
   .elementor-68 .elementor-element.elementor-element-47e8c2a0 > .elementor-container { padding: 0 var(--gutter); }
   .elementor-68 .elementor-element.elementor-element-270cd4dd img, footer#footer .elementor-widget-image img { width: 160px !important; max-width: 160px !important; height: auto !important; }
   .elementor-68 .elementor-element.elementor-element-9cf3b9d, .elementor-68 .elementor-element.elementor-element-270cd4dd { text-align: left; }
-  .elementor-68 .elementor-element.elementor-element-12ab8890 .elementor-icon-list-item { justify-content: flex-start; }
+  /* every footer link is a 44px tap target on a phone */
+  .elementor-68 .elementor-element.elementor-element-9cf3b9d li { margin: 0; }
+  .elementor-68 .elementor-element.elementor-element-9cf3b9d a { padding: 11px 0; font-size: 15px; }
+  .elementor-68 .elementor-element.elementor-element-12ab8890 .elementor-icon-list-item { justify-content: flex-start; padding: 6px 0; }
+  .elementor-68 .elementor-element.elementor-element-12ab8890 .elementor-icon-list-item > a { display: inline-flex; align-items: flex-start; min-height: 44px; }
+  .elementor-68 .elementor-element.elementor-element-12ab8890 .elementor-icon-list-item > .elementor-icon-list-text,
+  .elementor-68 .elementor-element.elementor-element-12ab8890 .elementor-icon-list-item > a { font-size: 15px; }
   .elementor-68 .elementor-element.elementor-element-36cf2350 { text-align: left; }
   .elementor-68 .elementor-element.elementor-element-36cf2350 > .elementor-widget-container { margin: 16px 0 0; }
   .elementor-68 .elementor-element.elementor-element-71f3cbac .elementor-widget-container { text-align: left; }
@@ -321,7 +329,7 @@ footer#footer .ent-line .num, footer#footer .abn { font-family: var(--mono); }
   footer#footer .elementor-column { margin-bottom: 20px; }
 }
 
-/* ══ Call Now Button (mobile-only fixed bar) ══════════════════════════════ */
+/* ══ Call-now bar (phone only, fixed to the bottom) ════════════════════════ */
 #callnowbutton, #callnowbutton.cnb-full {
   background-color: var(--navy) !important; color: var(--white) !important;
   border-top: 1px solid var(--navy600); border-radius: 0 !important; box-shadow: none !important; text-shadow: none !important;
@@ -333,7 +341,7 @@ footer#footer .ent-line .num, footer#footer .abn { font-family: var(--mono); }
 #callnowbutton:hover, #callnowbutton:focus { background-color: var(--navy600) !important; }
 @media (max-width: 767px) { html body { padding-bottom: 56px; } .cookies-popup.show { bottom: 64px; } }
 
-/* ══ Cookie bar (u-design gdpr) ════════════════════════════════════════════ */
+/* ══ Cookie bar ════════════════════════════════════════════════════════════ */
 .cookies-popup { right: 24px; bottom: 24px; }
 .cookies-popup-inner {
   background: var(--navy); color: var(--bg100); border: 1px solid var(--navy600); border-radius: 0 !important; box-shadow: none !important;
@@ -362,16 +370,15 @@ footer#footer .ent-line .num, footer#footer .abn { font-family: var(--mono); }
   .cookies-popup-inner .btn-close { position: absolute; top: 6px; right: 6px; left: auto; margin: 0; background: var(--navy) !important; }
 }
 
-/* ══ Scroll-to-top ════════════════════════════════════════════════════════ */
+/* ══ Scroll-to-top ═════════════════════════════════════════════════════════ */
 #scroll-top i { background: var(--navy); border: 1px solid var(--navy600); color: var(--white); border-radius: 0 !important; }
 #scroll-top svg { display: none; }
 #scroll-top:hover { opacity: 1; }
 #scroll-top:hover i { background: var(--navy600); }
 @media (max-width: 767px) { #scroll-top.show { bottom: 72px; } }
 
-/* ---- parent pass, 11 Sep: at phone widths the footer's stretched section keeps the theme's
-   `.elementor-container{margin:0 -15px}` and overflows the viewport by 15px (scrollWidth 405 at 390).
-   Pin it. ---- */
+/* at phone widths the footer's stretched section keeps the page frame's
+   `.elementor-container{margin:0 -15px}` and overflows the viewport by 15px. Pin it. */
 @media (max-width: 767px) {
   footer#footer .elementor-section-stretched, footer#footer .elementor-top-section { left: 0 !important; width: 100% !important; margin-left: 0 !important; margin-right: 0 !important; }
   footer#footer .elementor-container, footer#footer .elementor-row { margin-left: 0 !important; margin-right: 0 !important; max-width: 100%; }

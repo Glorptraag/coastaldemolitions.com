@@ -1,14 +1,18 @@
-/* restyle/parts/forms.css — see site.css for ownership.
-   Owner: forms agent. Scope: wpforms (global), /contact-us/ (page-id-194),
-   /contact-us-ty/ (page-id-10048) and the standalone 404.html.
-   Vocabulary: the invoice's reference kv block, the entity block, the payment kv
-   table and the acceptance block (micro label over a rule) — quote-invoice/src/gen_L.py. */
+/* restyle/parts/forms.css — the enquiry form (wherever it appears), the contact page
+   (/contact-us/, page-id-194), the thank-you page (/contact-us-ty/, page-id-10048) and the
+   standalone 404.html. Builds on base.css: the page banner, heading scale, card shell and
+   button family live there. Tokens only; no new hex.
+
+   Vocabulary from the invoice: the reference block (a label | value table), the acceptance
+   block (a micro label over a rule), the entity block. In plain names:
+     page banner (data-id 1c83244) · enquiry form (7f18ada) · contact block (7948902: heading
+     5856944, contact list 400884d, map d92b662) · thank-you card · 404 band / 404 footer bar */
 
 /* =====================================================================
-   1. wpforms — global. The markup is identical wherever the form appears.
-   Per-page Elementor CSS reaches (0,6,2) on inputs and (0,5,2) on the
+   1. Enquiry form — global. The markup is identical wherever the form appears.
+   The page's own stylesheet reaches (0,6,2) on inputs and (0,5,2) on the
    submit; the selectors below are (0,6,4)+ so no !important is needed
-   except where the theme itself uses it.
+   except where the original itself uses it.
    ===================================================================== */
 body .elementor-widget-wpforms div.wpforms-container.wpforms-container-full{
   padding:0;border:0;border-radius:0;box-shadow:none;background:transparent;
@@ -17,9 +21,9 @@ body .elementor-widget-wpforms div.wpforms-container.wpforms-container-full{
   --wpforms-label-color:var(--ink2);--wpforms-label-error-color:var(--terra);
   --wpforms-button-background-color:var(--terra);--wpforms-button-border-color:var(--terra);
 }
-/* the acceptance-block rule: 1px navy over the form, micro-label eyebrow */
+/* the acceptance-block rule: 1px line over the form, micro-label eyebrow */
 body .elementor-widget-wpforms div.wpforms-container form.wpforms-form.wpforms-validate{
-  border-top:1px solid var(--navy);padding-top:14px;
+  border-top:1px solid var(--line);padding-top:24px;
 }
 body .elementor-widget-wpforms div.wpforms-container form.wpforms-form.wpforms-validate::before{
   content:"Enquiry";display:block;
@@ -30,7 +34,7 @@ body .elementor-widget-wpforms div.wpforms-container form.wpforms-form.wpforms-v
 body .elementor-widget-wpforms div.wpforms-container form.wpforms-form .wpforms-field-container .wpforms-field{
   padding:0;margin:0 0 20px;
 }
-/* labels: visible micro labels above every field (the theme clips four of them) */
+/* labels: visible micro labels above every field (the original clips four of them) */
 body .elementor-widget-wpforms div.wpforms-container form.wpforms-form .wpforms-field-container .wpforms-field .wpforms-field-label,
 body .elementor-widget-wpforms div.wpforms-container form.wpforms-form .wpforms-field-container .wpforms-field .wpforms-field-label.wpforms-label-hide{
   position:static;clip:auto;width:auto;height:auto;margin:0 0 8px;overflow:visible;
@@ -47,7 +51,7 @@ body .elementor-widget-wpforms div.wpforms-container form.wpforms-form.wpforms-v
   display:block;width:100%;max-width:100%;box-sizing:border-box;
   background:var(--white);color:var(--ink);
   border:1px solid var(--line);border-radius:0;box-shadow:none;
-  padding:14px 16px;height:auto;min-height:0;
+  padding:14px 16px;height:auto;min-height:48px;
   font-family:var(--body);font-size:16px;font-weight:400;line-height:1.4;
   transition:border-color .15s;
 }
@@ -68,7 +72,7 @@ body .elementor-widget-wpforms div.wpforms-container form.wpforms-form.wpforms-v
 body .elementor-widget-wpforms div.wpforms-container form.wpforms-form.wpforms-validate .wpforms-field-container .wpforms-field textarea:focus{
   border-color:var(--navy);box-shadow:none;outline:2px solid var(--navy);outline-offset:0;
 }
-/* phone field reads as a figure */
+/* the phone field reads as a figure */
 body .elementor-widget-wpforms div.wpforms-container form.wpforms-form.wpforms-validate .wpforms-field-container .wpforms-field input[name="Phone"],
 body .elementor-widget-wpforms div.wpforms-container form.wpforms-form.wpforms-validate .wpforms-field-container .wpforms-field input[type="tel"]{
   font-family:var(--mono) !important;font-variant-numeric:tabular-nums lining-nums;
@@ -84,7 +88,7 @@ body .elementor-widget-wpforms div.wpforms-container-full form.wpforms-form .wpf
 body .elementor-widget-wpforms div.wpforms-container-full form.wpforms-form em.wpforms-error,
 body .elementor-widget-wpforms div.wpforms-container-full form.wpforms-form .wpforms-error-container,
 body .elementor-widget-wpforms div.wpforms-container-full form.wpforms-form .wpforms-error-noscript{
-  display:block;margin:6px 0 0;font-family:var(--body);font-size:13px;line-height:1.4;
+  display:block;margin:6px 0 0;font-family:var(--body);font-size:14px;line-height:1.4;
   font-weight:400;font-style:normal;color:var(--terra);text-transform:none;letter-spacing:0;
 }
 body .elementor-widget-wpforms div.wpforms-container-full form.wpforms-form .wpforms-error-container{
@@ -96,28 +100,28 @@ body .elementor-widget-wpforms div.wpforms-container div[class*="wpforms-confirm
   padding:18px 20px;margin:0;font-family:var(--body);font-size:16px;line-height:1.55;color:var(--ink);
 }
 body .elementor-widget-wpforms div.wpforms-container .wpforms-hidden{display:none !important}
-/* submit: the one terracotta stamp on the page */
+/* submit: the page's one terracotta action, in the button family */
 body div.elementor-widget-container div.wpforms-container form.wpforms-form .wpforms-submit-container{
   padding:4px 0 0;margin:0;text-align:left;
 }
 body .elementor-widget-wpforms div.wpforms-container form.wpforms-form .wpforms-submit-container button.wpforms-submit.btn,
 body .elementor-widget-wpforms div.wpforms-container form.wpforms-form .wpforms-submit-container button.wpforms-submit.btn:visited{
-  display:inline-block;width:auto;min-height:0;height:auto;
+  display:inline-flex;align-items:center;justify-content:center;width:auto;min-height:44px;height:auto;
   background:var(--terra) !important;border:1px solid var(--terra) !important;color:var(--white) !important;
   border-radius:0;box-shadow:none;
   font-family:var(--display);font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
-  line-height:1;padding:16px 28px;margin:0;cursor:pointer;
-  transition:filter .15s;
+  line-height:1;padding:14px 26px !important;margin:0;cursor:pointer;
+  transition:background-color .2s,border-color .2s;
 }
 body .elementor-widget-wpforms div.wpforms-container form.wpforms-form .wpforms-submit-container button.wpforms-submit.btn:hover,
 body .elementor-widget-wpforms div.wpforms-container form.wpforms-form .wpforms-submit-container button.wpforms-submit.btn:focus,
 body .elementor-widget-wpforms div.wpforms-container form.wpforms-form .wpforms-submit-container button.wpforms-submit.btn:active{
-  background:var(--terra) !important;border-color:var(--terra) !important;color:var(--white) !important;box-shadow:none;filter:brightness(.9);
+  background:var(--navy) !important;border-color:var(--navy) !important;color:var(--white) !important;box-shadow:none;
 }
 body .elementor-widget-wpforms div.wpforms-container form.wpforms-form .wpforms-submit-container button.wpforms-submit.btn:focus-visible{
   outline:2px solid var(--navy);outline-offset:2px;
 }
-/* the theme's "alpha" arrow glyph after the label: a rounded-button flourish, not option L */
+/* the arrow glyph after the label was a rounded-button flourish, not option L */
 body .elementor-widget-wpforms div.wpforms-container form.wpforms-form .wpforms-submit-container button.wpforms-submit.wpforms-submit-icon::after{
   content:none;
 }
@@ -127,11 +131,16 @@ body .elementor-widget-wpforms div.wpforms-container form.wpforms-form .wpforms-
 }
 
 /* =====================================================================
-   2. Contact page (/contact-us/, page-id-194) and thank-you (/contact-us-ty/,
-   page-id-10048). Same template: inner section 10699b3 with two columns —
-   7948902 (heading, icon list, map) and 4fc3464 (form).
+   2. Contact page (page-id-194) and thank-you page (page-id-10048). Same
+   template: page banner 1c83244 (shared, base.css §13), then inner section
+   10699b3 with two columns — 7948902 (contact block) and 4fc3464 (form).
    ===================================================================== */
-/* the two-column section: form left (the conversion), reference block right */
+/* the banner's eyebrow words */
+body:is(.page-id-194,.page-id-10048) main#main .elementor-top-section:has(h1.elementor-heading-title) h1.elementor-heading-title::before{content:"Contact";}
+/* the page frame boxes these two pages in a padded container; the banner needs the full width */
+body:is(.page-id-194,.page-id-10048) main#main .container{width:100%;max-width:none;padding-left:0;padding-right:0;margin-left:0;margin-right:0;}
+body:is(.page-id-194,.page-id-10048) .elementor-element.elementor-element-289d44d > .elementor-container{max-width:var(--container);padding-left:var(--gutter);padding-right:var(--gutter);}
+/* the two-column section: form left (the conversion), contact block right */
 body.page-id-194 .elementor-element.elementor-element-10699b3 > .elementor-container{
   align-items:flex-start;gap:0;
 }
@@ -146,7 +155,7 @@ body.page-id-194 .elementor-element.elementor-element-7f18ada > .elementor-widge
 body.page-id-10048 .elementor-element.elementor-element-7f18ada > .elementor-widget-container{
   margin:0;padding:0;
 }
-/* the details column: no theme wash, sits as the reference block */
+/* the contact block: no wash, sits as the reference block */
 body.page-id-194 .elementor-element.elementor-element-7948902:not(.elementor-motion-effects-element-type-background) > .elementor-widget-wrap,
 body.page-id-10048 .elementor-element.elementor-element-7948902:not(.elementor-motion-effects-element-type-background) > .elementor-widget-wrap{
   background-color:transparent;
@@ -155,14 +164,15 @@ body.page-id-194 .elementor-element.elementor-element-7948902 > .elementor-eleme
 body.page-id-10048 .elementor-element.elementor-element-7948902 > .elementor-element-populated{
   padding:0;margin:0;
 }
+/* section rhythm: one beat above and below */
 body.page-id-194 .elementor-element.elementor-element-289d44d,
 body.page-id-10048 .elementor-element.elementor-element-289d44d{
-  margin-top:0;margin-bottom:0;padding:clamp(40px,6vw,88px) 0 clamp(56px,8vw,112px);
+  margin-top:0;margin-bottom:0;padding:var(--sec-y) 0 !important;
 }
-/* section heading: Poppins 600, 1px navy top rule (the grand-total rule) with a micro eyebrow */
+/* section heading: eyebrow, then the shared rule-above heading */
 body.page-id-194 .elementor-element.elementor-element-5856944 > .elementor-widget-container,
 body.page-id-10048 .elementor-element.elementor-element-5856944 > .elementor-widget-container{
-  margin:0 0 28px;padding-top:14px;border-top:1px solid var(--navy);
+  margin:0 0 28px;padding-top:24px;border-top:1px solid var(--line);
 }
 body.page-id-194 .elementor-element.elementor-element-5856944 .title-wrapper,
 body.page-id-10048 .elementor-element.elementor-element-5856944 .title-wrapper{
@@ -172,16 +182,16 @@ body.page-id-194 .elementor-element.elementor-element-5856944 .title-wrapper::be
 body.page-id-10048 .elementor-element.elementor-element-5856944 .title-wrapper::before{
   content:"Coastal Demolitions";display:block;
   font-family:var(--display);font-size:var(--micro-size);font-weight:600;
-  letter-spacing:var(--micro-track);text-transform:uppercase;color:var(--ink2);margin:0 0 14px;
+  letter-spacing:var(--micro-track);text-transform:uppercase;color:var(--ink2);margin:0 0 12px;
 }
 body.page-id-194 .elementor-element-5856944 .title,
 body.page-id-10048 .elementor-element-5856944 .title,
 body.page-id-194 .elementor-element-5856944 .title-wrapper .title.elementor-heading-title,
 body.page-id-10048 .elementor-element-5856944 .title-wrapper .title.elementor-heading-title{
-  font-family:var(--display);font-weight:600;font-size:clamp(24px,2.4vw,32px);line-height:1.15;
-  letter-spacing:-0.01em;color:var(--navy);margin:0;
+  font-family:var(--display);font-weight:600;font-size:var(--h2);line-height:1.15;
+  letter-spacing:-0.01em;color:var(--navy);margin:0;border:0;padding:0;
 }
-/* the icon list as the invoice reference kv table: label column | value column, 1px rules */
+/* the contact list as the invoice reference table: label column | value column, 1px rules */
 body.page-id-194 .elementor-element-400884d > .elementor-widget-container,
 body.page-id-10048 .elementor-element-400884d > .elementor-widget-container{
   margin:0 0 28px;
@@ -215,7 +225,7 @@ body.page-id-194 .elementor-element-400884d .elementor-icon-list-item > a,
 body.page-id-10048 .elementor-element-400884d .elementor-icon-list-item > a{
   display:contents;text-decoration:none;color:inherit;
 }
-/* the FontAwesome glyph becomes a text label in the key column */
+/* the icon glyph becomes a text label in the key column */
 body.page-id-194 .elementor-element-400884d .elementor-icon-list-icon,
 body.page-id-10048 .elementor-element-400884d .elementor-icon-list-icon{
   display:block;position:static;top:auto;width:auto;
@@ -226,7 +236,7 @@ body.page-id-194 .elementor-element-400884d .elementor-icon-list-icon i,
 body.page-id-10048 .elementor-element-400884d .elementor-icon-list-icon i{
   display:none;
 }
-/* base.css forces "Font Awesome 5 Free" onto the icon span inside tel: links; the label is text */
+/* base.css forces the icon font onto the icon span inside tel: links; the label is text */
 body.page-id-194 .elementor-element-400884d .elementor-icon-list-icon::before,
 body.page-id-10048 .elementor-element-400884d .elementor-icon-list-icon::before{
   content:"Office";font-family:var(--body) !important;font-weight:400;font-size:14px;
@@ -284,12 +294,8 @@ body.page-id-10048 .elementor-element.elementor-element-d92b662 iframe{
     margin:0;
   }
 }
-/* phone: stacked, form first, then the reference block */
+/* phone: stacked, form first, then the contact block */
 @media (max-width:767px){
-  body.page-id-194 .elementor-element.elementor-element-289d44d,
-  body.page-id-10048 .elementor-element.elementor-element-289d44d{
-    margin-top:0;padding:40px 0 56px;
-  }
   body.page-id-194 .elementor-element.elementor-element-10699b3,
   body.page-id-10048 .elementor-element.elementor-element-10699b3{
     margin-top:0;
@@ -317,8 +323,8 @@ body.page-id-10048 .elementor-element.elementor-element-d92b662 iframe{
 }
 
 /* =====================================================================
-   3. Thank-you page only: the reference block becomes a centred document
-   card (white, 1px rule, corner notch), the form sits beneath it.
+   3. Thank-you page only: the contact block becomes a centred card
+   (the shared card shell), the form sits beneath it as "Another enquiry".
    ===================================================================== */
 body.page-id-10048 .elementor-element.elementor-element-10699b3 > .elementor-container{
   flex-direction:column;align-items:center;
@@ -333,16 +339,13 @@ body.page-id-10048 .elementor-element.elementor-element-7948902 > .elementor-wid
   display:block;
   background:var(--white);border:1px solid var(--line);
   clip-path:polygon(0 0,100% 0,100% 100%,var(--corner-notch) 100%,0 calc(100% - var(--corner-notch)));
-  padding:clamp(24px,4vw,44px) clamp(24px,4vw,44px) clamp(28px,4vw,48px);
+  padding:clamp(22px,3vw,32px) clamp(24px,3vw,32px) clamp(28px,3vw,36px);
 }
 body.page-id-10048 .elementor-element.elementor-element-5856944 > .elementor-widget-container{
   border-top:0;padding-top:0;margin:0 0 24px;
 }
 body.page-id-10048 .elementor-element.elementor-element-5856944 .title-wrapper::before{
   content:"Enquiry received";
-}
-body.page-id-10048 .elementor-element-5856944 .title-wrapper .title.elementor-heading-title{
-  font-size:clamp(26px,3vw,36px);
 }
 body.page-id-10048 .elementor-element.elementor-element-4fc3464 > .elementor-element-populated{
   padding:48px 0 0;
@@ -357,9 +360,10 @@ body.page-id-10048 .elementor-element.elementor-element-4fc3464 .wpforms-form.wp
 }
 
 /* =====================================================================
-   4. 404.html — standalone, no Elementor. Its own <style> paints a dark
-   centred page; site.css loads after it, so equal specificity wins here.
-   Band (navy, diagonal cut, wordmark) / document / navy bar with the phone.
+   4. 404.html — standalone markup (no header or footer blocks). Its own
+   <style> paints a dark centred page; site.css loads after it, so equal
+   specificity wins here. Band (navy, diagonal cut, wordmark at the header's
+   size and position) / document / footer bar (navy, wordmark, phone in mono).
    ===================================================================== */
 html:has(body > main > h1 + #rescue){background:var(--white)}
 body:has(> main > h1 + #rescue){
@@ -368,11 +372,11 @@ body:has(> main > h1 + #rescue){
   background:var(--white);color:var(--ink);
   font-family:var(--body);font-size:17px;line-height:1.55;
 }
-/* the band */
+/* the band: 84px wordmark row + 28px cut = 112px, like the real header band */
 body:has(> main > h1 + #rescue)::before{
-  content:"";display:block;flex:0 0 auto;height:calc(112px + var(--band-skew-px));
+  content:"";display:block;flex:0 0 auto;height:calc(84px + var(--band-skew-px));
   background:var(--navy) url(/restyle/img/logo-wordmark-white.png) no-repeat;
-  background-position:var(--gutter) 34px;background-size:auto 46px;
+  background-position:var(--gutter) 22px;background-size:186px auto;
   clip-path:polygon(0 0,100% 0,100% calc(100% - var(--band-skew-px)),0 100%);
 }
 body:has(> main > h1 + #rescue) > main{
@@ -387,7 +391,7 @@ body:has(> main > h1 + #rescue) > main > p:not(.tel){
 body:has(> main > h1 + #rescue) > main > h1{
   font-family:var(--mono) !important;font-weight:500;font-size:96px;line-height:1;
   font-variant-numeric:tabular-nums lining-nums;letter-spacing:-0.02em;color:var(--navy);
-  margin-top:clamp(40px,7vw,88px);margin-bottom:20px;
+  margin-top:var(--sec-y);margin-bottom:20px;
 }
 body:has(> main > h1 + #rescue) > main > h1::before{
   content:"Page not found";display:block;
@@ -396,33 +400,34 @@ body:has(> main > h1 + #rescue) > main > h1::before{
 }
 body:has(> main > h1 + #rescue) > main > #dead,
 body:has(> main > h1 + #rescue) > main > #rescue{
-  font-family:var(--display);font-weight:600;font-size:clamp(24px,2.6vw,32px);line-height:1.15;
+  font-family:var(--display);font-weight:600;font-size:var(--h2);line-height:1.15;
   letter-spacing:-0.01em;color:var(--navy);margin-top:0;margin-bottom:14px;
 }
 body:has(> main > h1 + #rescue) > main > #dead + p{
-  margin-bottom:clamp(56px,10vw,120px);
   display:flex;flex-wrap:wrap;align-items:center;gap:12px 14px;
-  color:var(--ink3);font-size:16px;margin-top:12px;margin-bottom:0;
+  color:var(--ink2);font-size:16px;margin-top:12px;margin-bottom:var(--sec-y);
 }
 body:has(> main > h1 + #rescue) > main a{
-  color:var(--navy);font-weight:600;text-decoration:underline;text-underline-offset:3px;
+  color:var(--navy600);font-weight:400;text-decoration:underline;text-underline-offset:.16em;text-decoration-thickness:1px;
 }
-body:has(> main > h1 + #rescue) > main a:hover{color:var(--navy600)}
+body:has(> main > h1 + #rescue) > main a:hover{color:var(--navy)}
 body:has(> main > h1 + #rescue) > main a:focus-visible{outline:2px solid var(--navy);outline-offset:2px}
-/* the one button: navy, square, back to / */
+/* the one button: a navy stamp, back to / */
 body:has(> main > h1 + #rescue) > main > #dead + p > a[href="/"]{
-  display:inline-block;flex:0 0 auto;
+  display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;min-height:44px;
   background:var(--navy);color:var(--white);border:1px solid var(--navy);text-decoration:none;
   font-family:var(--display);font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
-  line-height:1;padding:16px 24px;margin-right:6px;
+  line-height:1;padding:14px 26px;margin-right:6px;
 }
 body:has(> main > h1 + #rescue) > main > #dead + p > a[href="/"]:hover{background:var(--navy600);border-color:var(--navy600);color:var(--white)}
-/* the bar: navy, phone in mono */
+/* the footer bar: navy, the wordmark, the phone in mono, a quiet strap — the same bar as
+   every other page, without the link columns (no markup for them) */
 body:has(> main > h1 + #rescue) > main > p.tel{
-  display:flex;align-items:center;gap:10px;
-  margin:clamp(56px,10vw,120px) 0 0;margin-top:auto;padding:22px var(--gutter);
+  display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;
+  margin:auto 0 0;padding:calc(56px + 60px + 20px) var(--gutter) 44px;
   width:100%;box-sizing:border-box;
-  background:var(--navy);color:var(--white);
+  background:var(--navy) url(/restyle/img/logo-wordmark-white.png) no-repeat var(--gutter) 56px / 180px auto;
+  color:var(--white);
   font-family:var(--mono);font-size:15px;font-variant-numeric:tabular-nums lining-nums;line-height:1;
 }
 body:has(> main > h1 + #rescue) > main > p.tel::before{
@@ -431,22 +436,15 @@ body:has(> main > h1 + #rescue) > main > p.tel::before{
 }
 body:has(> main > h1 + #rescue) > main > p.tel::after{
   content:"Coastal Demolitions";margin-left:auto;
-  font-family:var(--display);font-weight:500;font-size:12px;color:var(--bg300);letter-spacing:.02em;
+  font-family:var(--body);font-weight:400;font-size:12px;color:var(--bg300);letter-spacing:.01em;
 }
 body:has(> main > h1 + #rescue) > main > p.tel a{
-  color:var(--white);font-weight:400;text-decoration:none;font-family:inherit;
+  color:var(--white);font-weight:400;text-decoration:none;font-family:inherit;display:inline-flex;align-items:center;min-height:44px;
 }
 body:has(> main > h1 + #rescue) > main > p.tel a:hover{text-decoration:underline;text-underline-offset:3px}
 @media (max-width:767px){
-  body:has(> main > h1 + #rescue)::before{height:calc(88px + var(--band-skew-px));background-position:var(--gutter) 26px;background-size:auto 36px}
+  body:has(> main > h1 + #rescue)::before{height:calc(89px + var(--band-skew-px));background-position:var(--gutter) 14px;background-size:140px auto}
   body:has(> main > h1 + #rescue) > main > h1{font-size:72px}
-  body:has(> main > h1 + #rescue) > main > p.tel{flex-wrap:wrap;padding:18px var(--gutter)}
-  body:has(> main > h1 + #rescue) > main > p.tel::after{margin-left:0;flex:0 0 100%;margin-top:8px;font-size:11px}
+  body:has(> main > h1 + #rescue) > main > p.tel{padding:calc(40px + 54px + 16px) var(--gutter) 32px;background-position:var(--gutter) 40px;background-size:160px auto}
+  body:has(> main > h1 + #rescue) > main > p.tel::after{margin-left:0;flex:0 0 100%;margin-top:8px}
 }
-
-/* ---- rhythm below the contact form (parent pass, 11 Sep): the theme stacks main#main
-   padding-bottom 110px + section 289d44d padding-bottom 112px + the inner section's own,
-   ~250px of white before the footer. One 72px beat instead. ---- */
-body.page-id-194 main#main, body.page-id-10048 main#main { padding-bottom: 0 !important; }
-body.page-id-194 .elementor-element.elementor-element-289d44d,
-body.page-id-10048 .elementor-element.elementor-element-289d44d { padding-bottom: 72px !important; }

@@ -1,10 +1,11 @@
 /* Coastal Demolitions — option-L restyle. Loaded LAST in every <head> so it wins the cascade
-   over Elementor / u-design. Override only; the HTML is a frozen clone (see
-   docs/Site Rebuild in the Coastal media repo). One partial per page-type, one owner each. */
+   over the site's own stylesheets. Override only; the HTML is a frozen static export (see
+   docs/Site Rebuild in the Coastal media repo). One partial per page type; shared things
+   live in base.css; a later partial wins a tie. See restyle/README.md for the page anatomy. */
 @import url("/restyle/tokens.css");
-@import url("/restyle/parts/base.css");      /* global type, colour, links, buttons, forms — owner: chrome agent */
-@import url("/restyle/parts/chrome.css");    /* header, nav, mobile flyout, footer, call-now, cookie — owner: chrome agent */
-@import url("/restyle/parts/home.css");      /* homepage sections — owner: home agent */
-@import url("/restyle/parts/services.css");  /* service + location money pages, about — owner: services agent */
-@import url("/restyle/parts/articles.css");  /* guides (blog posts), blog index, archives, project pages — owner: articles agent */
-@import url("/restyle/parts/forms.css");     /* contact page, wpforms, thank-you, 404 — owner: forms agent */
+@import url("/restyle/parts/base.css");      /* the shared system: type scale, micro label, links, buttons, lists, tables, cards, page banner */
+@import url("/restyle/parts/chrome.css");    /* header band, nav, mobile menu, footer bar, call-now bar, cookie bar */
+@import url("/restyle/parts/home.css");      /* home page: hero, intro, service cards, navy CTA band, reviews, feature rows */
+@import url("/restyle/parts/services.css");  /* service, location, about, testimonials and capability pages */
+@import url("/restyle/parts/articles.css");  /* guide articles, blog band + post cards, projects hub, project pages */
+@import url("/restyle/parts/forms.css");     /* enquiry form, contact page, thank-you page, 404 */

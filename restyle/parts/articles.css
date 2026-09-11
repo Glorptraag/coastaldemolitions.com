@@ -1,16 +1,21 @@
-/* restyle/parts/articles.css — see site.css for ownership.
-   Owner: articles agent. Scope: guides (body.single-post, template post-7715), blog index and
-   archives (body.blog / body.archive, title block post-2753), the projects hub (page 8784) and
-   the nine project pages (ids listed under --project-pages below).
-   Header, footer and global type live in base.css / chrome.css — nothing here touches them.
-   Tokens only; no new hex. */
+/* restyle/parts/articles.css — guide articles (body.single-post), the blog index and its
+   archives (body.blog / body.archive), the projects hub (page 8784) and the nine project
+   pages (ids listed under §4). Builds on base.css — the heading scale, lists, tables, quote,
+   captions, card shell, button family and the page banner all live there; this partial only
+   lays out what is particular to these pages. Tokens only; no new hex.
 
-/* ───────────────────────────── shared pieces ───────────────────────────── */
+   Anatomy, in plain names:
+     guide article   = featured photo · date + category micro label · title block (navy rule
+                       below) · 68ch document column · related-post cards
+     blog band       = navy band under the header (eyebrow, page title, search) · post cards
+                       in a 3 / 2 / 1 grid · square pagination
+     projects hub    = page banner (base.css §13) · full-bleed project collage
+     project page    = page banner · address micro label + intro heading + one terracotta
+                       "Get a quote" + the story · photo gallery · prev / next rail
+     case study      = two hand-written project pages (1289 Gympie Road, 8 Kingfisher Court)
+                       with their own inline stylesheet, restyled to the same vocabulary */
 
-/* the nine project pages are addressed by id — elementor_header_footer is also used by
-   capability-statement and testimonials, so the template class alone is too wide */
-
-/* ═══════════════════════════════ 1. GUIDES ═══════════════════════════════ */
+/* ═══════════════════════════════ 1. GUIDE ARTICLE ═══════════════════════════════ */
 
 /* the article column: a document, 68ch wide, centred */
 body.single-post .elementor-7715 .elementor-element.elementor-element-dfc2f5f > .elementor-widget-wrap {
@@ -24,11 +29,11 @@ body.single-post .elementor-7715 .elementor-element.elementor-element-dfc2f5f > 
   align-items: flex-start;
 }
 body.single-post .elementor-7715 > .elementor-section.elementor-top-section > .elementor-container {
-  padding-top: clamp(40px, 6vw, 80px);
-  padding-bottom: clamp(48px, 7vw, 96px);
+  padding-top: clamp(40px, 6vw, 72px);
+  padding-bottom: clamp(40px, 5vw, 56px);
 }
 
-/* featured image: breaks out of the measure to the full container width; square corners */
+/* featured photo: breaks out of the measure to the full container width; square corners */
 body.single-post .elementor-7715 .elementor-element.elementor-element-1996953 {
   --fi-w: min(var(--container), 100vw - 2 * var(--gutter));
   width: var(--fi-w);
@@ -55,7 +60,7 @@ body.single-post .elementor-widget-udesign_single_image figure.post-media img {
   object-position: center;
 }
 
-/* the divider under the image only pads; keep it quiet */
+/* the divider under the photo only pads; keep it quiet */
 body.single-post .elementor-7715 .elementor-element.elementor-element-f1d5158 { display: none; }
 
 /* meta line: date · category as a micro label; the date in mono */
@@ -65,9 +70,10 @@ body.single-post .elementor-7715 .elementor-element.elementor-element-c38b194 {
   align-self: baseline;
   text-align: left;
 }
-body.single-post .elementor-7715 .elementor-element.elementor-element-c685f91 .elementor-heading-title,
-body.single-post .elementor-7715 .elementor-element.elementor-element-28ebbb2 .elementor-heading-title,
-body.single-post .elementor-7715 .elementor-element.elementor-element-c38b194 .elementor-heading-title {
+body.single-post main#main .elementor-element.elementor-element-c685f91 .elementor-heading-title,
+body.single-post main#main .elementor-element.elementor-element-28ebbb2 .elementor-heading-title,
+body.single-post main#main .elementor-element.elementor-element-c38b194 .elementor-heading-title {
+  border: 0; padding: 0; margin: 0;
   font-family: var(--display);
   font-size: var(--micro-size);
   font-weight: 600;
@@ -76,18 +82,18 @@ body.single-post .elementor-7715 .elementor-element.elementor-element-c38b194 .e
   color: var(--ink2);
   line-height: 1.4;
 }
-body.single-post .elementor-7715 .elementor-element.elementor-element-c685f91 .elementor-heading-title {
+body.single-post main#main .elementor-element.elementor-element-c685f91 .elementor-heading-title {
   font-family: var(--mono);
   font-weight: 400;
   letter-spacing: .04em;
   font-variant-numeric: tabular-nums lining-nums;
 }
-body.single-post .elementor-7715 .elementor-element.elementor-element-28ebbb2 .elementor-heading-title { color: var(--bg300); }
+body.single-post main#main .elementor-element.elementor-element-28ebbb2 .elementor-heading-title { color: var(--ink3); }
 body.single-post .elementor-7715 .elementor-element.elementor-element-28ebbb2 > .elementor-widget-container { margin: 0 10px; }
 body.single-post .elementor-7715 .elementor-element.elementor-element-c38b194 .elementor-heading-title a { color: inherit; text-decoration: none; }
 body.single-post .elementor-7715 .elementor-element.elementor-element-c38b194 .elementor-heading-title a:hover { color: var(--navy); }
 
-/* title block, then the grand-total rule */
+/* title block: the H1, then the navy rule */
 body.single-post .elementor-7715 .elementor-element.elementor-element-6281ac4 > .elementor-widget-container {
   margin: 14px 0 0;
   padding-bottom: 22px;
@@ -97,16 +103,16 @@ body.single-post .elementor-element-6281ac4 .title-wrapper { justify-content: fl
 body.single-post .elementor-element-6281ac4 .title,
 body.single-post .elementor-element-6281ac4 h1.title {
   font-family: var(--display);
-  font-size: clamp(30px, 4vw, 44px);
+  font-size: var(--h1);
   font-weight: 600;
   letter-spacing: -.02em;
-  line-height: 1.12;
+  line-height: 1.02;
   color: var(--navy);
   text-align: left;
   margin: 0;
 }
 
-/* article body */
+/* article body (headings, lists, tables, quote, captions: base.css) */
 body.single-post .elementor-7715 .elementor-element.elementor-element-7932ad9 > .elementor-widget-container {
   padding: clamp(26px, 3vw, 36px) 0 0;
 }
@@ -119,127 +125,6 @@ body.single-post .elementor-7715 .elementor-element.elementor-element-7932ad9 .e
   text-align: left;
 }
 body.single-post .blog-article-content p { margin: 0 0 1.25em; }
-body.single-post .blog-article-content > :last-child { margin-bottom: 0; }
-body.single-post .blog-article-content h2,
-body.single-post .blog-article-content h3,
-body.single-post .blog-article-content h4 {
-  font-family: var(--display);
-  font-weight: 600;
-  letter-spacing: -.01em;
-  line-height: 1.2;
-  color: var(--navy);
-  margin: 40px 0 14px;
-}
-body.single-post .blog-article-content h2 { font-size: 26px; }
-body.single-post .blog-article-content h3 { font-size: 20px; margin-top: 32px; }
-body.single-post .blog-article-content h4 { font-size: 17px; margin-top: 26px; }
-body.single-post .blog-article-content h2:first-child,
-body.single-post .blog-article-content h3:first-child { margin-top: 0; }
-body.single-post .blog-article-content a {
-  color: var(--navy600);
-  text-decoration: underline;
-  text-underline-offset: .16em;
-  text-decoration-thickness: 1px;
-}
-body.single-post .blog-article-content a:hover { color: var(--navy); }
-body.single-post .blog-article-content strong,
-body.single-post .blog-article-content b { font-weight: 600; color: var(--navy); }
-
-/* lists: 6px navy square markers; mono numerals */
-body.single-post .blog-article-content ul,
-body.single-post .blog-article-content ol { margin: 0 0 1.25em; padding: 0; list-style: none; }
-body.single-post .blog-article-content li { position: relative; padding-left: 26px; margin: 0 0 .5em; }
-body.single-post .blog-article-content ul > li::before {
-  content: "";
-  position: absolute;
-  left: 4px;
-  top: .62em;
-  width: 6px;
-  height: 6px;
-  background: var(--navy);
-}
-body.single-post .blog-article-content ol { counter-reset: guide-ol; }
-body.single-post .blog-article-content ol > li { padding-left: 34px; counter-increment: guide-ol; }
-body.single-post .blog-article-content ol > li::before {
-  content: counter(guide-ol, decimal-leading-zero);
-  position: absolute;
-  left: 0;
-  top: .12em;
-  font-family: var(--mono);
-  font-size: 14px;
-  color: var(--ink2);
-  font-variant-numeric: tabular-nums lining-nums;
-}
-body.single-post .blog-article-content li ul,
-body.single-post .blog-article-content li ol { margin: .5em 0 0; }
-body.single-post .blog-article-content li ul > li::before { background: var(--bg300); }
-
-/* blockquote: 3px navy rule, Poppins 500, cream050, upright */
-body.single-post .blog-article-content blockquote {
-  margin: 28px 0;
-  padding: 20px 24px;
-  border: 0;
-  border-left: 3px solid var(--navy);
-  background: var(--cream050);
-  font-family: var(--display);
-  font-weight: 500;
-  font-style: normal;
-  font-size: 18px;
-  line-height: 1.5;
-  color: var(--navy);
-  quotes: none;
-}
-body.single-post .blog-article-content blockquote::before,
-body.single-post .blog-article-content blockquote::after { content: none; }
-body.single-post .blog-article-content blockquote p { margin: 0 0 .6em; font: inherit; }
-body.single-post .blog-article-content blockquote p:last-child { margin-bottom: 0; }
-body.single-post .blog-article-content blockquote cite {
-  display: block;
-  margin-top: 10px;
-  font-family: var(--display);
-  font-size: var(--micro-size);
-  font-weight: 600;
-  letter-spacing: var(--micro-track);
-  text-transform: uppercase;
-  font-style: normal;
-  color: var(--ink2);
-}
-
-/* tables: ruled, cream050 micro-label header */
-body.single-post .blog-article-content table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 24px 0 28px;
-  font-size: 15px;
-  line-height: 1.45;
-}
-body.single-post .blog-article-content th,
-body.single-post .blog-article-content td {
-  border: 1px solid var(--line);
-  padding: 10px 14px;
-  text-align: left;
-  vertical-align: top;
-  color: var(--ink);
-}
-body.single-post .blog-article-content th,
-body.single-post .blog-article-content thead td {
-  background: var(--cream050);
-  font-family: var(--display);
-  font-size: var(--micro-size);
-  font-weight: 600;
-  letter-spacing: var(--micro-track);
-  text-transform: uppercase;
-  color: var(--navy);
-}
-body.single-post .blog-article-content td.num,
-body.single-post .blog-article-content td[align="right"] {
-  font-family: var(--mono);
-  text-align: right;
-  white-space: nowrap;
-  font-variant-numeric: tabular-nums lining-nums;
-}
-
-/* images and figures inside the body: square, micro-label captions */
 body.single-post .blog-article-content img {
   display: block;
   max-width: 100%;
@@ -249,49 +134,7 @@ body.single-post .blog-article-content img {
 }
 body.single-post .blog-article-content figure { margin: 28px 0; }
 body.single-post .blog-article-content figure img { margin: 0; }
-body.single-post .blog-article-content figcaption,
-body.single-post .blog-article-content .wp-caption-text {
-  margin-top: 10px;
-  font-family: var(--display);
-  font-size: var(--micro-size);
-  font-weight: 600;
-  letter-spacing: var(--micro-track);
-  text-transform: uppercase;
-  color: var(--ink2);
-  text-align: left;
-}
-body.single-post .blog-article-content code,
-body.single-post .blog-article-content pre,
-body.single-post .blog-article-content kbd {
-  font-family: var(--mono);
-  font-size: .92em;
-  background: var(--cream050);
-  border: 1px solid var(--line);
-  border-radius: 0;
-  padding: .1em .4em;
-}
-body.single-post .blog-article-content pre { padding: 14px 16px; overflow-x: auto; margin: 0 0 1.25em; }
-body.single-post .blog-article-content hr {
-  border: 0;
-  border-top: 1px solid var(--line);
-  margin: 36px 0;
-}
-
-/* buttons inside a guide: one navy action */
-body.single-post .elementor-7715 .elementor-widget-button .elementor-button {
-  font-family: var(--display);
-  font-weight: 600;
-  font-size: 14px;
-  letter-spacing: .04em;
-  text-transform: uppercase;
-  color: var(--white);
-  background: var(--navy);
-  border: 1px solid var(--navy);
-  border-radius: 0;
-  padding: 14px 24px;
-  box-shadow: none;
-}
-body.single-post .elementor-7715 .elementor-widget-button .elementor-button:hover { background: var(--navy600); border-color: var(--navy600); color: var(--white); }
+body.single-post .blog-article-content hr { border: 0; border-top: 1px solid var(--line); margin: 36px 0; }
 
 /* share icons, if a guide carries them: square, outlined bg300 */
 body.single-post .elementor-social-icon,
@@ -310,7 +153,7 @@ body.single-post .social-icons .social-icon:hover { background: var(--navy); bor
 body.single-post .elementor-social-icon:hover i,
 body.single-post .social-icons .social-icon:hover i { color: var(--white); }
 
-/* ── related posts ── */
+/* ── related-post cards (a 2-up slider in the markup; the slides become cards) ── */
 body.single-post .elementor-7715 .elementor-element.elementor-element-620346f {
   --rel-w: min(var(--container), 100vw - 2 * var(--gutter));
   width: var(--rel-w);
@@ -320,17 +163,19 @@ body.single-post .elementor-7715 .elementor-element.elementor-element-620346f {
   text-align: left;
 }
 body.single-post .elementor-7715 .elementor-element.elementor-element-620346f > .elementor-widget-container {
-  margin: clamp(56px, 7vw, 96px) 0 24px;
-  padding-top: 28px;
-  border-top: 1px solid var(--line);
+  margin: var(--sec-y) 0 0;
+  padding-top: 0;
 }
-body.single-post .elementor-7715 .elementor-element.elementor-element-620346f .elementor-heading-title {
+body.single-post main#main .elementor-element.elementor-element-620346f .elementor-heading-title {
   font-family: var(--display);
-  font-size: 26px;
+  font-size: var(--h2);
   font-weight: 600;
   letter-spacing: -.01em;
-  line-height: 1.2;
+  line-height: 1.15;
   color: var(--navy);
+  border-top: 1px solid var(--line);
+  padding-top: 24px;
+  margin: 0 0 24px;
 }
 body.single-post .elementor-7715 .elementor-element.elementor-element-7e6a1f6 {
   --rel-w: min(var(--container), 100vw - 2 * var(--gutter));
@@ -340,15 +185,7 @@ body.single-post .elementor-7715 .elementor-element.elementor-element-7e6a1f6 {
   margin-left: calc(50% - var(--rel-w) / 2);
   font-size: 15px;
 }
-/* the theme runs this as a 2-up swiper; the slides become licence cards */
-body.single-post .alpha-posts-grid .alpha-tb-item {
-  background: var(--white);
-  border: 1px solid var(--line);
-  clip-path: polygon(0 0, 100% 0, 100% 100%, var(--corner-notch) 100%, 0 calc(100% - var(--corner-notch)));
-  border-radius: 0;
-  box-shadow: none;
-  height: auto;
-}
+body.single-post .alpha-posts-grid .alpha-tb-item { height: auto; }
 body.single-post .alpha-posts-grid .alpha-tb-item > div { padding: 0 !important; }
 body.single-post .alpha-posts-grid .alpha-tb-featured-image,
 body.single-post .alpha-posts-grid .alpha-tb-featured-image .img-thumbnail,
@@ -361,9 +198,9 @@ body.single-post .alpha-posts-grid .alpha-tb-featured-image img {
 }
 body.single-post .alpha-posts-grid .alpha-tb-featured-image .img-thumbnail { aspect-ratio: 16 / 10; overflow: hidden; }
 body.single-post .alpha-posts-grid .alpha-tb-featured-image img { height: 100%; object-fit: cover; display: block; }
-body.single-post .alpha-posts-grid .alpha-tb-item > div > div:not(.alpha-tb-featured-image) { padding: 18px 20px 4px !important; }
+body.single-post .alpha-posts-grid .alpha-tb-item > div > div:not(.alpha-tb-featured-image) { padding: 22px 24px 4px !important; }
 body.single-post .alpha-posts-grid .alpha-tb-item > div > div:not(.alpha-tb-featured-image) > .btn-wrapper,
-body.single-post .alpha-posts-grid .alpha-tb-item .btn-wrapper { padding: 6px 20px 22px !important; }
+body.single-post .alpha-posts-grid .alpha-tb-item .btn-wrapper { padding: 6px 24px 28px !important; }
 body.single-post .alpha-posts-grid .alpha-tb-meta,
 body.single-post .alpha-posts-grid .alpha-tb-meta a {
   font-family: var(--display);
@@ -381,19 +218,9 @@ body.single-post .alpha-posts-grid .tb-meta-published_date {
   font-variant-numeric: tabular-nums lining-nums;
 }
 body.single-post .alpha-posts-grid .title-wrapper .title.elementor-heading-title:empty,
-body.single-post .alpha-posts-grid .title-wrapper p.title { color: var(--bg300); margin: 0 8px; font-size: 12px; }
-body.single-post .alpha-posts-grid h3.title {
-  font-family: var(--display);
-  font-size: 19px;
-  font-weight: 600;
-  letter-spacing: -.01em;
-  line-height: 1.25;
-  color: var(--navy);
-  margin: 10px 0 8px;
-}
+body.single-post .alpha-posts-grid .title-wrapper p.title { color: var(--ink3); margin: 0 8px; font-size: 12px; }
+body.single-post .alpha-posts-grid h3.title { margin: 10px 0 8px; }
 body.single-post .alpha-posts-grid .title-wrapper > a:hover .title { color: var(--navy600); }
-body.single-post .alpha-posts-grid .alpha-tb-excerpt,
-body.single-post .alpha-posts-grid .tb-excerpt { color: var(--ink2); font-size: 15px; line-height: 1.55; }
 body.single-post .alpha-posts-grid .btn.btn-link {
   display: inline-flex;
   align-items: center;
@@ -427,10 +254,10 @@ body.single-post .alpha-posts-grid .slider-pagination-bullet-active span { backg
 }
 @media (max-width: 767px) {
   body.single-post .elementor-7715 > .elementor-section.elementor-top-section > .elementor-container { padding-top: 24px; padding-bottom: 48px; }
-  body.single-post .blog-article-content h2 { font-size: 23px; margin-top: 32px; }
-  body.single-post .blog-article-content h3 { font-size: 19px; }
   body.single-post .blog-article-content table { font-size: 14px; }
   body.single-post .blog-article-content th, body.single-post .blog-article-content td { padding: 8px 10px; }
+  /* the related cards' "Read more" is a 44px tap target on a phone */
+  body.single-post .alpha-posts-grid .btn.btn-link { min-height: 44px; }
 }
 
 /* comments block, if a guide carries it */
@@ -439,45 +266,58 @@ body.single-post .comment-respond .form-control { border-radius: 0; }
 body.single-post .comment-respond .form-control { border: 1px solid var(--line); background: var(--white); color: var(--ink); }
 body.single-post .comment-respond .form-control:focus { border-color: var(--navy); }
 
-/* ═══════════════════ 2. BLOG INDEX AND ARCHIVES ═══════════════════ */
+/* ═══════════════════ 2. BLOG BAND, POST CARDS, ARCHIVES ═══════════════════ */
 
-/* title block (post-2753): label, title, search */
+/* the blog band: the title block (section 28ec687 — eyebrow, page title, search) becomes a
+   navy band that tucks under the header band and carries the same diagonal cut, so the
+   blog reads as the same family as the page banners */
 body.blog .elementor-2753 .elementor-element.elementor-element-28ec687,
 body.archive .elementor-2753 .elementor-element.elementor-element-28ec687 {
   border-top: 0;
-  padding: clamp(40px, 6vw, 72px) 0 0;
+  background: var(--navy);
+  margin-top: calc(-1 * var(--band-skew-px));
+  padding: calc(var(--band-skew-px) + 40px) 0 calc(var(--band-skew-px) + 44px);
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--band-skew-px)), 0 100%);
 }
+body.blog .elementor-2753 .elementor-element.elementor-element-28ec687 > .elementor-container,
+body.archive .elementor-2753 .elementor-element.elementor-element-28ec687 > .elementor-container { max-width: var(--container); padding: 0 var(--gutter); }
 body.blog .elementor-2753 .elementor-element.elementor-element-efb0bbd,
 body.archive .elementor-2753 .elementor-element.elementor-element-efb0bbd,
 body.blog .elementor-2753 .elementor-element.elementor-element-bc77c8f,
 body.archive .elementor-2753 .elementor-element.elementor-element-bc77c8f { text-align: left; }
+/* the eyebrow ("Blog" / the archive name) */
 body.blog .elementor-2753 .elementor-element.elementor-element-efb0bbd .elementor-heading-title,
 body.archive .elementor-2753 .elementor-element.elementor-element-efb0bbd .elementor-heading-title {
   font-family: var(--display);
   font-size: var(--micro-size);
   font-weight: 600;
   letter-spacing: var(--micro-track);
+  line-height: 1.4;
   text-transform: uppercase;
-  color: var(--ink2);
+  color: var(--bg300);
 }
+body.blog .elementor-2753 .elementor-element.elementor-element-efb0bbd > .elementor-widget-container,
+body.archive .elementor-2753 .elementor-element.elementor-element-efb0bbd > .elementor-widget-container { margin: 0 0 18px; }
+/* the page title ("Recent News") */
 body.blog .elementor-2753 .elementor-element.elementor-element-bc77c8f .elementor-heading-title,
 body.archive .elementor-2753 .elementor-element.elementor-element-bc77c8f .elementor-heading-title {
   font-family: var(--display);
-  font-size: clamp(30px, 4vw, 44px);
+  font-size: var(--h1);
   font-weight: 600;
   letter-spacing: -.02em;
-  line-height: 1.12;
-  color: var(--navy);
+  line-height: 1.02;
+  color: var(--white);
+  border: 0; padding: 0;
 }
 body.blog .elementor-2753 .elementor-element.elementor-element-bc77c8f > .elementor-widget-container,
-body.archive .elementor-2753 .elementor-element.elementor-element-bc77c8f > .elementor-widget-container { margin: 10px 0 22px; }
+body.archive .elementor-2753 .elementor-element.elementor-element-bc77c8f > .elementor-widget-container { margin: 0 0 26px; }
 body.blog .elementor-2753 .elementor-element.elementor-element-91d7598,
 body.archive .elementor-2753 .elementor-element.elementor-element-91d7598 {
   margin-left: 0 !important;
   margin-right: auto !important;
   margin-bottom: 0 !important;
-  padding-bottom: 28px !important;
-  border-bottom: 1px solid var(--navy);
+  padding-bottom: 0 !important;
+  border-bottom: 0;
   width: 100% !important;
   max-width: 100% !important;
 }
@@ -487,11 +327,11 @@ body.blog .elementor-element-91d7598 .search-wrapper form,
 body.archive .elementor-element-91d7598 .search-wrapper form {
   height: 48px;
   border-radius: 0;
-  border: 1px solid var(--line);
+  border: 1px solid var(--bg300);
   background: var(--white);
 }
 body.blog .elementor-element-91d7598 .search-wrapper form:focus-within,
-body.archive .elementor-element-91d7598 .search-wrapper form:focus-within { border-color: var(--navy); }
+body.archive .elementor-element-91d7598 .search-wrapper form:focus-within { border-color: var(--white); }
 body.blog .elementor-element-91d7598 .search-wrapper input.form-control,
 body.archive .elementor-element-91d7598 .search-wrapper input.form-control {
   border-radius: 0;
@@ -516,13 +356,13 @@ body.archive .elementor-element-91d7598 .search-wrapper .btn-search {
   font-size: 16px !important;
 }
 body.blog .elementor-element-91d7598 .search-wrapper .btn-search:hover,
-body.archive .elementor-element-91d7598 .search-wrapper .btn-search:hover { background: var(--navy600); color: var(--white); }
+body.archive .elementor-element-91d7598 .search-wrapper .btn-search:hover { background: var(--navy600) !important; color: var(--white) !important; }
 body.blog .search-wrapper .live-search-list,
 body.archive .search-wrapper .live-search-list { border-radius: 0; }
 
-/* the card grid */
+/* the post-card grid */
 body.blog .post-archive,
-body.archive .post-archive { padding-top: clamp(32px, 4vw, 48px); }
+body.archive .post-archive { padding-top: clamp(40px, 5vw, 64px); padding-bottom: clamp(40px, 5vw, 56px); }
 body.blog .post-archive > .posts,
 body.archive .post-archive > .posts {
   display: grid;
@@ -542,17 +382,13 @@ body.archive .post-archive > .posts > .post-wrap {
   margin: 0;
   display: flex;
 }
+/* the post card (shell: base.css §10) */
 body.blog .post-archive .post-wrap > article.post,
 body.archive .post-archive .post-wrap > article.post {
   display: flex;
   flex-direction: column;
   width: 100%;
   margin: 0;
-  background: var(--white);
-  border: 1px solid var(--line);
-  border-radius: 0;
-  box-shadow: none;
-  clip-path: polygon(0 0, 100% 0, 100% 100%, var(--corner-notch) 100%, 0 calc(100% - var(--corner-notch)));
   text-align: left;
 }
 body.blog .post-archive .post-wrap > article.post:hover,
@@ -582,7 +418,7 @@ body.archive .post-archive .post .post-cats-date {
   transform: none;
   max-width: none;
   margin: 0;
-  padding: 18px 22px 0;
+  padding: 22px 24px 0;
   background: transparent;
   border-radius: 0;
   font-family: var(--display);
@@ -590,7 +426,7 @@ body.archive .post-archive .post .post-cats-date {
   font-weight: 600;
   letter-spacing: var(--micro-track);
   text-transform: uppercase;
-  color: var(--ink3);
+  color: var(--ink2);
   line-height: 1.4;
   z-index: auto;
 }
@@ -610,25 +446,17 @@ body.archive .post-archive .post .post-details {
   display: flex;
   flex-direction: column;
   flex: 1 1 auto;
-  padding: 10px 22px 24px;
+  padding: 10px 24px 28px;
 }
 body.blog .post-archive .post .post-title,
 body.archive .post-archive .post .post-title,
 body.blog .post-archive > .cols-lg-1 .post-title,
-body.archive .post-archive > .cols-lg-1 .post-title {
-  font-family: var(--display);
-  font-size: 20px;
-  font-weight: 600;
-  letter-spacing: -.01em;
-  line-height: 1.25;
-  color: var(--navy);
-  margin: 0 0 10px;
-  -webkit-line-clamp: 3;
-}
+body.archive .post-archive > .cols-lg-1 .post-title { -webkit-line-clamp: 3; }
 body.blog .post-archive .post .post-title a,
 body.archive .post-archive .post .post-title a { color: inherit; }
 body.blog .post-archive .post .post-title a:hover,
 body.archive .post-archive .post .post-title a:hover { color: var(--navy600); }
+/* author · likes · comments: muted (the likes and "Comments Off" are page noise, see NEEDS-MARKUP.md) */
 body.blog .post-archive .post .post-meta,
 body.archive .post-archive .post .post-meta {
   display: flex;
@@ -636,27 +464,21 @@ body.archive .post-archive .post .post-meta {
   gap: 4px 16px;
   margin: 0 0 12px;
   font-family: var(--body);
-  font-size: 13px;
-  color: var(--ink3);
+  font-size: 14px;
+  color: var(--ink2);
 }
 body.blog .post-archive .post .post-meta > *,
 body.archive .post-archive .post .post-meta > * { margin: 0 !important; }
 body.blog .post-archive .post .post-meta a,
 body.archive .post-archive .post .post-meta a,
 body.blog .post-archive .post .post-meta .comments-link,
-body.archive .post-archive .post .post-meta .comments-link { color: var(--ink3); font-weight: 400; text-transform: none; }
+body.archive .post-archive .post .post-meta .comments-link { color: var(--ink2); font-weight: 400; text-transform: none; }
 body.blog .post-archive .post .post-meta .post-author a,
 body.archive .post-archive .post .post-meta .post-author a { color: var(--ink2); text-transform: none; margin-left: 0; }
 body.blog .post-archive .post .post-meta a:hover,
 body.archive .post-archive .post .post-meta a:hover { color: var(--navy); }
 body.blog .post-archive .post .post-content,
-body.archive .post-archive .post .post-content {
-  font-family: var(--body);
-  font-size: 15px;
-  line-height: 1.55;
-  color: var(--ink2);
-  margin: 0 0 18px;
-}
+body.archive .post-archive .post .post-content { margin: 0 0 18px; }
 body.blog .post-archive .post .post-content p,
 body.archive .post-archive .post .post-content p { margin: 0; }
 /* "Read more" as a navy text link with the arrow glyph */
@@ -688,7 +510,7 @@ body.archive .post-archive .post .post-details > .btn:focus { background: transp
 body.blog .post-archive .post .post-details > .btn i,
 body.archive .post-archive .post .post-details > .btn i { margin: 0; font-size: 1.1em; color: inherit; }
 
-/* pagination: square, navy; current filled */
+/* pagination: square, navy; current filled; prev / next in the button family */
 body.blog .pagination,
 body.archive .pagination {
   margin-top: clamp(40px, 5vw, 64px);
@@ -702,8 +524,8 @@ body.archive .pagination {
 }
 body.blog .pagination .page-numbers,
 body.archive .pagination .page-numbers {
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   margin: 0 !important;
   border: 1px solid var(--line);
   border-radius: 0;
@@ -715,23 +537,23 @@ body.archive .pagination .page-numbers.current { background: var(--navy); border
 body.blog .pagination .page-numbers:hover:not(.current):not(.dots),
 body.archive .pagination .page-numbers:hover:not(.current):not(.dots) { border-color: var(--navy); }
 body.blog .pagination .page-numbers.dots,
-body.archive .pagination .page-numbers.dots { border: 0; background: transparent; padding: 0; color: var(--ink3); width: 24px; }
+body.archive .pagination .page-numbers.dots { border: 0; background: transparent; padding: 0; color: var(--ink2); width: 24px; }
 body.blog .pagination .page-numbers.next,
 body.archive .pagination .page-numbers.next,
 body.blog .pagination .page-numbers.prev,
 body.archive .pagination .page-numbers.prev {
   width: auto;
-  padding: 0 14px;
+  padding: 0 16px;
   font-family: var(--display);
   font-size: 13px;
   font-weight: 600;
-  letter-spacing: .04em;
+  letter-spacing: .12em;
   text-transform: uppercase;
   color: var(--navy);
   gap: 8px;
 }
 body.blog .pagination .page-numbers.disabled,
-body.archive .pagination .page-numbers.disabled { color: var(--bg300); border-color: var(--line); }
+body.archive .pagination .page-numbers.disabled { color: var(--ink3); border-color: var(--line); }
 body.blog .pagination i,
 body.archive .pagination i { font-size: 1.1em; }
 body.blog .pagination .page-numbers:hover:not(.current) i,
@@ -742,45 +564,28 @@ body.archive .pagination .page-numbers:hover:not(.current) i { color: inherit; }
   body.archive .post-archive > .posts { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
 }
 @media (max-width: 767px) {
+  body.blog .elementor-2753 .elementor-element.elementor-element-28ec687,
+  body.archive .elementor-2753 .elementor-element.elementor-element-28ec687 { padding: calc(var(--band-skew-px) + 28px) 0 calc(var(--band-skew-px) + 36px); }
   body.blog .post-archive > .posts,
   body.archive .post-archive > .posts { grid-template-columns: 1fr; gap: 16px; }
   body.blog .post-archive .post .post-details,
-  body.archive .post-archive .post .post-details { padding: 8px 18px 20px; }
+  body.archive .post-archive .post .post-details { padding: 8px 20px 24px; }
   body.blog .post-archive .post .post-cats-date,
-  body.archive .post-archive .post .post-cats-date { padding: 16px 18px 0; }
+  body.archive .post-archive .post .post-cats-date { padding: 20px 20px 0; }
   body.blog .pagination,
   body.archive .pagination { justify-content: center; }
+  /* "Read more" is a 44px tap target on a phone */
+  body.blog .post-archive .post .post-details > .btn,
+  body.archive .post-archive .post .post-details > .btn { min-height: 44px; }
 }
 
 /* ═══════════════════════ 3. PROJECTS HUB (page 8784) ═══════════════════════ */
 
-/* the hero: navy over the photo, cut on the diagonal, Poppins */
-body.page-id-8784 .elementor-8784 .elementor-element.elementor-element-3462a715 {
-  margin-top: 0;
-  margin-bottom: 0;
-  clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--band-skew-px)), 0 100%);
-  background-position: center 40%;
-  background-size: cover;
-}
-body.page-id-8784 .elementor-8784 .elementor-element.elementor-element-3462a715 > .elementor-background-overlay {
-  background-color: var(--navy);
-  opacity: .62;
-}
-body.page-id-8784 .elementor-8784 .elementor-element.elementor-element-425574a9 { text-align: left; }
-body.page-id-8784 .elementor-8784 .elementor-element.elementor-element-425574a9 > .elementor-widget-container {
-  margin: clamp(72px, 10vw, 140px) 0 clamp(80px, 11vw, 150px);
-}
-body.page-id-8784 .elementor-8784 .elementor-element.elementor-element-425574a9 .elementor-heading-title {
-  font-family: var(--display);
-  font-size: clamp(36px, 5vw, 64px);
-  font-weight: 600;
-  letter-spacing: -.02em;
-  line-height: 1.02;
-  color: var(--white);
-  max-width: 14ch;
-}
+/* the banner is shared (base.css §13); only its eyebrow words are set here */
+body.page-id-8784 main#main .elementor-top-section:has(h1.elementor-heading-title) h1.elementor-heading-title::before { content: "Projects"; }
+body.page-id-8784 main#main .elementor-top-section:has(h1.elementor-heading-title) h1.elementor-heading-title { max-width: 16ch; }
 
-/* the eight image boxes become one full-bleed collage: the section/column wrappers step aside */
+/* the eight image boxes become one full-bleed collage: the section / column wrappers step aside */
 body.page-id-8784 .elementor-8784 {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -797,7 +602,8 @@ body.page-id-8784 .elementor-8784 > .elementor-section:not(.elementor-element-34
 body.page-id-8784 .elementor-8784 > .elementor-section:not(.elementor-element-3462a715) .elementor-widget-udesign_widget_imagebox > .elementor-widget-container {
   display: contents;
 }
-body.page-id-8784 .elementor-8784 .image-box {
+/* a collage tile: photo, then a navy caption panel */
+body.page-id-8784 main#main .elementor-8784 .image-box {
   display: flex;
   flex-direction: column;
   min-width: 0;
@@ -805,6 +611,8 @@ body.page-id-8784 .elementor-8784 .image-box {
   margin: 0;
   padding: 0 !important;
   background: var(--navy) !important;
+  border: 0;
+  clip-path: none;
   border-radius: 0;
   overflow: hidden;
   text-align: left;
@@ -828,7 +636,7 @@ body.page-id-8784 .elementor-8784 .image-box .image-box-content {
   padding: 14px 18px 16px;
   flex: 1 1 auto;
 }
-body.page-id-8784 .elementor-8784 .image-box .content {
+body.page-id-8784 main#main .elementor-8784 .image-box .content {
   font-family: var(--display);
   font-size: 16px;
   font-weight: 600;
@@ -837,9 +645,9 @@ body.page-id-8784 .elementor-8784 .image-box .content {
   color: var(--white);
   margin: 0 !important;
 }
-/* the caption panel's micro label: reserved for the suburb / type line once the markup carries one */
-body.page-id-8784 .elementor-8784 .image-box .title,
-body.page-id-8784 .elementor-8784 .image-box .image-box-content small {
+/* the caption panel's micro label: for the suburb / type line once the markup carries one */
+body.page-id-8784 main#main .elementor-8784 .image-box .title,
+body.page-id-8784 main#main .elementor-8784 .image-box .image-box-content small {
   display: block;
   font-family: var(--display);
   font-size: var(--micro-size);
@@ -854,7 +662,6 @@ body.page-id-8784 .elementor-8784 .image-box.overlay-dark figure::after { border
 
 @media (max-width: 1024px) {
   body.page-id-8784 .elementor-8784 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  body.page-id-8784 .elementor-8784 .elementor-element.elementor-element-3462a715 > .elementor-container { padding: 0 var(--gutter); }
 }
 @media (max-width: 767px) {
   body.page-id-8784 .elementor-8784 { grid-template-columns: 1fr; gap: 8px; }
@@ -864,70 +671,43 @@ body.page-id-8784 .elementor-8784 .image-box.overlay-dark figure::after { border
 }
 
 /* ═══════════════════════════ 4. PROJECT PAGES ═══════════════════════════ */
+/* Seven built from the shared template (10395 27 Avanti, 10336, 10113 6 Olney, 11172 74 Hedges,
+   10379, 10244, 10366) and two hand-written case studies (11232 1289 Gympie, 11254 8 Kingfisher).
+   Six of the seven carry the address as an H1 in the hero, so they take the shared page banner;
+   27 Avanti has no H1 there and keeps a photo band with the intro heading as its title block. */
 
-/* the theme pads <main> 8rem on top; the hero band on the hub and the project pages sits flush
-   under the header instead (the old template faked this with margin-top:-80px) */
+/* the page frame pads <main> 80px on top; every project page sits flush under the header */
 body.page-id-8784 main#main, body.page-id-10395 main#main, body.page-id-10336 main#main,
 body.page-id-10113 main#main, body.page-id-11172 main#main, body.page-id-10379 main#main,
 body.page-id-10244 main#main, body.page-id-11232 main#main, body.page-id-11254 main#main,
 body.page-id-10366 main#main { padding-top: 0; }
-body.page-id-8784 main#main { padding-bottom: 0; }
 
-/* (a) the Elementor-built project pages: hero band, intro two-up, gallery, prev / next */
-body.page-id-10395 main#main .elementor-top-section.elementor-section-stretched:first-child,
-body.page-id-10336 main#main .elementor-top-section.elementor-section-stretched:first-child,
-body.page-id-10113 main#main .elementor-top-section.elementor-section-stretched:first-child,
-body.page-id-11172 main#main .elementor-top-section.elementor-section-stretched:first-child,
-body.page-id-10379 main#main .elementor-top-section.elementor-section-stretched:first-child,
-body.page-id-10244 main#main .elementor-top-section.elementor-section-stretched:first-child,
-body.page-id-10366 main#main .elementor-top-section.elementor-section-stretched:first-child {
+/* the banner's eyebrow on the six */
+body:is(.page-id-10336,.page-id-10113,.page-id-11172,.page-id-10379,.page-id-10244,.page-id-10366) main#main .elementor-top-section:has(h1.elementor-heading-title) h1.elementor-heading-title::before { content: "Project"; }
+body:is(.page-id-10336,.page-id-10113,.page-id-11172,.page-id-10379,.page-id-10244,.page-id-10366) main#main .elementor-top-section:has(h1.elementor-heading-title) { margin-bottom: 0 !important; }
+
+/* 27 Avanti: photo band with the diagonal bottom cut */
+body.page-id-10395 main#main .elementor-top-section.elementor-section-stretched:first-child {
   margin-top: 0 !important;
-  margin-bottom: clamp(40px, 6vw, 72px) !important;
+  margin-bottom: 0 !important;
   clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--band-skew-px)), 0 100%);
 }
-body.page-id-10395 main#main .elementor-top-section.elementor-section-stretched:first-child > .elementor-background-overlay,
-body.page-id-10336 main#main .elementor-top-section.elementor-section-stretched:first-child > .elementor-background-overlay,
-body.page-id-10113 main#main .elementor-top-section.elementor-section-stretched:first-child > .elementor-background-overlay,
-body.page-id-11172 main#main .elementor-top-section.elementor-section-stretched:first-child > .elementor-background-overlay,
-body.page-id-10379 main#main .elementor-top-section.elementor-section-stretched:first-child > .elementor-background-overlay,
-body.page-id-10244 main#main .elementor-top-section.elementor-section-stretched:first-child > .elementor-background-overlay,
-body.page-id-10366 main#main .elementor-top-section.elementor-section-stretched:first-child > .elementor-background-overlay {
+body.page-id-10395 main#main .elementor-top-section.elementor-section-stretched:first-child > .elementor-background-overlay {
   background-color: var(--navy);
-  opacity: .35;
+  opacity: .18;
 }
-body.page-id-10395 main#main .elementor-top-section.elementor-section-stretched:first-child > .elementor-container,
-body.page-id-10336 main#main .elementor-top-section.elementor-section-stretched:first-child > .elementor-container,
-body.page-id-10113 main#main .elementor-top-section.elementor-section-stretched:first-child > .elementor-container,
-body.page-id-11172 main#main .elementor-top-section.elementor-section-stretched:first-child > .elementor-container,
-body.page-id-10379 main#main .elementor-top-section.elementor-section-stretched:first-child > .elementor-container,
-body.page-id-10244 main#main .elementor-top-section.elementor-section-stretched:first-child > .elementor-container,
-body.page-id-10366 main#main .elementor-top-section.elementor-section-stretched:first-child > .elementor-container { min-height: clamp(280px, 36vw, 460px); }
-/* a hero H1 where the page has one (most of the seven carry the address here) */
-body.page-id-10336 main#main .elementor-section-stretched:first-child .elementor-widget-heading .elementor-heading-title,
-body.page-id-10113 main#main .elementor-section-stretched:first-child .elementor-widget-heading .elementor-heading-title,
-body.page-id-11172 main#main .elementor-section-stretched:first-child .elementor-widget-heading .elementor-heading-title,
-body.page-id-10379 main#main .elementor-section-stretched:first-child .elementor-widget-heading .elementor-heading-title,
-body.page-id-10244 main#main .elementor-section-stretched:first-child .elementor-widget-heading .elementor-heading-title,
-body.page-id-10366 main#main .elementor-section-stretched:first-child .elementor-widget-heading .elementor-heading-title {
-  font-family: var(--display);
-  font-size: clamp(32px, 4.6vw, 56px);
-  font-weight: 600;
-  letter-spacing: -.02em;
-  line-height: 1.05;
-  color: var(--white);
-  text-shadow: none;
-}
+body.page-id-10395 main#main .elementor-top-section.elementor-section-stretched:first-child > .elementor-container { min-height: clamp(280px, 36vw, 460px); }
 
-/* intro section: address micro label, the title, the one terra action, the story */
+/* intro section: address micro label, the heading, the one terracotta action, the story */
 body.page-id-10395 .elementor-element.elementor-element-a1484aa,
 body.page-id-10336 .elementor-element.elementor-element-a1484aa,
 body.page-id-10113 .elementor-element.elementor-element-a1484aa,
 body.page-id-10379 .elementor-element.elementor-element-a1484aa,
 body.page-id-10244 .elementor-element.elementor-element-a1484aa,
 body.page-id-10366 .elementor-element.elementor-element-a1484aa,
-body.page-id-11172 .elementor-element.elementor-element-9fe1916 { margin-top: 0; }
+body.page-id-11172 .elementor-element.elementor-element-9fe1916 { margin-top: 0; padding-top: var(--sec-y); padding-bottom: 0; }
 
-/* the uppercase address line (a text-editor widget) */
+/* the uppercase address line (a text block) */
 body.page-id-10395 .elementor-element.elementor-element-00a2db2,
 body.page-id-10336 .elementor-element.elementor-element-00a2db2,
 body.page-id-10113 .elementor-element.elementor-element-00a2db2,
@@ -948,81 +728,24 @@ body.page-id-10113 .elementor-element.elementor-element-00a2db2 p,
 body.page-id-10379 .elementor-element.elementor-element-00a2db2 p,
 body.page-id-10244 .elementor-element.elementor-element-00a2db2 p,
 body.page-id-10366 .elementor-element.elementor-element-00a2db2 p,
-body.page-id-11172 .elementor-widget-text-editor:has(+ .elementor-widget-heading) p { margin: 0 0 12px; }
+body.page-id-11172 .elementor-widget-text-editor:has(+ .elementor-widget-heading) p { margin: 0 0 12px; font-family: var(--display) !important; font-size: var(--micro-size) !important; color: var(--ink2) !important; }
 
-/* the intro heading is the page title: Poppins, then the grand-total rule */
-body.page-id-10395 .elementor-element.elementor-element-1df64e7 > .elementor-widget-container,
-body.page-id-10336 .elementor-element.elementor-element-1df64e7 > .elementor-widget-container,
-body.page-id-10113 .elementor-element.elementor-element-1df64e7 > .elementor-widget-container,
-body.page-id-10379 .elementor-element.elementor-element-1df64e7 > .elementor-widget-container,
-body.page-id-10244 .elementor-element.elementor-element-1df64e7 > .elementor-widget-container,
-body.page-id-10366 .elementor-element.elementor-element-1df64e7 > .elementor-widget-container,
-body.page-id-11172 .elementor-widget-text-editor + .elementor-widget-heading > .elementor-widget-container {
+/* the intro heading: a section heading (rule above, base.css) on the six; the title block
+   (H1 size, navy rule below) on 27 Avanti where it is the page's title */
+body.page-id-10395 .elementor-element.elementor-element-1df64e7 > .elementor-widget-container {
   margin: 0 !important;
-  padding: 0 0 20px !important;
+  padding: 0 0 22px !important;
   border-bottom: 1px solid var(--navy);
 }
-body.page-id-10395 .elementor-element.elementor-element-1df64e7 .elementor-heading-title,
-body.page-id-10336 .elementor-element.elementor-element-1df64e7 .elementor-heading-title,
-body.page-id-10113 .elementor-element.elementor-element-1df64e7 .elementor-heading-title,
-body.page-id-10379 .elementor-element.elementor-element-1df64e7 .elementor-heading-title,
-body.page-id-10244 .elementor-element.elementor-element-1df64e7 .elementor-heading-title,
-body.page-id-10366 .elementor-element.elementor-element-1df64e7 .elementor-heading-title,
-body.page-id-11172 .elementor-widget-text-editor + .elementor-widget-heading .elementor-heading-title {
-  font-family: var(--display);
-  font-size: clamp(30px, 4vw, 44px);
-  font-weight: 600;
+body.page-id-10395 main#main .elementor-element.elementor-element-1df64e7 .elementor-heading-title {
+  font-size: var(--h1);
   letter-spacing: -.02em;
-  line-height: 1.12;
-  color: var(--navy);
+  line-height: 1.02;
+  border-top: 0; padding-top: 0; margin: 0;
 }
-
-/* buttons on project pages: the quote button is the terra action, everything else navy */
-body.page-id-10395 .elementor-widget-button .elementor-button,
-body.page-id-10336 .elementor-widget-button .elementor-button,
-body.page-id-10113 .elementor-widget-button .elementor-button,
-body.page-id-11172 .elementor-widget-button .elementor-button,
-body.page-id-10379 .elementor-widget-button .elementor-button,
-body.page-id-10244 .elementor-widget-button .elementor-button,
-body.page-id-10366 .elementor-widget-button .elementor-button {
-  font-family: var(--display) !important;
-  font-size: 13px !important;
-  font-weight: 600 !important;
-  letter-spacing: .06em !important;
-  text-transform: uppercase;
-  color: var(--white) !important;
-  fill: var(--white) !important;
-  background: var(--navy) !important;
-  border: 1px solid var(--navy) !important;
-  border-radius: 0 !important;
-  padding: 13px 22px !important;
-  box-shadow: none;
-  transition: background .2s, border-color .2s;
-}
-body.page-id-10395 .elementor-widget-button .elementor-button:hover,
-body.page-id-10336 .elementor-widget-button .elementor-button:hover,
-body.page-id-10113 .elementor-widget-button .elementor-button:hover,
-body.page-id-11172 .elementor-widget-button .elementor-button:hover,
-body.page-id-10379 .elementor-widget-button .elementor-button:hover,
-body.page-id-10244 .elementor-widget-button .elementor-button:hover,
-body.page-id-10366 .elementor-widget-button .elementor-button:hover {
-  background: var(--navy600) !important;
-  border-color: var(--navy600) !important;
-  transform: none;
-}
-body.page-id-10395 .elementor-widget-button .elementor-button.elementor-animation-grow:hover,
-body.page-id-10336 .elementor-widget-button .elementor-button.elementor-animation-grow:hover,
-body.page-id-10113 .elementor-widget-button .elementor-button.elementor-animation-grow:hover,
-body.page-id-11172 .elementor-widget-button .elementor-button.elementor-animation-grow:hover,
-body.page-id-10379 .elementor-widget-button .elementor-button.elementor-animation-grow:hover,
-body.page-id-10244 .elementor-widget-button .elementor-button.elementor-animation-grow:hover,
-body.page-id-10366 .elementor-widget-button .elementor-button.elementor-animation-grow:hover { transform: none; }
-/* The quote button is the page's primary action. It stays navy because base.css §5 gives the
-   one terra per view to the header phone stamp; to move terra here, add `.is-primary` on the
-   button widget (base.css already styles it) and quieten the header stamp on these ids. */
 body.page-id-10395 .elementor-element.elementor-element-e0c72eb > .elementor-widget-container { margin-top: 24px; }
 
-/* project text: guide body */
+/* project text: the guide body */
 body.page-id-10395 .elementor-widget-text-editor,
 body.page-id-10336 .elementor-widget-text-editor,
 body.page-id-10113 .elementor-widget-text-editor,
@@ -1050,72 +773,13 @@ body.page-id-11172 .elementor-widget-text-editor p,
 body.page-id-10379 .elementor-widget-text-editor p,
 body.page-id-10244 .elementor-widget-text-editor p,
 body.page-id-10366 .elementor-widget-text-editor p { margin: 0 0 1.2em; }
-body.page-id-10395 .elementor-widget-text-editor > .elementor-widget-container > :last-child,
-body.page-id-10336 .elementor-widget-text-editor > .elementor-widget-container > :last-child,
-body.page-id-10113 .elementor-widget-text-editor > .elementor-widget-container > :last-child,
-body.page-id-11172 .elementor-widget-text-editor > .elementor-widget-container > :last-child,
-body.page-id-10379 .elementor-widget-text-editor > .elementor-widget-container > :last-child,
-body.page-id-10244 .elementor-widget-text-editor > .elementor-widget-container > :last-child,
-body.page-id-10366 .elementor-widget-text-editor > .elementor-widget-container > :last-child { margin-bottom: 0; }
-body.page-id-10395 .elementor-widget-text-editor a,
-body.page-id-10336 .elementor-widget-text-editor a,
-body.page-id-10113 .elementor-widget-text-editor a,
-body.page-id-11172 .elementor-widget-text-editor a,
-body.page-id-10379 .elementor-widget-text-editor a,
-body.page-id-10244 .elementor-widget-text-editor a,
-body.page-id-10366 .elementor-widget-text-editor a { color: var(--navy600); text-decoration: underline; text-underline-offset: .16em; }
-body.page-id-10395 .elementor-widget-text-editor strong,
-body.page-id-10336 .elementor-widget-text-editor strong,
-body.page-id-10113 .elementor-widget-text-editor strong,
-body.page-id-11172 .elementor-widget-text-editor strong,
-body.page-id-10379 .elementor-widget-text-editor strong,
-body.page-id-10244 .elementor-widget-text-editor strong,
-body.page-id-10366 .elementor-widget-text-editor strong { font-weight: 600; color: var(--navy); }
-/* headings and lists in the longer write-ups (74 Hedges) */
-body.page-id-11172 .elementor-widget-heading .elementor-heading-title:not(h1),
-body.page-id-11172 .elementor-widget-text-editor h2,
-body.page-id-11172 .elementor-widget-text-editor h3 {
-  font-family: var(--display);
-  font-weight: 600;
-  letter-spacing: -.01em;
-  line-height: 1.2;
-  color: var(--navy);
-}
-body.page-id-11172 .elementor-widget-heading .elementor-heading-title:not(h1) { font-size: 26px; }
-body.page-id-11172 .elementor-widget-text-editor h2 { font-size: 26px; margin: 40px 0 14px; }
-body.page-id-11172 .elementor-widget-text-editor h3 { font-size: 20px; margin: 32px 0 12px; }
-body.page-id-11172 .elementor-widget-text-editor ul { margin: 0 0 1.2em; padding: 0; list-style: none; }
-body.page-id-11172 .elementor-widget-text-editor ul > li { position: relative; padding-left: 26px; margin: 0 0 .5em; }
-body.page-id-11172 .elementor-widget-text-editor ul > li::before {
-  content: ""; position: absolute; left: 4px; top: .62em; width: 6px; height: 6px; background: var(--navy);
-}
-
-/* a ruled kv table wherever a project lists scope or facts */
-body.page-id-10395 .elementor-widget-text-editor table, body.page-id-10336 .elementor-widget-text-editor table,
-body.page-id-10113 .elementor-widget-text-editor table, body.page-id-11172 .elementor-widget-text-editor table,
-body.page-id-10379 .elementor-widget-text-editor table, body.page-id-10244 .elementor-widget-text-editor table,
-body.page-id-10366 .elementor-widget-text-editor table, body.page-id-11232 table, body.page-id-11254 table {
-  width: 100%; border-collapse: collapse; margin: 20px 0 28px; font-family: var(--body); font-size: 15px; line-height: 1.45;
-}
-body.page-id-10395 .elementor-widget-text-editor th, body.page-id-10395 .elementor-widget-text-editor td,
-body.page-id-10336 .elementor-widget-text-editor th, body.page-id-10336 .elementor-widget-text-editor td,
-body.page-id-10113 .elementor-widget-text-editor th, body.page-id-10113 .elementor-widget-text-editor td,
-body.page-id-11172 .elementor-widget-text-editor th, body.page-id-11172 .elementor-widget-text-editor td,
-body.page-id-10379 .elementor-widget-text-editor th, body.page-id-10379 .elementor-widget-text-editor td,
-body.page-id-10244 .elementor-widget-text-editor th, body.page-id-10244 .elementor-widget-text-editor td,
-body.page-id-10366 .elementor-widget-text-editor th, body.page-id-10366 .elementor-widget-text-editor td,
-body.page-id-11232 th, body.page-id-11232 td, body.page-id-11254 th, body.page-id-11254 td {
-  border: 1px solid var(--line); padding: 10px 14px; text-align: left; vertical-align: top; color: var(--ink);
-}
+/* the ruled facts table wherever a project lists scope: the head column is the label column */
 body.page-id-10395 .elementor-widget-text-editor th, body.page-id-10336 .elementor-widget-text-editor th,
 body.page-id-10113 .elementor-widget-text-editor th, body.page-id-11172 .elementor-widget-text-editor th,
 body.page-id-10379 .elementor-widget-text-editor th, body.page-id-10244 .elementor-widget-text-editor th,
-body.page-id-10366 .elementor-widget-text-editor th, body.page-id-11232 th, body.page-id-11254 th {
-  background: var(--cream050); font-family: var(--display); font-size: var(--micro-size); font-weight: 600;
-  letter-spacing: var(--micro-track); text-transform: uppercase; color: var(--navy); width: 30%;
-}
+body.page-id-10366 .elementor-widget-text-editor th, body.page-id-11232 th, body.page-id-11254 th { width: 30%; }
 
-/* the gallery: square tiles, 8px gaps, no radius; the lightbox anchors are untouched */
+/* the photo gallery: square tiles, 8px gaps, no radius; the lightbox anchors are untouched */
 body.page-id-10395 ul.image-gallery, body.page-id-10336 ul.image-gallery, body.page-id-10113 ul.image-gallery,
 body.page-id-11172 ul.image-gallery, body.page-id-10379 ul.image-gallery, body.page-id-10244 ul.image-gallery,
 body.page-id-10366 ul.image-gallery, body.page-id-11232 ul.image-gallery, body.page-id-11254 ul.image-gallery {
@@ -1139,6 +803,9 @@ body.page-id-10366 ul.image-gallery > li, body.page-id-11232 ul.image-gallery > 
   display: block;
   min-width: 0;
 }
+body.page-id-10395 ul.image-gallery > li::before, body.page-id-10336 ul.image-gallery > li::before, body.page-id-10113 ul.image-gallery > li::before,
+body.page-id-11172 ul.image-gallery > li::before, body.page-id-10379 ul.image-gallery > li::before, body.page-id-10244 ul.image-gallery > li::before,
+body.page-id-10366 ul.image-gallery > li::before, body.page-id-11232 ul.image-gallery > li::before, body.page-id-11254 ul.image-gallery > li::before { content: none; }
 body.page-id-10395 .image-gallery .image-gallery-item, body.page-id-10336 .image-gallery .image-gallery-item,
 body.page-id-10113 .image-gallery .image-gallery-item, body.page-id-11172 .image-gallery .image-gallery-item,
 body.page-id-10379 .image-gallery .image-gallery-item, body.page-id-10244 .image-gallery .image-gallery-item,
@@ -1176,13 +843,8 @@ body.page-id-10113 .elementor-element.elementor-element-8a34315,
 body.page-id-10379 .elementor-element.elementor-element-8a34315,
 body.page-id-10244 .elementor-element.elementor-element-8a34315,
 body.page-id-10366 .elementor-element.elementor-element-8a34315,
-body.page-id-11172 .elementor-element.elementor-element-1ed8e41 { padding: clamp(32px, 4vw, 48px) 0 clamp(48px, 7vw, 96px); }
+body.page-id-11172 .elementor-element.elementor-element-1ed8e41 { padding: clamp(32px, 4vw, 48px) 0 var(--sec-y); }
 
-@media (max-width: 1024px) {
-  body.page-id-10395 ul.image-gallery, body.page-id-10336 ul.image-gallery, body.page-id-10113 ul.image-gallery,
-  body.page-id-11172 ul.image-gallery, body.page-id-10379 ul.image-gallery, body.page-id-10244 ul.image-gallery,
-  body.page-id-10366 ul.image-gallery, body.page-id-11232 ul.image-gallery, body.page-id-11254 ul.image-gallery { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-}
 @media (max-width: 767px) {
   body.page-id-10395 ul.image-gallery, body.page-id-10336 ul.image-gallery, body.page-id-10113 ul.image-gallery,
   body.page-id-11172 ul.image-gallery, body.page-id-10379 ul.image-gallery, body.page-id-10244 ul.image-gallery,
@@ -1197,20 +859,32 @@ body.page-id-11172 .elementor-element.elementor-element-1ed8e41 { padding: clamp
   body.page-id-10366 .elementor-widget-text-editor { font-size: 16px; }
 }
 
-/* (b) the two HTML-widget case studies (1289 Gympie Road, 8 Kingfisher Court): they carry their own
-   inline <style>, so the overrides below match its selectors and out-cascade it by order */
+/* (b) the two hand-written case studies (1289 Gympie Road, 8 Kingfisher Court): they carry their
+   own inline stylesheet, so the rules below match its selectors and out-cascade it by order */
 body.page-id-11232 .cs-hero-grid, body.page-id-11254 .cs-hero-grid,
 body.page-id-11232 .cs-callout, body.page-id-11254 .cs-callout,
 body.page-id-11232 .cs-cta-wrap, body.page-id-11254 .cs-cta-wrap,
 body.page-id-11232 .cs-content, body.page-id-11254 .cs-content { font-family: var(--body); }
+/* the navy hero: same cut as the banners, tucked under the header band */
+body.page-id-11232 main#main .elementor-top-section.elementor-element-d84ff46,
+body.page-id-11254 main#main .elementor-top-section.elementor-element-15dce29 {
+  margin-top: calc(-1 * var(--band-skew-px)) !important;
+  padding-top: var(--band-skew-px);
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--band-skew-px)), 0 100%);
+  padding-bottom: var(--band-skew-px);
+}
 body.page-id-11232 .cs-hero-grid h1, body.page-id-11254 .cs-hero-grid h1 {
   font-family: var(--display);
-  font-size: clamp(32px, 4.6vw, 56px);
+  font-size: var(--h1);
   font-weight: 600;
   letter-spacing: -.02em;
-  line-height: 1.05;
+  line-height: 1.02;
+  text-align: left;
 }
-body.page-id-11232 .cs-hero-subtitle, body.page-id-11254 .cs-hero-subtitle { font-size: 17px; line-height: 1.6; color: var(--bg100); opacity: 1; }
+body.page-id-11232 .cs-hero-grid, body.page-id-11254 .cs-hero-grid { text-align: left; }
+body.page-id-11232 .cs-hero-subtitle, body.page-id-11254 .cs-hero-subtitle { font-size: 17px; line-height: 1.6; color: var(--bg100); opacity: 1; text-align: left; }
+body.page-id-11232 .cs-hero-badges, body.page-id-11254 .cs-hero-badges { justify-content: flex-start; }
+body.page-id-11232 .cs-hero-ctas, body.page-id-11254 .cs-hero-ctas, body.page-id-11232 .cs-cta-buttons, body.page-id-11254 .cs-cta-buttons { justify-content: flex-start; }
 body.page-id-11232 .cs-hero-badge, body.page-id-11254 .cs-hero-badge {
   font-family: var(--display);
   font-size: var(--micro-size);
@@ -1222,31 +896,8 @@ body.page-id-11232 .cs-hero-badge, body.page-id-11254 .cs-hero-badge {
   border-radius: 0;
   padding: 6px 12px;
 }
-body.page-id-11232 .cs-btn-primary, body.page-id-11254 .cs-btn-primary,
-body.page-id-11232 .cs-btn-outline, body.page-id-11254 .cs-btn-outline,
-body.page-id-11232 .cs-cta-buttons a, body.page-id-11254 .cs-cta-buttons a {
-  font-family: var(--display);
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: .06em;
-  border-radius: 0;
-  padding: 13px 22px;
-  transition: background .2s, border-color .2s;
-}
-body.page-id-11232 .cs-btn-primary, body.page-id-11254 .cs-btn-primary,
-body.page-id-11232 .cs-cta-btn-primary, body.page-id-11254 .cs-cta-btn-primary { background: var(--white); color: var(--navy) !important; }
-body.page-id-11232 .cs-btn-primary:hover, body.page-id-11254 .cs-btn-primary:hover,
-body.page-id-11232 .cs-cta-btn-primary:hover, body.page-id-11254 .cs-cta-btn-primary:hover { background: var(--bg100); color: var(--navy) !important; transform: none; }
-body.page-id-11232 .cs-btn-outline, body.page-id-11254 .cs-btn-outline,
-body.page-id-11232 .cs-cta-btn-outline, body.page-id-11254 .cs-cta-btn-outline {
-  border: 1px solid var(--bg300);
-  font-family: var(--mono);
-  letter-spacing: .02em;
-  font-variant-numeric: tabular-nums lining-nums;
-}
-body.page-id-11232 .cs-cta-btn-outline, body.page-id-11254 .cs-cta-btn-outline { font-family: var(--display); letter-spacing: .06em; }
-body.page-id-11232 .cs-btn-outline:hover, body.page-id-11254 .cs-btn-outline:hover,
-body.page-id-11232 .cs-cta-btn-outline:hover, body.page-id-11254 .cs-cta-btn-outline:hover { border-color: var(--white); background: transparent; }
+/* the phone button in the hero keeps its figure in mono */
+body.page-id-11232 main#main .cs-btn-outline, body.page-id-11254 main#main .cs-btn-outline { font-family: var(--mono) !important; letter-spacing: .02em !important; font-variant-numeric: tabular-nums lining-nums; text-transform: none !important; }
 body.page-id-11232 .cs-video-wrap, body.page-id-11254 .cs-video-wrap { border-radius: 0; box-shadow: none; border: 1px solid var(--navy600); }
 body.page-id-11232 .cs-video-label, body.page-id-11254 .cs-video-label {
   font-family: var(--display);
@@ -1258,9 +909,10 @@ body.page-id-11232 .cs-video-label, body.page-id-11254 .cs-video-label {
 body.page-id-11232 .cs-callout h2, body.page-id-11254 .cs-callout h2,
 body.page-id-11232 .cs-cta-wrap h2, body.page-id-11254 .cs-cta-wrap h2 {
   font-family: var(--display);
+  font-size: var(--h2);
   font-weight: 600;
-  letter-spacing: -.02em;
-  line-height: 1.12;
+  letter-spacing: -.01em;
+  line-height: 1.15;
 }
 body.page-id-11232 .cs-callout p, body.page-id-11254 .cs-callout p,
 body.page-id-11232 .cs-cta-wrap p, body.page-id-11254 .cs-cta-wrap p { font-size: 17px; line-height: 1.6; color: var(--bg100); opacity: 1; }
@@ -1288,23 +940,13 @@ body.page-id-11232 .elementor-widget-heading .elementor-heading-title, body.page
   font-family: var(--display) !important;
   font-weight: 600 !important;
   letter-spacing: -.01em !important;
-  line-height: 1.2;
   color: var(--navy) !important;
   text-transform: none;
 }
-body.page-id-11232 .cs-content h2, body.page-id-11254 .cs-content h2,
-body.page-id-11232 .elementor-widget-heading .elementor-heading-title, body.page-id-11254 .elementor-widget-heading .elementor-heading-title { font-size: 26px !important; margin: 0 0 16px; }
-body.page-id-11232 .cs-content h3, body.page-id-11254 .cs-content h3 { font-size: 20px !important; margin: 32px 0 12px; }
-body.page-id-11232 .cs-content a, body.page-id-11254 .cs-content a { color: var(--navy600); font-weight: 400; text-decoration: underline; text-underline-offset: .16em; }
-body.page-id-11232 .cs-content a:hover, body.page-id-11254 .cs-content a:hover { color: var(--navy); }
-body.page-id-11232 .cs-content strong, body.page-id-11254 .cs-content strong,
-body.page-id-11232 .elementor-widget-text-editor strong, body.page-id-11254 .elementor-widget-text-editor strong { color: var(--navy) !important; font-weight: 600; }
-body.page-id-11232 .cs-content ul, body.page-id-11254 .cs-content ul { margin: 0 0 1.2em; padding: 0; list-style: none; }
-body.page-id-11232 .cs-content li, body.page-id-11254 .cs-content li { position: relative; padding-left: 26px; margin: 0 0 .5em; }
-body.page-id-11232 .cs-content li::before, body.page-id-11254 .cs-content li::before {
-  content: ""; position: absolute; left: 4px; top: .62em; width: 6px; height: 6px; background: var(--navy);
-}
-/* their "book now" strip is painted #c9553d in post-11232/11254.css; the header stamp owns terra */
+body.page-id-11232 .elementor-widget-heading h2.elementor-heading-title, body.page-id-11254 .elementor-widget-heading h2.elementor-heading-title { font-size: var(--h2) !important; }
+body.page-id-11232 .cs-content h2, body.page-id-11254 .cs-content h2 { font-size: var(--h2) !important; }
+body.page-id-11232 .cs-content h3, body.page-id-11254 .cs-content h3 { font-size: var(--h3) !important; }
+/* their "book now" strip is painted terracotta in the markup's stylesheet; the hero "Get a quote" owns terra */
 body.page-id-11232 .elementor-11232 .elementor-element.elementor-element-0df560d:not(.elementor-motion-effects-element-type-background),
 body.page-id-11254 .elementor-11254 .elementor-element.elementor-element-abff883:not(.elementor-motion-effects-element-type-background) {
   background-color: var(--navy600);
@@ -1319,17 +961,4 @@ body.page-id-11232 .elementor-element-0df560d .elementor-widget-html strong,
 body.page-id-11254 .elementor-element-abff883 .elementor-widget-html strong { color: var(--white); font-weight: 600; }
 body.page-id-11232 .elementor-element-0df560d .elementor-widget-html a,
 body.page-id-11254 .elementor-element-abff883 .elementor-widget-html a { color: var(--white) !important; text-underline-offset: .16em; }
-
-/* the two case studies keep their hero navy but lose the rounded video and the drop shadows */
 body.page-id-11232 .cs-hero-grid, body.page-id-11254 .cs-hero-grid { padding: clamp(48px, 6vw, 80px) 0; }
-
-/* ---- parent pass, 11 Sep: the header phone stamp is now outlined everywhere (chrome.css),
-   so each project page's "Get a quote" (the button that links to /contact-us/) is its one
-   terracotta action. Prev / Next stay navy. ---- */
-body.page-template-elementor_header_footer main#main .elementor-widget-button .elementor-button[href="/contact-us/"],
-body.page-template-elementor_header_footer main#main .elementor-widget-button .elementor-button[href$="/contact-us/"] {
-  background: var(--terra) !important; border-color: var(--terra) !important; color: var(--white) !important;
-}
-body.page-template-elementor_header_footer main#main .elementor-widget-button .elementor-button[href$="/contact-us/"]:hover {
-  filter: brightness(.9);
-}

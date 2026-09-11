@@ -1,17 +1,23 @@
-/* restyle/parts/base.css — the global layer. Owner: chrome agent.
-   Everything here must hold on every page; page partials (home/services/articles/forms)
-   build on it. Tokens come from /restyle/tokens.css — no new hex in this file.
+/* restyle/parts/base.css — the shared layer. Everything here holds on every page; the page
+   partials (chrome, home, services, articles, forms) build on it. Tokens come from
+   /restyle/tokens.css — no new hex in this file.
 
-   Cascade notes. The theme (u-design) paints from `--alpha-*` variables declared in
-   wp-content/uploads/udesign_styles/dynamic_vars.min.css and Elementor from `--e-global-*`
-   on `.elementor-kit-5` (post-5.css). Re-pointing those variables is the cheap, wide win.
-   Where Elementor's per-element CSS states a family/colour/radius outright at (0,4,0)
-   (`.elementor-<page> .elementor-element.elementor-element-<hash> …`) a plain selector
-   cannot reach it, so a bounded set of properties — font-family, border-radius, box-shadow
-   and the button "stamp" — carry !important. Page partials that need to differ override
-   with a per-hash selector plus !important of their own. */
+   How the cascade works. The site is a frozen static export. Its own stylesheets paint from
+   two sets of variables (`--alpha-*` for the page frame, `--e-global-*` for the blocks), so
+   re-pointing those variables is the cheap, wide win (§1). Where the page's own stylesheet
+   states a family / colour / radius outright on a block by its data-id at (0,4,0) —
+   `.elementor-<page> .elementor-element.elementor-element-<id> …` — a plain selector cannot
+   reach it, so shared rules are anchored on `main#main` (an id out-ranks any class chain) and
+   a bounded set of properties (font-family, border-radius, box-shadow, the button stamp)
+   carry !important. A page partial that needs to differ re-declares with its own page-id
+   prefix, later in load order.
 
-/* ── 1. Theme variables ─────────────────────────────────────────────────── */
+   One system, in plain names:
+     header band · page banner · intro · section heading (rule above) · micro label ·
+     card (notched) · button family (stamp / outlined / one terracotta action per page) ·
+     figures in mono · square marker lists · ruled tables · quote · caption · footer bar. */
+
+/* ── 1. Re-point the page frame's variables ─────────────────────────────── */
 :root, html, body {
   --alpha-body-font-family: var(--body);
   --alpha-heading-font-family: var(--display);
@@ -64,29 +70,36 @@
   --alpha-ptb-breadcrumb-color: var(--ink2);
   --alpha-ptb-title-text-transform: none;
 
-  --alpha-h1-font-size: clamp(36px, 5vw, 64px);
-  --alpha-h2-font-size: clamp(26px, 3vw, 36px);
-  --alpha-h3-font-size: clamp(20px, 2vw, 24px);
-  --alpha-h4-font-size: 18px;
+  /* the one heading scale (see §3) */
+  --h1: clamp(34px, 4.5vw, 56px);
+  --h2: clamp(26px, 2.6vw, 34px);
+  --h3: 22px;
+  --h4: 18px;
+  --alpha-h1-font-size: var(--h1);
+  --alpha-h2-font-size: var(--h2);
+  --alpha-h3-font-size: var(--h3);
+  --alpha-h4-font-size: var(--h4);
   --alpha-h5-font-size: 16px;
   --alpha-h6-font-size: 14px;
+  /* section rhythm: 80 desktop → 48 phone */
+  --sec-y: clamp(48px, 6vw, 80px);
 }
 
 body.elementor-kit-5 {
-  /* Elementor global colours — every one of these was navy or the legacy blue */
+  /* the site's global colours — every one of these was navy or the retired blue */
   --e-global-color-primary: var(--navy);
   --e-global-color-secondary: var(--navy600);
   --e-global-color-text: var(--ink);
   --e-global-color-accent: var(--navy600);
-  --e-global-color-dcce6d8: var(--navy);      /* was #6d94af, header ground */
-  --e-global-color-4ec5dda: var(--navy600);   /* was #6d94af */
+  --e-global-color-dcce6d8: var(--navy);      /* was the blue header ground */
+  --e-global-color-4ec5dda: var(--navy600);   /* was the same blue */
   --e-global-color-2984e25: var(--navy);
   --e-global-color-f353652: var(--navy);
   --e-global-color-b658a74: var(--navy);
   --e-global-color-29817ae: var(--navy);
-  --e-global-color-ebea11d: var(--bg100);     /* was #E1E1E1, text on navy */
+  --e-global-color-ebea11d: var(--bg100);     /* was a light grey, text on navy */
   --e-global-color-f27f14e: var(--cream);
-  /* Elementor global typography */
+  /* the site's global typography */
   --e-global-typography-primary-font-family: Poppins;
   --e-global-typography-primary-font-weight: 600;
   --e-global-typography-secondary-font-family: Poppins;
@@ -112,7 +125,7 @@ body {
 }
 @media (min-width: 1025px) { body { font-size: 17px; } }
 
-/* Elementor states families per element at (0,4,0); a family remap has to carry. */
+/* the page's own stylesheet states families per block at (0,4,0); a family remap has to carry */
 body, p, li, dd, dt, td, th, blockquote, figcaption, label, legend, address,
 .elementor-widget-text-editor, .elementor-text-editor, .elementor-icon-list-text,
 .elementor-icon-box-description, .elementor-image-box-description,
@@ -122,7 +135,9 @@ input, textarea, select, .wpforms-field-label, .wpforms-field-description {
   font-family: var(--body) !important;
 }
 
-/* ── 3. Headings ────────────────────────────────────────────────────────── */
+/* ── 3. One heading scale ───────────────────────────────────────────────── */
+/* h1 34–56 · h2 26–34 with a 1px rule above · h3 22 · h4 18. Poppins 600, tight tracking.
+   Banner H1s are white (§14); page-title blocks carry the navy rule below (title-block). */
 h1, h2, h3, h4, h5, h6,
 .elementor-heading-title, .elementor-icon-box-title, .elementor-image-box-title,
 .elementor-accordion-title, .elementor-toggle-title, .elementor-tab-title,
@@ -136,30 +151,66 @@ h1, h2, h3, h4, h5, h6,
   color: var(--navy);
   text-transform: none;
 }
-h1, .elementor-widget-heading h1.elementor-heading-title, .entry-title, .post-title.h1 {
-  font-size: clamp(36px, 5vw, 64px);
-  line-height: 1;
+h1, .elementor-widget-heading h1.elementor-heading-title, .entry-title, .post-title.h1,
+main#main .elementor-widget-heading h1.elementor-heading-title, main#main h1.title {
+  font-size: var(--h1);
+  line-height: 1.02;
   letter-spacing: -0.02em;
 }
-h2, .elementor-widget-heading h2.elementor-heading-title, .blog-article-content h2 { font-size: clamp(26px, 3vw, 36px); }
+h2, .elementor-widget-heading h2.elementor-heading-title, .blog-article-content h2,
+main#main .elementor-widget-heading h2.elementor-heading-title,
+main#main .elementor-widget-udesign_widget_heading .title-wrapper h2.title,
+main#main .elementor-widget-text-editor h2, main#main .blog-article-content h2, main#main .cs-content h2 {
+  font-size: var(--h2); line-height: 1.15; letter-spacing: -0.01em; font-weight: 600;
+}
 h3, .elementor-widget-heading h3.elementor-heading-title, .blog-article-content h3,
-.elementor-icon-box-title, .elementor-image-box-title, .service-card .card-content h3 { font-size: clamp(20px, 2vw, 24px); line-height: 1.2; }
-h4, .elementor-widget-heading h4.elementor-heading-title { font-size: 18px; line-height: 1.25; }
+.elementor-icon-box-title, .elementor-image-box-title, .service-card .card-content h3,
+main#main .elementor-widget-heading h3.elementor-heading-title,
+main#main .elementor-widget-udesign_widget_heading .title-wrapper h3.title,
+main#main .elementor-widget-text-editor h3, main#main .blog-article-content h3, main#main .cs-content h3 {
+  font-size: var(--h3); line-height: 1.2; letter-spacing: -0.01em; font-weight: 600;
+}
+h4, .elementor-widget-heading h4.elementor-heading-title,
+main#main .elementor-widget-heading h4.elementor-heading-title,
+main#main .elementor-widget-udesign_widget_heading .title-wrapper h4.title,
+main#main .elementor-widget-text-editor h4, main#main .blog-article-content h4, main#main .cs-content h4 { font-size: var(--h4); line-height: 1.25; }
 h5, .elementor-widget-heading h5.elementor-heading-title { font-size: 16px; line-height: 1.3; }
 h6, .elementor-widget-heading h6.elementor-heading-title { font-size: 14px; line-height: 1.3; }
 
-/* muted / small */
-small, .small, .muted, .post-meta, .post-cats, .entry-meta, .elementor-post__meta-data,
-.elementor-testimonial-job, .widget-image-caption, .wp-caption-text, figcaption { color: var(--ink2); }
-small, .small, figcaption, .wp-caption-text, .widget-image-caption { font-size: 14px; }
+/* section heading: the 1px rule above every content h2, 24px of air, then the heading */
+main#main .elementor-widget-heading h2.elementor-heading-title,
+main#main .elementor-widget-udesign_widget_heading .title-wrapper h2.title,
+main#main .elementor-widget-text-editor h2, main#main .blog-article-content h2, main#main .cs-content h2 {
+  border-top: 1px solid var(--line); padding-top: 24px; margin: 0 0 18px;
+}
+main#main .elementor-widget-text-editor h2:not(:first-of-type), main#main .blog-article-content h2:not(:first-child),
+main#main .cs-content h2:not(:first-child) { margin-top: 40px; }
+main#main .elementor-widget-text-editor h3, main#main .blog-article-content h3, main#main .cs-content h3 { margin: 32px 0 10px; }
+main#main .elementor-widget-text-editor h4, main#main .blog-article-content h4, main#main .cs-content h4 { margin: 24px 0 8px; }
+main#main .elementor-widget-text-editor > .elementor-widget-container > :is(h2,h3,h4):first-child,
+main#main .blog-article-content > :is(h2,h3,h4):first-child { margin-top: 0; }
+/* the same rule on navy is navy600 */
+.on-navy main#main h2, main#main .on-navy h2 { border-top-color: var(--navy600); }
+/* title-block: a page title in the document (guide, project, blog band) carries the navy rule below */
+.title-block { padding-bottom: 22px; border-bottom: 1px solid var(--navy); }
 
-/* Micro label — the option-L eyebrow. Poppins 600 / 12px / .12em / uppercase / ink2. */
+/* muted / small */
+small, .small, .muted, .post-meta, .entry-meta, .elementor-post__meta-data,
+.elementor-testimonial-job, .widget-image-caption, .wp-caption-text, figcaption { color: var(--ink2); }
+small, .small { font-size: 14px; }
+
+/* ── 4. Micro label ─────────────────────────────────────────────────────── */
+/* Poppins 600 · 12px · .12em · uppercase · ink2 on light, bg300 on navy. Every eyebrow,
+   date line, category, caption and table head is this. */
 .micro, .subtitle, .title-subtitle, .udesign-widget-heading .subtitle,
 .elementor-heading-title small, .elementor-heading-title .subtitle,
 .elementor-icon-box-title small, .post-cats, .post-cats a, .breadcrumb, .breadcrumb a,
 .elementor-post__badge, .elementor-post-info__terms-list-item, .cat-links, .cat-links a,
 .udesign-widget-heading .title-subtitle, .elementor-divider__text, .elementor-counter-title,
-.elementor-testimonial-job, .service-card .card-content span:not(.service-link) {
+.elementor-testimonial-job, .service-card .card-content span:not(.service-link),
+main#main figcaption, main#main .widget-image-caption, main#main .wp-caption-text,
+main#main .post-cats-date, main#main .image-box .title, main#main .image-box .title a,
+main#main table th, main#main table thead td, main#main blockquote cite {
   font-family: var(--display) !important;
   font-size: var(--micro-size);
   font-weight: 600;
@@ -170,35 +221,51 @@ small, .small, figcaption, .wp-caption-text, .widget-image-caption { font-size: 
 }
 .elementor-heading-title small, .elementor-heading-title .subtitle { display: block; margin-bottom: .6em; letter-spacing: var(--micro-track); }
 
-/* Figures — phone numbers, prices, licence numbers — in Plex Mono, tabular. */
+/* ── 5. Figures — phone numbers, prices, licence numbers, dates — in Plex Mono, tabular ── */
 .num, a[href^="tel:"], .elementor-icon-list-item a[href^="tel:"] .elementor-icon-list-text,
 .menu li > a[href^="tel:"], .price, .licence-no, .abn, time, .post-date, .elementor-post-date,
-.elementor-post-info__item--type-date, .elementor-counter-number-wrapper {
+.elementor-post-info__item--type-date, .elementor-counter-number-wrapper,
+main#main .post-cats-date a:first-child, main#main .tb-meta-published_date, main#main .ti-date,
+main#main table td.num, main#main table td[data-num], input[type="tel"] {
   font-family: var(--mono) !important;
   font-variant-numeric: tabular-nums lining-nums;
   letter-spacing: 0;
 }
 a[href^="tel:"] .elementor-icon-list-icon, a[href^="tel:"] i, a[href^="tel:"] svg { font-family: "Font Awesome 5 Free" !important; }
 .elementor-icon-list-item a[href^="tel:"] { text-transform: none; }
+main#main table td.num, main#main table td[data-num] { text-align: right; white-space: nowrap; }
 
-/* ── 4. Links ───────────────────────────────────────────────────────────── */
+/* ── 6. Links ───────────────────────────────────────────────────────────── */
+/* one link: navy600, 1px underline offset .16em; navy on hover. Nav, cards, headings and
+   buttons never underline. */
 a { color: var(--navy600); text-decoration: none; transition: color .2s, background-color .2s, border-color .2s; }
 a:hover, a:focus { color: var(--navy); text-decoration: underline; text-underline-offset: .16em; text-decoration-thickness: 1px; }
-.elementor-widget-text-editor a, .blog-article-content a, .entry-content a, .post-content a, .elementor-text-editor a, .wpforms-form a {
+.elementor-widget-text-editor a:not(.elementor-button), .blog-article-content a, main#main .blog-article-content a, .entry-content a, .post-content a, .elementor-text-editor a,
+.wpforms-form a, main#main .cs-content a, main#main .elementor-toggle .elementor-tab-content a, main#main .elementor-accordion .elementor-tab-content a {
   color: var(--navy600); text-decoration: underline; text-underline-offset: .16em; text-decoration-thickness: 1px;
+  background: none; box-shadow: none;
 }
-.elementor-widget-text-editor a:hover, .blog-article-content a:hover, .entry-content a:hover, .post-content a:hover { color: var(--navy); }
-/* nav, cards, headings and buttons never underline on hover */
+.elementor-widget-text-editor a:not(.elementor-button):hover, .blog-article-content a:hover, .entry-content a:hover, .post-content a:hover,
+main#main .cs-content a:hover { color: var(--navy); }
+/* every guide carries an inline <style> forcing the old blue on article links with !important */
+main#main .blog-article-content a { color: var(--navy600) !important; }
+main#main .blog-article-content a:hover { color: var(--navy) !important; }
+/* colour and alignment written inline in the copy (`style="color:…"`) — inline values, so !important */
+main#main .elementor-widget-text-editor a[style*="color"] { color: var(--navy600) !important; }
+main#main .elementor-widget-text-editor a[style*="color"]:hover { color: var(--navy) !important; }
+main#main .elementor-widget-text-editor :is(span,strong,b,em)[style*="color"] { color: inherit !important; }
 .menu a:hover, .elementor-button:hover, .btn:hover, .service-link:hover, .elementor-heading-title a:hover,
 .elementor-icon-list-item a:hover, .elementor-social-icon:hover, .post-title a:hover, .elementor-post__thumbnail__link:hover,
 .service-card a:hover, .elementor-icon:hover, .breadcrumb a:hover { text-decoration: none; }
 .elementor-heading-title a { color: inherit; }
 .elementor-widget-heading .elementor-heading-title a:hover { color: var(--navy600); }
+main#main .elementor-widget-text-editor :is(strong,b), main#main .blog-article-content :is(strong,b), main#main .cs-content :is(strong,b) { font-weight: 600; color: var(--navy); }
 
-/* Text on navy. Every section or column painted #182B38 (directly or via a kit token) across
-   wp-content/uploads/elementor/css/post-*.css — enumerated 11 Sep 2026. Text, links and icons
-   inside them go white / bg100; the 1.00:1 inline-link defect in the "Get In Touch" bands
-   (6900294, 11109 family) is covered here generically. Page partials may extend the list. */
+/* Text on navy. Every section or column the site paints navy (directly or through a global
+   colour), listed by data-id — enumerated 11 Sep 2026. Text, links and icons inside them go
+   white / bg100; the navy-on-navy link defect in the "Get In Touch" bands (6900294, 11109
+   family) is covered here generically. Page partials may extend the list; `.on-navy` is the
+   class to add if the markup is ever touched. */
 .elementor-element-0916965, .elementor-element-0946e68, .elementor-element-0c2b678, .elementor-element-15dce29,
 .elementor-element-1be8cda, .elementor-element-47e8c2a0, .elementor-element-6172686, .elementor-element-6900294,
 .elementor-element-7528060, .elementor-element-c597490, .elementor-element-d84ff46, .elementor-element-fdca329,
@@ -255,26 +322,28 @@ a:hover, a:focus { color: var(--navy); text-decoration: underline; text-underlin
 .elementor-element-6900294 .elementor-widget-text-editor a:visited, .elementor-element-11109 .elementor-widget-text-editor a:visited,
 .elementor-element-0916965 .elementor-icon-list-text, .elementor-element-6900294 .elementor-icon-list-text,
 .elementor-element-11109 .elementor-icon-list-text, .elementor-element-fdca329 .elementor-icon-list-text,
-.elementor-element-47e8c2a0 .elementor-icon-list-text, .on-navy .elementor-icon-list-text,
-.elementor-element-6900294 .micro, .elementor-element-11109 .micro, .on-navy .micro, .on-navy .subtitle { color: var(--white); }
+.elementor-element-47e8c2a0 .elementor-icon-list-text, .on-navy .elementor-icon-list-text { color: var(--white); }
 .elementor-element-6900294 .elementor-widget-text-editor a, .elementor-element-11109 .elementor-widget-text-editor a,
 .on-navy .elementor-widget-text-editor a { text-decoration: underline; text-underline-offset: .16em; }
 .elementor-element-6900294 .elementor-widget-text-editor a:hover, .elementor-element-11109 .elementor-widget-text-editor a:hover,
 .on-navy .elementor-widget-text-editor a:hover { color: var(--bg300); }
 .elementor-element-6900294 .micro, .elementor-element-11109 .micro, .on-navy .micro, .on-navy .subtitle { color: var(--bg300); }
 
-/* ── 5. Buttons — the option-L stamp ────────────────────────────────────── */
-/* Default: solid navy, white, square, Poppins 600 13px uppercase .12em. Hover: navy600.
-   Secondary (outlined navy) = add nothing; page partials opt in with .is-secondary on the
-   button or, without markup, by re-declaring the four colour lines per hash.
-   Terracotta is reserved for ONE action per view: the header phone stamp (chrome.css).
-   A page partial that wants its hero CTA terra instead must quieten the header one on that page. */
+/* ── 7. Buttons — the option-L stamp ────────────────────────────────────── */
+/* One family: Poppins 600 13px uppercase .12em, padding 14px 26px, 44px tall, square.
+     stamp     = solid navy, white text; hover navy600
+     outlined  = transparent, 1px navy on light / 1px white on navy; hover fills
+     action    = terracotta; hover navy. Exactly ONE per page: the hero CTA on the home
+                 page, the form submit on the contact pages, "Get a quote" on the project,
+                 service, location and about pages (the button that links to /contact-us/).
+                 The header phone stamp and the footer "Get in touch" are outlined. */
 .elementor-button, .elementor-widget-button .elementor-button, a.elementor-button,
 .btn, a.btn, button.btn, .service-link, .service-card .service-link,
 .wpforms-submit, .wpforms-form button[type="submit"], .wpforms-form input[type="submit"],
 input[type="submit"], button[type="submit"], .wp-block-button__link, .read-more, .more-link,
 .elementor-post__read-more, .comment-form .submit, .elementor-pagination .page-numbers.next,
-.elementor-pagination .page-numbers.prev {
+.elementor-pagination .page-numbers.prev, main#main .cs-btn-primary, main#main .cs-btn-outline, main#main .cs-cta-buttons a,
+main#main .cap-btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   font-family: var(--display) !important;
   font-size: 13px !important;
@@ -295,49 +364,65 @@ input[type="submit"], button[type="submit"], .wp-block-button__link, .read-more,
   text-shadow: none !important;
   transition: background-color .2s, border-color .2s, color .2s;
   cursor: pointer;
+  transform: none !important;
 }
 .elementor-button:hover, .elementor-button:focus, .btn:hover, .btn:focus, .service-link:hover, .service-link:focus,
 .wpforms-submit:hover, .wpforms-submit:focus, input[type="submit"]:hover, button[type="submit"]:hover,
-.wp-block-button__link:hover, .read-more:hover, .more-link:hover, .elementor-post__read-more:hover {
+.wp-block-button__link:hover, .read-more:hover, .more-link:hover, .elementor-post__read-more:hover,
+main#main .cs-btn-primary:hover, main#main .cs-cta-buttons a:hover, main#main .cap-btn:hover {
   background: var(--navy600) !important;
   border-color: var(--navy600) !important;
   color: var(--white) !important;
 }
 .elementor-button .elementor-button-content-wrapper, .elementor-button .elementor-button-text { color: inherit; }
 .elementor-button .elementor-button-icon svg { width: 14px; height: 14px; fill: currentColor; }
-/* secondary — outlined navy (opt-in by class; page partials may alias a hash to this) */
+/* outlined navy (opt-in by class; page partials may alias a data-id to this) */
 .is-secondary.elementor-button, .is-secondary .elementor-button, .is-secondary.btn, .btn-outline, .btn-secondary,
 .elementor-button.elementor-button-outline {
   background: transparent !important; color: var(--navy) !important; border-color: var(--navy) !important;
 }
 .is-secondary.elementor-button:hover, .is-secondary .elementor-button:hover, .is-secondary.btn:hover, .btn-outline:hover,
 .btn-secondary:hover { background: var(--navy) !important; color: var(--white) !important; }
-/* buttons sitting on navy: white outline */
+/* buttons sitting on navy: outlined white */
 .elementor-element-0916965 .elementor-button, .elementor-element-0946e68 .elementor-button, .elementor-element-0c2b678 .elementor-button,
 .elementor-element-15dce29 .elementor-button, .elementor-element-1be8cda .elementor-button, .elementor-element-47e8c2a0 .elementor-button,
 .elementor-element-6172686 .elementor-button, .elementor-element-6900294 .elementor-button, .elementor-element-7528060 .elementor-button,
 .elementor-element-c597490 .elementor-button, .elementor-element-d84ff46 .elementor-button, .elementor-element-fdca329 .elementor-button,
-.elementor-element-11109 .elementor-button, .on-navy .elementor-button, .on-navy .btn {
+.elementor-element-11109 .elementor-button, .on-navy .elementor-button, .on-navy .btn,
+main#main .cs-btn-outline, main#main .cs-cta-btn-outline, main#main .cap-btn-outline, main#main .cap-btn-dark {
   background: transparent !important; border-color: var(--white) !important; color: var(--white) !important;
 }
 .elementor-element-0916965 .elementor-button:hover, .elementor-element-0946e68 .elementor-button:hover, .elementor-element-0c2b678 .elementor-button:hover,
 .elementor-element-15dce29 .elementor-button:hover, .elementor-element-1be8cda .elementor-button:hover, .elementor-element-47e8c2a0 .elementor-button:hover,
 .elementor-element-6172686 .elementor-button:hover, .elementor-element-6900294 .elementor-button:hover, .elementor-element-7528060 .elementor-button:hover,
 .elementor-element-c597490 .elementor-button:hover, .elementor-element-d84ff46 .elementor-button:hover, .elementor-element-fdca329 .elementor-button:hover,
-.elementor-element-11109 .elementor-button:hover, .on-navy .elementor-button:hover, .on-navy .btn:hover {
+.elementor-element-11109 .elementor-button:hover, .on-navy .elementor-button:hover, .on-navy .btn:hover,
+main#main .cs-btn-outline:hover, main#main .cs-cta-btn-outline:hover, main#main .cap-btn-outline:hover, main#main .cap-btn-dark:hover {
   background: var(--white) !important; color: var(--navy) !important; border-color: var(--white) !important;
 }
-/* the terra stamp — one per view. Applied by chrome.css to the header phone item;
-   a page partial may move it (`.is-primary`) if it quietens the header one on that page. */
-.is-primary.elementor-button, .is-primary .elementor-button, .is-primary.btn, .btn-terra {
+/* the terracotta action — one per page. Applied by class, or by the page partials to the
+   button that links to /contact-us/ (services / articles) and the form submit (forms). */
+.is-primary.elementor-button, .is-primary .elementor-button, .is-primary.btn, .btn-terra,
+main#main .elementor-widget-button .elementor-button.elementor-button-link[href$="/contact-us/"],
+main#main .cs-btn-primary, main#main .cap-btn-primary {
   background: var(--terra) !important; border-color: var(--terra) !important; color: var(--white) !important;
 }
-.is-primary.elementor-button:hover, .is-primary .elementor-button:hover, .is-primary.btn:hover, .btn-terra:hover {
+.is-primary.elementor-button:hover, .is-primary .elementor-button:hover, .is-primary.btn:hover, .btn-terra:hover,
+main#main .elementor-widget-button .elementor-button.elementor-button-link[href$="/contact-us/"]:hover,
+main#main .elementor-widget-button .elementor-button.elementor-button-link[href$="/contact-us/"]:focus,
+main#main .cs-btn-primary:hover, main#main .cap-btn-primary:hover {
   background: var(--navy) !important; border-color: var(--navy) !important; color: var(--white) !important;
 }
-/* the theme's coarse-pointer floor already applies; the stamp is 44px on every pointer */
+/* (a /contact-us/ button that sits inside a navy band is outlined white instead — services.css) */
+/* the second, lower call-to-action band on the case studies stays outlined */
+main#main .cs-cta-buttons a.cs-cta-btn-primary, main#main .cs-cta-buttons a.cs-cta-btn-outline { background: transparent !important; border-color: var(--white) !important; color: var(--white) !important; }
+main#main .cs-cta-buttons a.cs-cta-btn-primary:hover, main#main .cs-cta-buttons a.cs-cta-btn-outline:hover { background: var(--white) !important; color: var(--navy) !important; }
+.elementor-widget-button .elementor-button-icon { display: none; }
+/* buttons sit with the copy, flush left, not centred under it */
+main#main .elementor-widget-button.elementor-align-center .elementor-button-wrapper,
+main#main .elementor-widget-button.elementor-mobile-align-center .elementor-button-wrapper { text-align: left; }
 
-/* ── 6. Square everything ───────────────────────────────────────────────── */
+/* ── 8. Square everything ───────────────────────────────────────────────── */
 :root, body { --alpha-border-radius: 0; --alpha-btn-border-radius: 0; --e-global-border-radius: 0; --radius: 0px; }
 .elementor-widget-container, .elementor-widget-wrap, .elementor-column-wrap, .elementor-section,
 .elementor-background-overlay, .elementor-element-populated, .elementor-column > .elementor-widget-wrap,
@@ -355,46 +440,89 @@ input, textarea, select, button, .wpforms-field input, .wpforms-field textarea, 
 .wpforms-form .wpforms-field-medium, .cookies-popup-inner, .cookies-popup .btn, .accept-cookie-btn,
 #callnowbutton, #scroll-top i, #scroll-top svg, .mfp-content, .pagination a, .page-numbers,
 .elementor-lightbox, .eael-creative-button, .eael-cta-wrapper, .eael-cta-button, .eael-info-box,
-.wp-block-button__link, .form-row [type=text], .form-row textarea, .alpha-rounded-skin .area_404 .btn {
+.wp-block-button__link, .form-row [type=text], .form-row textarea, .alpha-rounded-skin .area_404 .btn,
+.elementor-widget-video .elementor-wrapper, .elementor-widget-video iframe, .elementor-custom-embed-image-overlay, .image-box, .image-box img {
   border-radius: 0 !important;
 }
 .elementor-icon-box-icon .elementor-icon.elementor-shape-circle, .elementor-shape-circle .elementor-icon.elementor-social-icon,
 .elementor-shape-rounded .elementor-icon.elementor-social-icon { border-radius: 0 !important; }
 
-/* ── 7. Rules, tables, lists, quotes, hr ────────────────────────────────── */
+/* ── 9. Rules, tables, lists, quote, captions ───────────────────────────── */
 hr, .elementor-divider-separator, .elementor-widget-divider .elementor-divider-separator {
   border: 0; border-top: 1px solid var(--line); height: 0; margin: 24px 0;
 }
-table { border-collapse: collapse; width: 100%; font-size: 15px; margin: 0 0 24px; }
-table th, table td { border: 1px solid var(--line); padding: 10px 14px; text-align: left; vertical-align: top; }
-table th, table thead td {
-  background: var(--cream050);
-  font-family: var(--display) !important; font-size: var(--micro-size); font-weight: 600;
-  letter-spacing: var(--micro-track); text-transform: uppercase; color: var(--navy);
-}
+/* one ruled table: 1px line grid, cream050 head row in micro-label type */
+table, main#main table { border-collapse: collapse; width: 100%; font-family: var(--body); font-size: 15px; line-height: 1.45; margin: 0 0 24px; }
+table th, table td, main#main table th, main#main table td { border: 1px solid var(--line); padding: 10px 14px; text-align: left; vertical-align: top; color: var(--ink); background: transparent; }
+table th, table thead td, main#main table th, main#main table thead td { background: var(--cream050); color: var(--navy); }
 table tr.grand th, table tr.grand td, table tfoot th, table tfoot td {
   border-top: 1px solid var(--navy); font-family: var(--display) !important; font-weight: 600; background: transparent;
 }
-.elementor-widget-text-editor ul, .blog-article-content ul, .entry-content ul, .post-content ul,
-.elementor-widget-text-editor ol, .blog-article-content ol, .entry-content ol, .post-content ol { padding-left: 1.2em; margin: 0 0 1.2em; }
-.elementor-widget-text-editor li, .blog-article-content li, .entry-content li, .post-content li { margin-bottom: .4em; }
-.elementor-widget-text-editor ul li::marker, .blog-article-content ul li::marker, .entry-content ul li::marker { color: var(--navy600); }
+/* one list marker: a 6px navy square; nested lists bg300; numbered lists count in mono */
+main#main .elementor-widget-text-editor ul, main#main .blog-article-content ul, main#main .entry-content ul, main#main .post-content ul,
+main#main .cs-content ul, main#main .elementor-tab-content ul, main#main .elementor-widget-udesign_widget_heading ul {
+  list-style: none; padding: 0; margin: 0 0 1.2em; max-width: var(--measure);
+}
+main#main .elementor-widget-text-editor ul li, main#main .blog-article-content ul li, main#main .entry-content ul li, main#main .post-content ul li,
+main#main .cs-content ul li, main#main .elementor-tab-content ul li, main#main .elementor-widget-udesign_widget_heading ul li {
+  position: relative; padding-left: 22px; margin: 0 0 .5em;
+}
+main#main .elementor-widget-text-editor ul li::before, main#main .blog-article-content ul li::before, main#main .entry-content ul li::before,
+main#main .post-content ul li::before, main#main .cs-content ul li::before, main#main .elementor-tab-content ul li::before,
+main#main .elementor-widget-udesign_widget_heading ul li::before {
+  content: ""; position: absolute; left: 2px; top: .62em; width: 6px; height: 6px; background: var(--navy);
+}
+main#main .elementor-widget-text-editor ul ul li::before, main#main .blog-article-content ul ul li::before, main#main .cs-content ul ul li::before { background: var(--bg300); }
+main#main .elementor-widget-text-editor ul ul, main#main .blog-article-content ul ul, main#main .blog-article-content li ol { margin: .5em 0 0; }
+main#main .elementor-widget-text-editor ol, main#main .blog-article-content ol, main#main .entry-content ol, main#main .cs-content ol {
+  list-style: decimal; padding-left: 26px; margin: 0 0 1.2em; max-width: var(--measure);
+}
+main#main .elementor-widget-text-editor ol li, main#main .blog-article-content ol li, main#main .entry-content ol li, main#main .cs-content ol li { padding-left: 6px; margin: 0 0 .5em; }
+main#main .elementor-widget-text-editor ol li::marker, main#main .blog-article-content ol li::marker, main#main .entry-content ol li::marker, main#main .cs-content ol li::marker {
+  font-family: var(--mono); color: var(--ink2); font-variant-numeric: tabular-nums lining-nums; font-size: 14px;
+}
 .elementor-widget-text-editor p, .blog-article-content p, .entry-content p, .post-content p { margin: 0 0 1.2em; }
-.elementor-widget-text-editor > .elementor-widget-container > :last-child { margin-bottom: 0; }
-blockquote, .wp-block-quote { border-left: 1px solid var(--navy); margin: 24px 0; padding: 4px 0 4px 20px; color: var(--ink2); font-style: normal; }
+.elementor-widget-text-editor > .elementor-widget-container > :last-child, .blog-article-content > :last-child { margin-bottom: 0; }
+/* one quote: 3px navy rule, cream050, Poppins 500 18px navy, upright; the credit is a micro label */
+blockquote, .wp-block-quote, main#main blockquote {
+  margin: 28px 0; padding: 20px 24px; border: 0; border-left: 3px solid var(--navy); background: var(--cream050);
+  font-family: var(--display) !important; font-weight: 500; font-style: normal; font-size: 18px; line-height: 1.5; color: var(--navy); quotes: none;
+}
+blockquote::before, blockquote::after { content: none; }
+blockquote p, main#main blockquote p { margin: 0 0 .6em; font: inherit; color: inherit; }
 blockquote p:last-child { margin-bottom: 0; }
-blockquote cite { display: block; margin-top: 8px; font-style: normal; color: var(--ink2); font-size: 14px; }
+blockquote cite, main#main blockquote cite { display: block; margin-top: 10px; font-style: normal; }
+/* one caption: micro label under the figure, flush left */
+figure { margin: 0; }
+main#main figcaption, main#main .widget-image-caption, main#main .wp-caption-text { margin: 10px 0 0; text-align: left; }
+main#main code, main#main pre, main#main kbd { font-family: var(--mono); font-size: .92em; background: var(--cream050); border: 1px solid var(--line); border-radius: 0; padding: .1em .4em; }
+main#main pre { padding: 14px 16px; overflow-x: auto; margin: 0 0 1.25em; }
 .elementor-icon-list-icon i, .elementor-icon-list-icon svg { color: var(--navy600); fill: var(--navy600); }
 .elementor-icon-list-item, .elementor-icon-list-text { color: var(--ink); }
 
-/* option-L card notch — a utility page partials can apply to any card-like block */
-.card-notch, .service-card, .lic, .elementor-post__card {
+/* ── 10. One card ───────────────────────────────────────────────────────── */
+/* white, 1px line, 16px notch at the bottom-left, no shadow. Inside: photo on top, then
+   22px 24px 28px of padding, a micro-label eyebrow, a 20px Poppins title, 15px ink2 body.
+   The page partials lay out the inside of each card type; the shell is shared here. */
+.card-notch, .service-card, .lic, .elementor-post__card,
+main#main article.post, main#main .alpha-posts-grid .alpha-tb-item,
+main#main .elementor-widget-udesign_widget_imagebox .image-box,
+main#main .elementor-widget-icon-box .elementor-icon-box-wrapper, main#main .elementor-widget-image-box .elementor-image-box-wrapper,
+main#main .elementor-widget-wpforms + .card, .card {
   border: 1px solid var(--line); background: var(--white);
   clip-path: polygon(0 0, 100% 0, 100% 100%, var(--corner-notch) 100%, 0 calc(100% - var(--corner-notch)));
-  box-shadow: none !important;
+  box-shadow: none !important; border-radius: 0 !important;
+}
+.card-title, main#main .card .title, .service-card .card-content h3, main#main article.post .post-title, main#main .alpha-posts-grid h3.title,
+main#main .elementor-icon-box-title, main#main .elementor-image-box-title {
+  font-family: var(--display) !important; font-size: 20px; font-weight: 600; letter-spacing: -.01em; line-height: 1.25; color: var(--navy); margin: 0 0 10px;
+}
+.card-body, .service-card .card-content p, main#main article.post .post-content, main#main .alpha-posts-grid .tb-excerpt,
+main#main .elementor-icon-box-description, main#main .elementor-image-box-description, main#main .image-box .content, main#main .image-box .content p {
+  font-family: var(--body); font-size: 15px; line-height: 1.55; color: var(--ink2);
 }
 
-/* ── 8. Forms baseline (forms.css refines the contact page) ────────────── */
+/* ── 11. Forms baseline (forms.css refines the enquiry form) ────────────── */
 input[type=text], input[type=email], input[type=tel], input[type=url], input[type=number], input[type=search],
 input[type=password], textarea, select, .elementor-field-textual, .wpforms-form input:not([type=submit]):not([type=checkbox]):not([type=radio]),
 .wpforms-form textarea, .wpforms-form select {
@@ -408,21 +536,36 @@ input:focus, textarea:focus, select:focus, .wpforms-form input:focus, .wpforms-f
 label, .wpforms-field-label, .elementor-field-label { font-family: var(--display) !important; font-weight: 500; font-size: 14px; color: var(--navy); }
 ::placeholder { color: var(--ink3); opacity: 1; }
 
-/* ── 9. Quarantine the theme's decoration: shadows, gradients, legacy blue ── */
+/* ── 12. Quarantine the old decoration: shadows, gradients, the retired blue ── */
 .elementor-widget-container, .elementor-widget-wrap, .elementor-column-wrap, .elementor-section, .elementor-element-populated,
 .service-card, .service-carousel-nav button, img, .elementor-widget-image img, .elementor-icon-box, .elementor-post,
 .elementor-testimonial, .elementor-testimonial-image img, .elementor-swiper-button, .elementor-accordion-item,
-.cookies-popup-inner, .sticky-content.fixed, .eael-info-box, .eael-cta-wrapper, .alpha-tooltip, .dropdown-box, .menu li > ul {
+.cookies-popup-inner, .sticky-content.fixed, .eael-info-box, .eael-cta-wrapper, .alpha-tooltip, .dropdown-box, .menu li > ul,
+.elementor-widget-video .elementor-wrapper, .image-box, .cs-video-wrap {
   box-shadow: none !important;
   text-shadow: none !important;
 }
 .elementor-widget-container, .elementor-widget-wrap, .elementor-button, .btn, .service-link, .service-card,
 .service-carousel-nav button, #wp-admin-bar-alpha > a { background-image: none !important; }
-/* the child theme's hard-coded #27276f / #6d94af / #6197bc / #28475c, retired */
-.service-card { background: var(--white); border: 1px solid var(--line); }
-.service-card .card-thumbnail { background: var(--cream050); }
-.service-card .card-content span, .service-card .card-content span a { color: var(--ink2); }
-.service-card .card-content span a { color: var(--navy600); text-decoration: underline; }
+.elementor-background-overlay { background-image: none; }
+/* the service-card carousel (home, testimonials): the shared card inside, square arrows and dots */
+.service-carousel-container { padding: 0; }
+.service-carousel .slick-slide { margin: 0 12px; }
+.service-carousel .slick-list { margin: 0 -12px; }
+.service-card { padding: 0; gap: 0; }
+.service-card .card-thumbnail { margin: 0; padding-top: 66%; background: var(--cream050); border-bottom: 1px solid var(--line); }
+.service-card .card-thumbnail img { border-radius: 0; }
+.service-card .card-content { padding: 22px 24px 28px; gap: 24px; flex: 1; }
+.service-card .card-content > div { gap: 10px; }
+/* the "Servicing Brisbane and Gold Coast" line becomes the card's micro-label eyebrow, on top */
+.service-card .card-content span:not(.service-link) { order: -1; margin-bottom: 2px; }
+.service-card .card-content span a { color: var(--navy600); font-size: inherit; text-decoration: underline; text-underline-offset: .15em; }
+.service-card .card-content span a:hover { color: var(--navy); }
+.service-card .service-link, .service-card .service-link.elementor-button { display: inline-flex; align-items: center; gap: 10px; margin-right: auto; }
+.service-card .service-link svg { width: 14px; height: 14px; fill: currentColor; }
+.service-carousel-nav { margin: 32px 0 0; gap: 0; }
+.service-carousel-nav button + button { margin-left: -1px; }
+.service-carousel .slick-dots li button:before { border-radius: 0; color: var(--navy); }
 .service-carousel-nav button { border: 1px solid var(--navy); background: transparent; width: 48px; height: 48px; }
 .service-carousel-nav button svg { fill: var(--navy); stroke: var(--navy); width: 20px; }
 .service-carousel-nav button:hover { background: var(--navy); border-color: var(--navy); }
@@ -430,29 +573,148 @@ label, .wpforms-field-label, .elementor-field-label { font-family: var(--display
 .service-carousel-nav button.prev-arrow { transform: rotate(180deg); }
 .lost_password a { color: var(--navy600); }
 .lost_password a:hover { color: var(--navy); }
-#callnowbutton[style*="#6d94af"], #callnowbutton { background-color: var(--navy) !important; }
-.elementor-background-overlay { background-image: none; }
-
-/* the theme's swiper/slick chrome */
+#callnowbutton { background-color: var(--navy) !important; }
 .swiper-pagination-bullet, .slick-dots li button { background: var(--bg300); opacity: 1; width: 8px; height: 8px; }
 .swiper-pagination-bullet-active, .slick-dots li.slick-active button { background: var(--navy); }
 .elementor-swiper-button { color: var(--navy); background: var(--white); border: 1px solid var(--line); width: 44px; height: 44px; }
 .elementor-swiper-button:hover { background: var(--navy); color: var(--white); border-color: var(--navy); }
+/* photos and video frames: square, edge to edge, no shadow */
+main#main .elementor-widget-image img { display: block; width: 100%; height: auto; object-fit: cover; }
+main#main .elementor-widget-image .elementor-widget-container { overflow: visible; }
+main#main .elementor-widget-video .elementor-wrapper, main#main .cs-video-wrap { border: 1px solid var(--line); background: var(--navy); }
 
-/* ── 10. Layout helpers, focus, selection, motion ───────────────────────── */
+/* ── 13. Page banner (the quote cover) ──────────────────────────────────── */
+/* Photo on top, then a navy panel with a diagonal top edge carrying a micro-label eyebrow and
+   the white H1, left-aligned to the 1200px column. Shared by the service, location, about,
+   testimonials, contact, thank-you, projects hub and project pages: the first section in
+   main that carries an <h1>. It tucks 28px under the header band so the band's diagonal cut
+   sits over the photograph, as it does on the quote. The eyebrow text is drawn by the
+   stylesheet (there is no element for it — see NEEDS-MARKUP.md); the page partials set the
+   words per page type. */
+:is(.page-id-10933,.page-id-10934,.page-id-8728,.page-id-8733,.page-id-8721,.page-id-11109,.page-id-11108,.page-id-11133,.page-id-8738,.page-id-8743,.page-id-11146,.page-id-8779,.page-id-10994,.page-id-11157,.page-id-11139,.page-id-11143,.page-id-11145,.page-id-11124,.page-id-11111,.page-id-11123,.page-id-11144,.page-id-11134,.page-id-11122,.page-id-10873,.page-id-8603,.page-id-4473,.page-id-11219,.page-id-194,.page-id-10048,.page-id-8784,.page-id-10336,.page-id-10113,.page-id-11172,.page-id-10379,.page-id-10244,.page-id-10366) main#main { padding-top: 0; }
+:is(.page-id-10933,.page-id-10934,.page-id-8728,.page-id-8733,.page-id-8721,.page-id-11109,.page-id-11108,.page-id-11133,.page-id-8738,.page-id-8743,.page-id-11146,.page-id-8779,.page-id-10994,.page-id-11157,.page-id-11139,.page-id-11143,.page-id-11145,.page-id-11124,.page-id-11111,.page-id-11123,.page-id-11144,.page-id-11134,.page-id-11122,.page-id-10873,.page-id-8603,.page-id-4473,.page-id-11219,.page-id-194,.page-id-10048,.page-id-8784,.page-id-10336,.page-id-10113,.page-id-11172,.page-id-10379,.page-id-10244,.page-id-10366) main#main .elementor-top-section:has(h1.elementor-heading-title) {
+  position: relative;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  min-height: clamp(440px, 46vw, 640px);
+  padding: 0;
+  margin: calc(-1 * var(--band-skew-px)) 0 0;
+  background-color: var(--navy);
+  background-size: cover; background-position: center 35%; background-repeat: no-repeat;
+  clip-path: none;
+  overflow: hidden; /* the panel below overhangs 1px so no sub-pixel row of photo shows under it */
+}
+:is(.page-id-10933,.page-id-10934,.page-id-8728,.page-id-8733,.page-id-8721,.page-id-11109,.page-id-11108,.page-id-11133,.page-id-8738,.page-id-8743,.page-id-11146,.page-id-8779,.page-id-10994,.page-id-11157,.page-id-11139,.page-id-11143,.page-id-11145,.page-id-11124,.page-id-11111,.page-id-11123,.page-id-11144,.page-id-11134,.page-id-11122,.page-id-10873,.page-id-8603,.page-id-4473,.page-id-11219,.page-id-194,.page-id-10048,.page-id-8784,.page-id-10336,.page-id-10113,.page-id-11172,.page-id-10379,.page-id-10244,.page-id-10366) main#main .elementor-top-section:has(h1.elementor-heading-title) > .elementor-background-overlay {
+  background: var(--navy); opacity: .18; transition: none;
+}
+:is(.page-id-10933,.page-id-10934,.page-id-8728,.page-id-8733,.page-id-8721,.page-id-11109,.page-id-11108,.page-id-11133,.page-id-8738,.page-id-8743,.page-id-11146,.page-id-8779,.page-id-10994,.page-id-11157,.page-id-11139,.page-id-11143,.page-id-11145,.page-id-11124,.page-id-11111,.page-id-11123,.page-id-11144,.page-id-11134,.page-id-11122,.page-id-10873,.page-id-8603,.page-id-4473,.page-id-11219,.page-id-194,.page-id-10048,.page-id-8784,.page-id-10336,.page-id-10113,.page-id-11172,.page-id-10379,.page-id-10244,.page-id-10366) main#main .elementor-top-section:has(h1.elementor-heading-title) > .elementor-container {
+  position: relative; z-index: 1;
+  display: block; width: 100%; max-width: none; margin: auto 0 0; min-height: 0;
+  background: var(--navy);
+  clip-path: polygon(0 var(--band-skew-px), 100% 0, 100% 100%, 0 100%);
+  padding: calc(var(--band-skew-px) + 44px) 0 53px;
+  margin-bottom: -1px;
+}
+:is(.page-id-10933,.page-id-10934,.page-id-8728,.page-id-8733,.page-id-8721,.page-id-11109,.page-id-11108,.page-id-11133,.page-id-8738,.page-id-8743,.page-id-11146,.page-id-8779,.page-id-10994,.page-id-11157,.page-id-11139,.page-id-11143,.page-id-11145,.page-id-11124,.page-id-11111,.page-id-11123,.page-id-11144,.page-id-11134,.page-id-11122,.page-id-10873,.page-id-8603,.page-id-4473,.page-id-11219,.page-id-194,.page-id-10048,.page-id-8784,.page-id-10336,.page-id-10113,.page-id-11172,.page-id-10379,.page-id-10244,.page-id-10366) main#main .elementor-top-section:has(h1.elementor-heading-title) .elementor-column { width: 100%; }
+:is(.page-id-10933,.page-id-10934,.page-id-8728,.page-id-8733,.page-id-8721,.page-id-11109,.page-id-11108,.page-id-11133,.page-id-8738,.page-id-8743,.page-id-11146,.page-id-8779,.page-id-10994,.page-id-11157,.page-id-11139,.page-id-11143,.page-id-11145,.page-id-11124,.page-id-11111,.page-id-11123,.page-id-11144,.page-id-11134,.page-id-11122,.page-id-10873,.page-id-8603,.page-id-4473,.page-id-11219,.page-id-194,.page-id-10048,.page-id-8784,.page-id-10336,.page-id-10113,.page-id-11172,.page-id-10379,.page-id-10244,.page-id-10366) main#main .elementor-top-section:has(h1.elementor-heading-title) .elementor-column > .elementor-widget-wrap {
+  max-width: var(--container); margin: 0 auto; padding: 0 var(--gutter); background: transparent;
+}
+:is(.page-id-10933,.page-id-10934,.page-id-8728,.page-id-8733,.page-id-8721,.page-id-11109,.page-id-11108,.page-id-11133,.page-id-8738,.page-id-8743,.page-id-11146,.page-id-8779,.page-id-10994,.page-id-11157,.page-id-11139,.page-id-11143,.page-id-11145,.page-id-11124,.page-id-11111,.page-id-11123,.page-id-11144,.page-id-11134,.page-id-11122,.page-id-10873,.page-id-8603,.page-id-4473,.page-id-11219,.page-id-194,.page-id-10048,.page-id-8784,.page-id-10336,.page-id-10113,.page-id-11172,.page-id-10379,.page-id-10244,.page-id-10366) main#main .elementor-top-section:has(h1.elementor-heading-title) .elementor-widget { text-align: left; margin: 0; }
+:is(.page-id-10933,.page-id-10934,.page-id-8728,.page-id-8733,.page-id-8721,.page-id-11109,.page-id-11108,.page-id-11133,.page-id-8738,.page-id-8743,.page-id-11146,.page-id-8779,.page-id-10994,.page-id-11157,.page-id-11139,.page-id-11143,.page-id-11145,.page-id-11124,.page-id-11111,.page-id-11123,.page-id-11144,.page-id-11134,.page-id-11122,.page-id-10873,.page-id-8603,.page-id-4473,.page-id-11219,.page-id-194,.page-id-10048,.page-id-8784,.page-id-10336,.page-id-10113,.page-id-11172,.page-id-10379,.page-id-10244,.page-id-10366) main#main .elementor-top-section:has(h1.elementor-heading-title) .elementor-widget > .elementor-widget-container { margin: 0; padding: 0; }
+:is(.page-id-10933,.page-id-10934,.page-id-8728,.page-id-8733,.page-id-8721,.page-id-11109,.page-id-11108,.page-id-11133,.page-id-8738,.page-id-8743,.page-id-11146,.page-id-8779,.page-id-10994,.page-id-11157,.page-id-11139,.page-id-11143,.page-id-11145,.page-id-11124,.page-id-11111,.page-id-11123,.page-id-11144,.page-id-11134,.page-id-11122,.page-id-10873,.page-id-8603,.page-id-4473,.page-id-11219,.page-id-194,.page-id-10048,.page-id-8784,.page-id-10336,.page-id-10113,.page-id-11172,.page-id-10379,.page-id-10244,.page-id-10366) main#main .elementor-top-section:has(h1.elementor-heading-title) .elementor-widget-spacer { --spacer-size: 0px; }
+:is(.page-id-10933,.page-id-10934,.page-id-8728,.page-id-8733,.page-id-8721,.page-id-11109,.page-id-11108,.page-id-11133,.page-id-8738,.page-id-8743,.page-id-11146,.page-id-8779,.page-id-10994,.page-id-11157,.page-id-11139,.page-id-11143,.page-id-11145,.page-id-11124,.page-id-11111,.page-id-11123,.page-id-11144,.page-id-11134,.page-id-11122,.page-id-10873,.page-id-8603,.page-id-4473,.page-id-11219,.page-id-194,.page-id-10048,.page-id-8784,.page-id-10336,.page-id-10113,.page-id-11172,.page-id-10379,.page-id-10244,.page-id-10366) main#main .elementor-top-section:has(h1.elementor-heading-title) .elementor-widget-spacer .elementor-spacer-inner { height: 0; }
+/* the animated "scroll" mouse cue some banners carry has no place on the band */
+:is(.page-id-10933,.page-id-10934,.page-id-8728,.page-id-8733,.page-id-8721,.page-id-11109,.page-id-11108,.page-id-11133,.page-id-8738,.page-id-8743,.page-id-11146,.page-id-8779,.page-id-10994,.page-id-11157,.page-id-11139,.page-id-11143,.page-id-11145,.page-id-11124,.page-id-11111,.page-id-11123,.page-id-11144,.page-id-11134,.page-id-11122,.page-id-10873,.page-id-8603,.page-id-4473,.page-id-11219,.page-id-194,.page-id-10048,.page-id-8784,.page-id-10336,.page-id-10113,.page-id-11172,.page-id-10379,.page-id-10244,.page-id-10366) main#main .elementor-top-section:has(h1.elementor-heading-title) .container_mouse { display: none; }
+:is(.page-id-10933,.page-id-10934,.page-id-8728,.page-id-8733,.page-id-8721,.page-id-11109,.page-id-11108,.page-id-11133,.page-id-8738,.page-id-8743,.page-id-11146,.page-id-8779,.page-id-10994,.page-id-11157,.page-id-11139,.page-id-11143,.page-id-11145,.page-id-11124,.page-id-11111,.page-id-11123,.page-id-11144,.page-id-11134,.page-id-11122,.page-id-10873,.page-id-8603,.page-id-4473,.page-id-11219,.page-id-194,.page-id-10048,.page-id-8784,.page-id-10336,.page-id-10113,.page-id-11172,.page-id-10379,.page-id-10244,.page-id-10366) main#main .elementor-top-section:has(h1.elementor-heading-title) h1.elementor-heading-title {
+  font-family: var(--display); font-weight: 600;
+  font-size: var(--h1); line-height: 1.02; letter-spacing: -.02em;
+  color: var(--white); text-align: left; text-shadow: none; text-transform: none;
+  margin: 0; padding: 0; max-width: 18ch;
+}
+:is(.page-id-10933,.page-id-10934,.page-id-8728,.page-id-8733,.page-id-8721,.page-id-11109,.page-id-11108,.page-id-11133,.page-id-8738,.page-id-8743,.page-id-11146,.page-id-8779,.page-id-10994,.page-id-11157,.page-id-11139,.page-id-11143,.page-id-11145,.page-id-11124,.page-id-11111,.page-id-11123,.page-id-11144,.page-id-11134,.page-id-11122,.page-id-10873,.page-id-8603,.page-id-4473,.page-id-11219,.page-id-194,.page-id-10048,.page-id-8784,.page-id-10336,.page-id-10113,.page-id-11172,.page-id-10379,.page-id-10244,.page-id-10366) main#main .elementor-top-section:has(h1.elementor-heading-title) h1.elementor-heading-title::before {
+  content: "Coastal Demolitions";
+  display: block;
+  font-family: var(--display); font-weight: 600; font-size: var(--micro-size);
+  letter-spacing: var(--micro-track); text-transform: uppercase; line-height: 1.4;
+  color: var(--bg300); margin: 0 0 18px;
+}
+/* a strap, a paragraph and a button under the H1 (some location banners) */
+:is(.page-id-10933,.page-id-10934,.page-id-8728,.page-id-8733,.page-id-8721,.page-id-11109,.page-id-11108,.page-id-11133,.page-id-8738,.page-id-8743,.page-id-11146,.page-id-8779,.page-id-10994,.page-id-11157,.page-id-11139,.page-id-11143,.page-id-11145,.page-id-11124,.page-id-11111,.page-id-11123,.page-id-11144,.page-id-11134,.page-id-11122,.page-id-10873,.page-id-8603,.page-id-4473,.page-id-11219,.page-id-194,.page-id-10048,.page-id-8784,.page-id-10336,.page-id-10113,.page-id-11172,.page-id-10379,.page-id-10244,.page-id-10366) main#main .elementor-top-section:has(h1.elementor-heading-title) h2.elementor-heading-title {
+  font-family: var(--display); font-weight: 500; font-size: clamp(18px, 2vw, 24px); line-height: 1.3;
+  letter-spacing: -.01em; color: var(--bg100); margin: 18px 0 0; max-width: 30ch; border: 0; padding: 0; text-align: left;
+}
+:is(.page-id-10933,.page-id-10934,.page-id-8728,.page-id-8733,.page-id-8721,.page-id-11109,.page-id-11108,.page-id-11133,.page-id-8738,.page-id-8743,.page-id-11146,.page-id-8779,.page-id-10994,.page-id-11157,.page-id-11139,.page-id-11143,.page-id-11145,.page-id-11124,.page-id-11111,.page-id-11123,.page-id-11144,.page-id-11134,.page-id-11122,.page-id-10873,.page-id-8603,.page-id-4473,.page-id-11219,.page-id-194,.page-id-10048,.page-id-8784,.page-id-10336,.page-id-10113,.page-id-11172,.page-id-10379,.page-id-10244,.page-id-10366) main#main .elementor-top-section:has(h1.elementor-heading-title) .elementor-widget-text-editor p {
+  color: var(--bg100); font-size: 17px; line-height: 1.55; max-width: 56ch; margin: 14px 0 0; text-align: left;
+}
+:is(.page-id-10933,.page-id-10934,.page-id-8728,.page-id-8733,.page-id-8721,.page-id-11109,.page-id-11108,.page-id-11133,.page-id-8738,.page-id-8743,.page-id-11146,.page-id-8779,.page-id-10994,.page-id-11157,.page-id-11139,.page-id-11143,.page-id-11145,.page-id-11124,.page-id-11111,.page-id-11123,.page-id-11144,.page-id-11134,.page-id-11122,.page-id-10873,.page-id-8603,.page-id-4473,.page-id-11219,.page-id-194,.page-id-10048,.page-id-8784,.page-id-10336,.page-id-10113,.page-id-11172,.page-id-10379,.page-id-10244,.page-id-10366) main#main .elementor-top-section:has(h1.elementor-heading-title) .elementor-widget-button { margin-top: 26px; }
+:is(.page-id-10933,.page-id-10934,.page-id-8728,.page-id-8733,.page-id-8721,.page-id-11109,.page-id-11108,.page-id-11133,.page-id-8738,.page-id-8743,.page-id-11146,.page-id-8779,.page-id-10994,.page-id-11157,.page-id-11139,.page-id-11143,.page-id-11145,.page-id-11124,.page-id-11111,.page-id-11123,.page-id-11144,.page-id-11134,.page-id-11122,.page-id-10873,.page-id-8603,.page-id-4473,.page-id-11219,.page-id-194,.page-id-10048,.page-id-8784,.page-id-10336,.page-id-10113,.page-id-11172,.page-id-10379,.page-id-10244,.page-id-10366) main#main .elementor-top-section:has(h1.elementor-heading-title) .elementor-widget-button .elementor-button-wrapper { text-align: left; }
+:is(.page-id-10933,.page-id-10934,.page-id-8728,.page-id-8733,.page-id-8721,.page-id-11109,.page-id-11108,.page-id-11133,.page-id-8738,.page-id-8743,.page-id-11146,.page-id-8779,.page-id-10994,.page-id-11157,.page-id-11139,.page-id-11143,.page-id-11145,.page-id-11124,.page-id-11111,.page-id-11123,.page-id-11144,.page-id-11134,.page-id-11122,.page-id-10873,.page-id-8603,.page-id-4473,.page-id-11219,.page-id-194,.page-id-10048,.page-id-8784,.page-id-10336,.page-id-10113,.page-id-11172,.page-id-10379,.page-id-10244,.page-id-10366) main#main .elementor-top-section:has(h1.elementor-heading-title) .elementor-widget-shortcode { margin-top: 20px; }
+:is(.page-id-10933,.page-id-10934,.page-id-8728,.page-id-8733,.page-id-8721,.page-id-11109,.page-id-11108,.page-id-11133,.page-id-8738,.page-id-8743,.page-id-11146,.page-id-8779,.page-id-10994,.page-id-11157,.page-id-11139,.page-id-11143,.page-id-11145,.page-id-11124,.page-id-11111,.page-id-11123,.page-id-11144,.page-id-11134,.page-id-11122,.page-id-10873,.page-id-8603,.page-id-4473,.page-id-11219,.page-id-194,.page-id-10048,.page-id-8784,.page-id-10336,.page-id-10113,.page-id-11172,.page-id-10379,.page-id-10244,.page-id-10366) main#main .elementor-top-section:has(h1.elementor-heading-title) .elementor-widget-shortcode .ti-widget,
+:is(.page-id-10933,.page-id-10934,.page-id-8728,.page-id-8733,.page-id-8721,.page-id-11109,.page-id-11108,.page-id-11133,.page-id-8738,.page-id-8743,.page-id-11146,.page-id-8779,.page-id-10994,.page-id-11157,.page-id-11139,.page-id-11143,.page-id-11145,.page-id-11124,.page-id-11111,.page-id-11123,.page-id-11144,.page-id-11134,.page-id-11122,.page-id-10873,.page-id-8603,.page-id-4473,.page-id-11219,.page-id-194,.page-id-10048,.page-id-8784,.page-id-10336,.page-id-10113,.page-id-11172,.page-id-10379,.page-id-10244,.page-id-10366) main#main .elementor-top-section:has(h1.elementor-heading-title) .elementor-widget-shortcode .ti-widget .ti-widget-container { margin: 0 !important; text-align: left !important; justify-content: flex-start !important; }
+:is(.page-id-10933,.page-id-10934,.page-id-8728,.page-id-8733,.page-id-8721,.page-id-11109,.page-id-11108,.page-id-11133,.page-id-8738,.page-id-8743,.page-id-11146,.page-id-8779,.page-id-10994,.page-id-11157,.page-id-11139,.page-id-11143,.page-id-11145,.page-id-11124,.page-id-11111,.page-id-11123,.page-id-11144,.page-id-11134,.page-id-11122,.page-id-10873,.page-id-8603,.page-id-4473,.page-id-11219,.page-id-194,.page-id-10048,.page-id-8784,.page-id-10336,.page-id-10113,.page-id-11172,.page-id-10379,.page-id-10244,.page-id-10366) main#main .elementor-top-section:has(h1.elementor-heading-title) .elementor-widget-shortcode .ti-header { display: inline-flex !important; margin: 0 !important; }
+/* a banner that also carries a strap, a paragraph or a button keeps a proper photo above the panel */
+:is(.page-id-10933,.page-id-10934,.page-id-8728,.page-id-8733,.page-id-8721,.page-id-11109,.page-id-11108,.page-id-11133,.page-id-8738,.page-id-8743,.page-id-11146,.page-id-8779,.page-id-10994,.page-id-11157,.page-id-11139,.page-id-11143,.page-id-11145,.page-id-11124,.page-id-11111,.page-id-11123,.page-id-11144,.page-id-11134,.page-id-11122,.page-id-10873,.page-id-8603,.page-id-4473,.page-id-11219,.page-id-194,.page-id-10048,.page-id-8784,.page-id-10336,.page-id-10113,.page-id-11172,.page-id-10379,.page-id-10244,.page-id-10366) main#main .elementor-top-section:has(h1.elementor-heading-title):has(.elementor-widget-button, .elementor-widget-text-editor, .elementor-widget-shortcode) { min-height: clamp(560px, 56vw, 780px); }
+@media (max-width: 767px) {
+  :is(.page-id-10933,.page-id-10934,.page-id-8728,.page-id-8733,.page-id-8721,.page-id-11109,.page-id-11108,.page-id-11133,.page-id-8738,.page-id-8743,.page-id-11146,.page-id-8779,.page-id-10994,.page-id-11157,.page-id-11139,.page-id-11143,.page-id-11145,.page-id-11124,.page-id-11111,.page-id-11123,.page-id-11144,.page-id-11134,.page-id-11122,.page-id-10873,.page-id-8603,.page-id-4473,.page-id-11219,.page-id-194,.page-id-10048,.page-id-8784,.page-id-10336,.page-id-10113,.page-id-11172,.page-id-10379,.page-id-10244,.page-id-10366) main#main .elementor-top-section:has(h1.elementor-heading-title) { min-height: 380px; }
+  :is(.page-id-10933,.page-id-10934,.page-id-8728,.page-id-8733,.page-id-8721,.page-id-11109,.page-id-11108,.page-id-11133,.page-id-8738,.page-id-8743,.page-id-11146,.page-id-8779,.page-id-10994,.page-id-11157,.page-id-11139,.page-id-11143,.page-id-11145,.page-id-11124,.page-id-11111,.page-id-11123,.page-id-11144,.page-id-11134,.page-id-11122,.page-id-10873,.page-id-8603,.page-id-4473,.page-id-11219,.page-id-194,.page-id-10048,.page-id-8784,.page-id-10336,.page-id-10113,.page-id-11172,.page-id-10379,.page-id-10244,.page-id-10366) main#main .elementor-top-section:has(h1.elementor-heading-title) > .elementor-container { padding: calc(var(--band-skew-px) + 28px) 0 36px; }
+  :is(.page-id-10933,.page-id-10934,.page-id-8728,.page-id-8733,.page-id-8721,.page-id-11109,.page-id-11108,.page-id-11133,.page-id-8738,.page-id-8743,.page-id-11146,.page-id-8779,.page-id-10994,.page-id-11157,.page-id-11139,.page-id-11143,.page-id-11145,.page-id-11124,.page-id-11111,.page-id-11123,.page-id-11144,.page-id-11134,.page-id-11122,.page-id-10873,.page-id-8603,.page-id-4473,.page-id-11219,.page-id-194,.page-id-10048,.page-id-8784,.page-id-10336,.page-id-10113,.page-id-11172,.page-id-10379,.page-id-10244,.page-id-10366) main#main .elementor-top-section:has(h1.elementor-heading-title) h1.elementor-heading-title::before { margin-bottom: 12px; }
+}
+
+/* ── 14. Reviews (the Google reviews embed) — square cards, one ruled header strip ── */
+/* Its own stylesheet rounds and colours the cards with !important, so these do too. */
+.ti-widget * { border-radius: 0 !important; box-shadow: none !important; }
+.ti-widget .ti-widget-container, .ti-widget .ti-widget-container * { font-family: var(--body) !important; }
+.ti-widget .ti-widget-header .ti-header-content { background: var(--cream050) !important; border: 1px solid var(--line) !important; padding: 14px 20px !important; }
+.ti-widget .ti-widget-header { background: transparent !important; padding: 0 !important; margin: 0 0 20px !important; border: 0 !important; }
+.ti-widget .ti-widget-header-tick { display: none !important; }
+.ti-widget .ti-header-rating-text, .ti-widget .ti-header-rating-text * { color: var(--ink) !important; }
+.ti-widget .ti-rating-text { font-family: var(--display) !important; font-weight: 600 !important; color: var(--navy) !important; }
+.ti-widget .ti-header-rating, .ti-widget .ti-header-rating-reviews { font-family: var(--mono) !important; font-variant-numeric: tabular-nums lining-nums; color: var(--ink2) !important; }
+.ti-widget .ti-header-write-btn, .ti-widget .ti-load-more-reviews-container .ti-load-more-reviews-btn, .ti-widget .ti-load-more-reviews-btn {
+  background: var(--navy) !important; border: 1px solid var(--navy) !important; color: var(--white) !important;
+  font-family: var(--display) !important; font-weight: 600 !important; font-size: 12px !important; letter-spacing: .12em !important; text-transform: uppercase !important;
+  padding: 12px 18px !important; line-height: 1 !important;
+}
+.ti-widget .ti-header-write-btn:hover, .ti-widget .ti-load-more-reviews-btn:hover { background: var(--navy600) !important; border-color: var(--navy600) !important; }
+.ti-widget .ti-review-item .ti-inner { background: var(--cream050) !important; border: 1px solid var(--line) !important; padding: 24px !important; }
+.ti-widget[data-layout-id] .ti-widget-container .ti-reviews-container-wrapper .ti-review-item,
+.ti-widget[data-layout-id] .ti-widget-container .ti-reviews-container-wrapper .ti-review-item .ti-inner,
+.ti-widget[data-layout-id] .ti-widget-container .ti-widget-header .ti-header-content { border-radius: 0 !important; }
+.ti-widget .ti-review-item .ti-name { font-family: var(--display) !important; font-weight: 600 !important; color: var(--navy) !important; font-size: 15px !important; }
+.ti-widget .ti-review-item .ti-date { font-family: var(--mono) !important; font-variant-numeric: tabular-nums lining-nums; color: var(--ink2) !important; font-size: 12px !important; }
+.ti-widget .ti-review-item .ti-review-content, .ti-widget .ti-review-item .ti-review-text { color: var(--ink) !important; font-size: 15px !important; line-height: 1.5 !important; }
+.ti-widget .ti-review-item .ti-profile-img img { border-radius: 0 !important; }
+.ti-widget .ti-read-more span, .ti-widget .ti-read-more { color: var(--navy) !important; opacity: 1 !important; font-family: var(--display) !important; font-weight: 600 !important; font-size: 12px !important; letter-spacing: .08em; text-transform: uppercase; }
+.ti-widget .ti-controls .ti-next, .ti-widget .ti-controls .ti-prev { background: var(--navy) !important; border: 1px solid var(--white) !important; color: var(--white) !important; }
+.ti-widget .ti-controls .ti-next:hover, .ti-widget .ti-controls .ti-prev:hover { background: var(--white) !important; color: var(--navy) !important; }
+.ti-widget .ti-controls .ti-next *, .ti-widget .ti-controls .ti-prev * { color: inherit !important; fill: currentColor !important; }
+.ti-widget .ti-controls-line { background: var(--navy600) !important; }
+.ti-widget .ti-controls-line .ti-dot { background: var(--bg300) !important; }
+.ti-widget .ti-controls-line .ti-dot.ti-active { background: var(--white) !important; }
+.ti-widget .ti-footer, .ti-widget .ti-footer * { color: var(--bg100) !important; }
+.ti-widget .ti-footer .ti-footer-filter-text { color: var(--bg300) !important; }
+/* the small "Excellent · 228 reviews · Google" badge: square, on a white plate */
+.ti-widget .ti-header, .ti-badge, .ti-widget.ti-goog .ti-header { border-radius: 0 !important; box-shadow: none !important; }
+
+/* ── 15. Layout helpers, focus, selection, motion ───────────────────────── */
 ::selection { background: var(--navy); color: var(--white); }
 body :focus-visible { outline: 2px solid var(--navy) !important; outline-offset: 2px !important; box-shadow: 0 0 0 4px var(--cream) !important; }
 .on-navy :focus-visible, footer#footer :focus-visible, header#header :focus-visible { outline-color: var(--white) !important; box-shadow: 0 0 0 4px var(--navy600) !important; }
 .animated, .elementor-invisible { animation-duration: .4s !important; }
+/* entrance animations never hide content: if the scroll trigger does not fire, the block is still there */
+.elementor-invisible { visibility: visible !important; opacity: 1 !important; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }
-/* the theme's default section scaffolding on cream */
 .elementor-section.section-cream, .is-cream { background: var(--cream050); }
-
-/* ---- parent pass, 11 Sep: the theme gives every .elementor-container `margin:0 -15px` while its
-   columns pad 20px, so on phones the page is 15px wider than the viewport (scrollWidth 390 at 375,
-   on the unstyled site too). Pin it for every page; the page partials already do this for theirs. ---- */
+/* a section with no blocks at all (an empty column left behind in the export) is an empty band:
+   collapse it. Sections that only carry a background photo are left alone. */
+main#main .elementor-top-section:not(:has(.elementor-widget)):not(:has(h1)):not([data-lazy]):not([style*="background"]) { padding: 0 !important; min-height: 0 !important; }
+/* the page frame pads main 110px at the bottom on top of the last section's own padding;
+   every page type ends on a section that carries its own beat, so the frame's is dropped */
+main#main { padding-bottom: 0; }
+/* the page frame gives every .elementor-container `margin:0 -15px` while its columns pad
+   20px, so on phones the page is 15px wider than the viewport (on the unstyled site too). */
 @media (max-width: 767px) {
   main#main .elementor-section > .elementor-container { margin-left: 0 !important; margin-right: 0 !important; max-width: 100% !important; }
+  html, body { overflow-x: clip; }
 }
